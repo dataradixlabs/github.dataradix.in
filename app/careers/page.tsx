@@ -86,7 +86,7 @@ export default function CareersPage() {
           <div className="mb-10 sm:mb-16">
             <h2 className="text-h2 font-semibold text-text-primary mb-3 sm:mb-4">Open Positions</h2>
             <p className="text-body text-text-secondary">
-              We're always looking for senior engineers who want to build systems that scale
+              We&apos;re always looking for senior engineers who want to build systems that scale
             </p>
           </div>
 
@@ -113,7 +113,7 @@ export default function CareersPage() {
 
           <div className="text-center mt-8 sm:mt-12">
             <p className="text-body text-text-secondary mb-4 sm:mb-6">
-              Don't see a position that fits? We're always interested in talking to senior engineers.
+              Don&apos;t see a position that fits? We&apos;re always interested in talking to senior engineers.
             </p>
             <PrimaryCTA href="/contact" variant="ghost">Get in Touch</PrimaryCTA>
           </div>
@@ -136,7 +136,7 @@ export default function CareersPage() {
                 We work on challenging problems. If you want to build systems that process billions of events, handle millions of users, and scale automatically, this is the place.
               </p>
               <p>
-                We value outcomes over hours. We don't track time or require specific hours. We care about results, not face time.
+                We value outcomes over hours. We don&apos;t track time or require specific hours. We care about results, not face time.
               </p>
             </div>
           </div>

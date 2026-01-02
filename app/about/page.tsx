@@ -14,7 +14,7 @@ export default function About() {
           <div className="max-w-3xl">
             <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">About DataRadix</h1>
             <p className="text-body text-text-secondary">
-              We're a team of engineers, architects, and problem-solvers who build technology infrastructure that scales.
+              We&apos;re a team of engineers, architects, and problem-solvers who build technology infrastructure that scales.
             </p>
           </div>
         </div>
@@ -28,13 +28,13 @@ export default function About() {
               <h2 className="text-h2 font-semibold text-text-primary mb-5 sm:mb-6">Our Mission</h2>
               <div className="prose-custom space-y-4">
                 <p>
-                  DataRadix exists to help companies build technology infrastructure that doesn't hold them back. Too many companies struggle with technical debt, scalability issues, and systems that can't keep up with growth.
+                  DataRadix exists to help companies build technology infrastructure that doesn&apos;t hold them back. Too many companies struggle with technical debt, scalability issues, and systems that can&apos;t keep up with growth.
                 </p>
                 <p>
                   We work with CTOs, founders, and engineering leaders to design and build systems that scale. From data engineering to cloud architecture, we deliver solutions that grow with your business—not against it.
                 </p>
                 <p>
-                  Our approach is practical, not theoretical. We've built systems that process billions of events, handle millions of users, and scale automatically. We bring that experience to every project.
+                  Our approach is practical, not theoretical. We&apos;ve built systems that process billions of events, handle millions of users, and scale automatically. We bring that experience to every project.
                 </p>
               </div>
             </div>
@@ -91,21 +91,21 @@ export default function About() {
               <div>
                 <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3">2. Design for Scale</h3>
                 <p className="text-body text-text-secondary">
-                  We design systems that can handle 10x growth without major rewrites. This doesn't mean over-engineering—it means making the right architectural decisions from the start.
+                  We design systems that can handle 10x growth without major rewrites. This doesn&apos;t mean over-engineering—it means making the right architectural decisions from the start.
                 </p>
               </div>
 
               <div>
                 <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3">3. Build Incrementally</h3>
                 <p className="text-body text-text-secondary">
-                  We deliver value early and often. Start with an MVP, validate, iterate. This approach reduces risk and ensures we're building the right thing.
+                  We deliver value early and often. Start with an MVP, validate, iterate. This approach reduces risk and ensures we&apos;re building the right thing.
                 </p>
               </div>
 
               <div>
                 <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3">4. Transfer Knowledge</h3>
                 <p className="text-body text-text-secondary">
-                  We don't just build and leave. We document everything, train your team, and ensure you can maintain and extend what we've built.
+                  We don&apos;t just build and leave. We document everything, train your team, and ensure you can maintain and extend what we&apos;ve built.
                 </p>
               </div>
             </div>
@@ -123,10 +123,10 @@ export default function About() {
                 Our team consists of senior engineers, architects, and technical leaders who have built systems processing billions of events, serving millions of users, and handling petabytes of data.
               </p>
               <p>
-                We've worked at companies ranging from startups to Fortune 500 enterprises. We've seen what works and what doesn't. We bring that experience to every project.
+                We&apos;ve worked at companies ranging from startups to Fortune 500 enterprises. We&apos;ve seen what works and what doesn&apos;t. We bring that experience to every project.
               </p>
               <p>
-                We're not consultants who disappear after the project. We're engineers who care about the systems we build. We write code, review PRs, and debug production issues alongside your team.
+                We&apos;re not consultants who disappear after the project. We&apos;re engineers who care about the systems we build. We write code, review PRs, and debug production issues alongside your team.
               </p>
             </div>
           </div>

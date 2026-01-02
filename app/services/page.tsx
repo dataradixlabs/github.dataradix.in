@@ -12,14 +12,14 @@ export default function Services() {
     {
       id: "custom-software",
       title: "Custom Software Development",
-      pain: "You need software that solves your specific business problems, not generic solutions that require workarounds. Off-the-shelf tools don't fit your workflows, and building in-house is taking too long.",
+      pain: "You need software that solves your specific business problems, not generic solutions that require workarounds. Off-the-shelf tools don&apos;t fit your workflows, and building in-house is taking too long.",
       approach: "We build production-ready applications using modern frameworks and best practices. From MVPs to enterprise systems, we deliver software that your team can maintain and extend. We use TypeScript, React, Node.js, Python, and other proven technologies.",
       outcome: "You get software that fits your business, ships faster, and scales with growth. Your team can maintain it because we write clean, documented code and transfer knowledge.",
     },
     {
       id: "data-engineering",
       title: "Data Engineering & Analytics",
-      pain: "Your data is scattered across systems, analytics queries are slow, and you can't get real-time insights. Data quality issues cause bad decisions, and your data team spends more time firefighting than building.",
+      pain: "Your data is scattered across systems, analytics queries are slow, and you can&apos;t get real-time insights. Data quality issues cause bad decisions, and your data team spends more time firefighting than building.",
       approach: "We build modern data platforms with event streaming, data lakes, and cloud data warehouses. We use Kafka, Spark, Snowflake, dbt, and other tools to create pipelines that scale. Real-time and batch processing, automated quality checks, and governance built in.",
       outcome: "You get fast, reliable analytics on clean data. Real-time dashboards, automated reporting, and a foundation for ML. Your data team can focus on insights, not infrastructure.",
     },
@@ -33,9 +33,9 @@ export default function Services() {
     {
       id: "ai-automation",
       title: "AI & Automation",
-      pain: "Manual processes slow you down, and you're missing opportunities to automate. You want to use AI/ML but don't have the expertise or infrastructure.",
+      pain: "Manual processes slow you down, and you&apos;re missing opportunities to automate. You want to use AI/ML but don&apos;t have the expertise or infrastructure.",
       approach: "We build intelligent automation and ML models that improve efficiency. From recommendation engines to fraud detection, we design systems that learn and adapt. We use proven ML frameworks and deploy models that scale.",
-      outcome: "You get automation that reduces manual work and ML models that improve outcomes. Better customer experiences, lower costs, and new capabilities that weren't possible before.",
+      outcome: "You get automation that reduces manual work and ML models that improve outcomes. Better customer experiences, lower costs, and new capabilities that weren&apos;t possible before.",
     },
     {
       id: "dedicated-teams",
@@ -70,7 +70,7 @@ export default function Services() {
       {/* CTA after services */}
       <InlineCTA
         headline="Not sure if this is right for you?"
-        description="Get a free technical assessment. We'll review your situation and recommend the best approach."
+        description="Get a free technical assessment. We&apos;ll review your situation and recommend the best approach."
         ctaText="Get a Free Technical Assessment"
         ctaHref="/contact"
       />
@@ -93,7 +93,7 @@ export default function Services() {
               <div>
                 <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Proven Track Record</h3>
                 <p className="text-body text-text-secondary">
-                  We've built systems processing billions of events and serving millions of users. We bring that experience to every project.
+                  We&apos;ve built systems processing billions of events and serving millions of users. We bring that experience to every project.
                 </p>
               </div>
 

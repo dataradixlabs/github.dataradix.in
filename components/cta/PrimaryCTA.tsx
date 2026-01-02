@@ -7,7 +7,7 @@ interface PrimaryCTAProps {
   href?: string;
   onClick?: () => void;
   children: React.ReactNode;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: "primary" | "secondary" | "ghost" | "outline";
   className?: string;
 }
 
@@ -24,6 +24,7 @@ export default function PrimaryCTA({
     primary: "bg-accent text-white hover:bg-accent-hover",
     secondary: "bg-bg-muted text-text-primary hover:bg-border border border-border",
     ghost: "text-accent hover:text-accent-hover",
+    outline: "border border-accent text-accent hover:bg-accent hover:text-white",
   };
 
   if (href) {

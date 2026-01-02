@@ -117,7 +117,7 @@ export default function LeadMagnetModal({
                     </svg>
                   </div>
                   <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Check your email</h3>
-                  <p className="text-body text-text-secondary">We've sent you the checklist.</p>
+                  <p className="text-body text-text-secondary">We&apos;ve sent you the checklist.</p>
                 </div>
               )}
             </div>

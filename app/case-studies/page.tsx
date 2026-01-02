@@ -82,7 +82,7 @@ export default function CaseStudiesPage() {
         <div className="container-custom text-center max-w-2xl mx-auto">
           <h2 className="text-h2 font-semibold text-text-primary mb-3 sm:mb-4">Ready to see similar results?</h2>
           <p className="text-body text-text-secondary mb-6 sm:mb-8">
-            Let's discuss how we can help scale your technology infrastructure.
+            Let&apos;s discuss how we can help scale your technology infrastructure.
           </p>
           <PrimaryCTA href="/contact">Talk to an Engineer</PrimaryCTA>
         </div>

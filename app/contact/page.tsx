@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin, Send } from "lucide-react";
 import PrimaryCTA from "@/components/cta/PrimaryCTA";
 
 // Note: Metadata would go here but this is a client component
-// In production, you'd use a server component wrapper or next/head
+// In production, you&apos;d use a server component wrapper or next/head
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ export default function ContactPage() {
           <div className="max-w-3xl">
             <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">Get in Touch</h1>
             <p className="text-body text-text-secondary">
-              Let's discuss how we can help scale your technology infrastructure
+              Let&apos;s discuss how we can help scale your technology infrastructure
             </p>
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function ContactPage() {
                 <>
                   <h2 className="text-xl sm:text-h2 font-semibold text-text-primary mb-3 sm:mb-4">Start a Conversation</h2>
                   <p className="text-body text-text-secondary mb-6 sm:mb-10">
-                    Tell us about your project, and we'll get back to you within 24 hours.
+                    Tell us about your project, and we&apos;ll get back to you within 24 hours.
                   </p>
 
                   <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
@@ -130,7 +130,7 @@ export default function ContactPage() {
                     </svg>
                   </div>
                   <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Message Sent!</h3>
-                  <p className="text-body text-text-secondary">We'll get back to you within 24 hours.</p>
+                  <p className="text-body text-text-secondary">We&apos;ll get back to you within 24 hours.</p>
                 </div>
               )}
             </div>
