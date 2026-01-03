@@ -162,7 +162,7 @@ export default function ContactPage() {
               <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
                 <Phone className="text-accent mx-auto mb-3" size={24} />
                 <h3 className="font-semibold text-text-primary mb-2 text-body">Phone</h3>
-                <a href="tel:+1-555-0123" className="text-small text-accent hover:text-accent-hover transition-colors">
+                <a href="tel:+91XXXXXXXXXX" className="text-small text-accent hover:text-accent-hover transition-colors">
                   +91 XXX XXX XXXX
                 </a>
               </div>
