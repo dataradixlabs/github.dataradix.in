@@ -163,7 +163,7 @@ export default function ContactPage() {
                 <Phone className="text-accent mx-auto mb-3" size={24} />
                 <h3 className="font-semibold text-text-primary mb-2 text-body">Phone</h3>
                 <a href="tel:+1-555-0123" className="text-small text-accent hover:text-accent-hover transition-colors">
-                  +91 947 890 4244
+                  +91 XXX XXX XXXX
                 </a>
               </div>
 
