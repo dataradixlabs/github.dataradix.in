@@ -114,6 +114,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -132,13 +133,31 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20 sm:h-24">
+        {/* <div className="flex items-center justify-between h-24 lg:h-28 xl:h-32"> */}
+
           {/* Logo */}
-          <Link 
-            href="/" 
-            className="text-xl sm:text-2xl font-bold text-gray-900 hover:text-accent transition-colors flex-shrink-0"
-          >
-            DataRadix
+          {/* <Link href="/" className="flex items-center flex-shrink-0"> */}
+          <Link href="/" className="flex items-center gap-2">
+
+            {/* Mobile/Tablet Logo */}
+            <Image
+              src="/images/Logo.png"
+              alt="DataRadix"
+              width={120}
+              height={120}
+              priority
+              className="h-20 sm:h-14 md:h-16 lg:hidden w-auto object-contain"
+            />
+            {/* Desktop Logo */}
+            <Image
+              src="/images/Gray Black Modern Music Label Record Logo.png"
+              alt="DataRadix"
+              width={320}
+              height={90}
+              priority
+              className="hidden lg:block h-24 xl:h-24 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -181,7 +200,7 @@ export default function Header() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-black/20 backdrop-blur-sm lg:hidden z-40 top-16"
+                className="fixed inset-0 bg-black/20 backdrop-blur-sm lg:hidden z-40 top-20 sm:top-24"
                 onClick={() => setMobileMenuOpen(false)}
               />
 
@@ -191,7 +210,7 @@ export default function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="absolute left-0 right-0 top-full lg:hidden bg-white border-b border-gray-200 shadow-lg z-50 max-h-[calc(100vh-4rem)] overflow-y-auto"
+                className="absolute left-0 right-0 top-full lg:hidden bg-white border-b border-gray-200 shadow-lg z-50 max-h-[calc(100vh-5rem)] sm:max-h-[calc(100vh-6rem)] overflow-y-auto"
               >
                 <div className="py-2 px-4 space-y-1">
                   {navItems.map((item) => (
