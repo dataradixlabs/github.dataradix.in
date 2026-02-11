@@ -2,79 +2,244 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── CSS Custom Properties ───────────────────────────────────────────────── */
+:root {
+  /* Typography scale */
+  --font-sans:   'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:   'JetBrains Mono', 'Fira Code', Menlo, monospace;
+
+  /* Surfaces */
+  --surface-base:    #FFFFFF;
+  --surface-muted:   #FAFAFA;
+  --surface-subtle:  #F5F5F5;
+  --surface-inverse: #0A0A0A;
+
+  /* Text */
+  --text-primary:   #0A0A0A;
+  --text-secondary: #525252;
+  --text-tertiary:  #A3A3A3;
+  --text-inverse:   #FFFFFF;
+  --text-inverse-muted: rgba(255,255,255,0.65);
+
+  /* Borders */
+  --border-light:  #E8E8E8;
+  --border-medium: #D1D1D1;
+
+  /* Accent */
+  --accent-primary: #18181B;
+  --accent-vivid:   #4F46E5;
+
+  /* Transitions */
+  --transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base:   200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Base Reset & Typography ────────────────────────────────────────────── */
 @layer base {
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01';
   }
-  
+
   body {
-    @apply text-text-primary bg-bg-base;
-    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    @apply bg-white text-neutral-950;
+    font-family: var(--font-sans);
     overflow-x: hidden;
+    min-height: 100dvh;
   }
 
-  h1 {
-    @apply text-h1 font-semibold text-text-primary;
+  /* Prevent overflow from all elements */
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
 
-  h2 {
-    @apply text-h2 font-semibold text-text-primary;
-  }
-
-  h3 {
-    @apply text-h3 font-semibold text-text-primary;
-  }
-
-  p {
-    @apply text-text-secondary;
-  }
-  
-  /* Prevent horizontal overflow */
-  * {
-    max-width: 100%;
-  }
-  
-  img, video, iframe {
+  img, video, iframe, svg {
     max-width: 100%;
     height: auto;
+    display: block;
   }
-  
-  /* Ensure readable line length */
-  .prose-custom p,
-  .prose-custom li {
-    max-width: 65ch;
+
+  /* Focus ring — accessible & visually clean */
+  :focus-visible {
+    outline: 2px solid var(--accent-vivid);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Remove default focus for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Selection */
+  ::selection {
+    background-color: #EEF2FF;
+    color: #18181B;
+  }
+
+  /* Scrollbar — subtle */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #D1D1D1; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #A3A3A3; }
+}
+
+/* ─── Component Layer ────────────────────────────────────────────────────── */
+@layer components {
+  /* Container */
+  .container-custom {
+    width: 100%;
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-custom {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-custom {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container-custom {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+    }
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+  .section-padding-sm {
+    @apply py-12 sm:py-16;
+  }
+
+  /* Section label — "SERVICES", "ABOUT", etc. */
+  .section-label {
+    @apply text-label uppercase tracking-widest text-neutral-400 mb-3;
+  }
+
+  /* Card base */
+  .card {
+    @apply bg-white rounded-lg border border-neutral-200 transition-all duration-200;
+  }
+  .card-hover {
+    @apply hover:border-neutral-300 hover:shadow-card-hover;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-body-sm font-medium border;
+  }
+  .badge-neutral {
+    @apply bg-neutral-100 text-neutral-700 border-neutral-200;
+  }
+  .badge-vivid {
+    @apply bg-accent-muted text-accent-vivid border-accent-vivid/20;
+  }
+
+  /* Divider */
+  .divider {
+    @apply border-t border-neutral-200;
+  }
+
+  /* Prose for blog / case study content */
+  .prose-custom {
+    @apply prose prose-neutral max-w-none;
+    @apply prose-headings:font-semibold prose-headings:tracking-tight prose-headings:text-neutral-950;
+    @apply prose-p:text-neutral-600 prose-p:leading-relaxed;
+    @apply prose-a:text-accent-vivid prose-a:no-underline hover:prose-a:underline;
+    @apply prose-strong:text-neutral-900 prose-strong:font-semibold;
+    @apply prose-code:text-accent-vivid prose-code:bg-neutral-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-body-sm prose-code:font-mono prose-code:before:content-none prose-code:after:content-none;
+    @apply prose-pre:bg-neutral-950 prose-pre:text-neutral-100 prose-pre:rounded-lg prose-pre:border prose-pre:border-neutral-800;
+    @apply prose-ul:text-neutral-600 prose-ol:text-neutral-600;
+    @apply prose-li:leading-relaxed;
+    @apply prose-blockquote:border-l-accent-vivid prose-blockquote:text-neutral-700;
+    @apply prose-img:rounded-lg prose-img:border prose-img:border-neutral-200;
+    @apply prose-hr:border-neutral-200;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-gradient-to-r from-neutral-950 to-neutral-600 bg-clip-text text-transparent;
+  }
+
+  /* Noise texture overlay (subtle) */
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0.4;
+  }
+
+  /* Grid background pattern */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+      linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Dot background pattern */
+  .bg-dots {
+    background-image: radial-gradient(circle, #e0e0e0 1px, transparent 1px);
+    background-size: 24px 24px;
   }
 }
 
-@layer components {
-  .container-custom {
-    @apply max-w-content mx-auto px-4 sm:px-6 lg:px-8;
-    width: 100%;
-    max-width: min(1100px, calc(100% - 2rem));
+/* ─── Utility Layer ──────────────────────────────────────────────────────── */
+@layer utilities {
+  /* Text balance for headings */
+  .text-balance {
+    text-wrap: balance;
   }
-  
-  @media (min-width: 640px) {
-    .container-custom {
-      max-width: min(1100px, calc(100% - 3rem));
-    }
+
+  /* Prevent text selection on interactive elements */
+  .no-select {
+    user-select: none;
+    -webkit-user-select: none;
   }
-  
-  @media (min-width: 1024px) {
-    .container-custom {
-      max-width: min(1100px, calc(100% - 4rem));
-    }
+
+  /* Visually hidden (accessible) */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
-  
-  .prose-custom {
-    @apply prose prose-lg max-w-none;
-    @apply prose-headings:font-semibold prose-headings:text-text-primary;
-    @apply prose-p:text-text-secondary prose-p:leading-relaxed prose-p:text-body;
-    @apply prose-a:text-accent prose-a:no-underline hover:prose-a:underline;
-    @apply prose-strong:text-text-primary;
-    @apply prose-code:text-accent prose-code:bg-bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-small;
-    @apply prose-pre:bg-text-primary prose-pre:text-bg-base;
-    @apply prose-ul:text-text-secondary prose-ol:text-text-secondary;
-    @apply prose-li:leading-relaxed;
+
+  /* Smooth entrance */
+  .animate-enter {
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-enter-delay-1 {
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+  }
+  .animate-enter-delay-2 {
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  }
+  .animate-enter-delay-3 {
+    animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
   }
 }

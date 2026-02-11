@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { caseStudies } from "@/lib/data/case-studies";
-import PrimaryCTA from "@/components/cta/PrimaryCTA";
+import FinalCTASection from "@/components/cta/FinalCTASection";
 
 export const metadata = {
   title: "Case Studies - DataRadix",
@@ -11,64 +11,64 @@ export const metadata = {
 export default function CaseStudiesPage() {
   return (
     <>
-      {/* Hero - Responsive padding */}
-      <section className="pt-16 sm:pt-20 pb-8 sm:pb-12">
+      {/* Hero */}
+      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 border-b border-neutral-200">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">Case Studies</h1>
-            <p className="text-body text-text-secondary">
-              Real results from real projects
+          <div className="max-w-2xl">
+            <p className="section-label">Proven results</p>
+            <h1 className="text-display-sm font-bold text-neutral-950 mb-4 text-balance">
+              Real systems. Real outcomes.
+            </h1>
+            <p className="text-body-lg text-neutral-500 leading-relaxed">
+              Every case study here represents a real engineering challenge solved — with measurable business impact.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Case Studies - Responsive Story Blocks */}
-      <section className="py-12 border-t border-border">
+      {/* Case study list */}
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="container-custom">
-          <div className="space-y-6 sm:space-y-8">
-            {caseStudies.map((study, index) => (
+          <div className="space-y-4">
+            {caseStudies.map((study) => (
               <Link
                 key={study.id}
                 href={`/case-studies/${study.slug}`}
-                className="group block p-5 sm:p-6 lg:p-8 border border-border rounded-soft hover:border-text-primary transition-colors bg-bg-base"
+                className="group flex flex-col lg:flex-row gap-6 lg:gap-10 p-5 sm:p-6 lg:p-8 rounded-xl border border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-md transition-all"
               >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-                  {/* Left: Context */}
-                  <div className="md:col-span-1">
-                    <div className="text-small text-text-secondary mb-2 sm:mb-3">{study.clientIndustry}</div>
-                    <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3 sm:mb-4 group-hover:text-accent transition-colors">
-                      {study.title}
-                    </h3>
-                    <p className="text-body text-text-secondary line-clamp-3">{study.excerpt}</p>
+                {/* Main info */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="badge badge-neutral">{study.clientIndustry}</span>
                   </div>
-
-                  {/* Middle: Challenge & Solution */}
-                  <div className="md:col-span-1 space-y-3 sm:space-y-4">
-                    <div>
-                      <h4 className="text-small font-semibold text-text-primary mb-2">Challenge</h4>
-                      <p className="text-small text-text-secondary line-clamp-2">{study.challenge.substring(0, 150)}...</p>
-                    </div>
-                    <div>
-                      <h4 className="text-small font-semibold text-text-primary mb-2">Solution</h4>
-                      <p className="text-small text-text-secondary line-clamp-2">{study.solution.substring(0, 150)}...</p>
-                    </div>
+                  <h2 className="text-h3 font-semibold text-neutral-950 mb-2 group-hover:text-neutral-700 transition-colors">
+                    {study.title}
+                  </h2>
+                  <p className="text-body text-neutral-500 line-clamp-2 leading-relaxed mb-4">
+                    {study.excerpt}
+                  </p>
+                  <div className="inline-flex items-center gap-1.5 text-body-sm font-medium text-neutral-500 group-hover:text-neutral-950 transition-colors">
+                    Read case study
+                    <ArrowRight size={13} className="group-hover:translate-x-0.5 transition-transform" />
                   </div>
+                </div>
 
-                  {/* Right: Results */}
-                  <div className="md:col-span-1">
-                    <h4 className="text-small font-semibold text-text-primary mb-3 sm:mb-4">Key Results</h4>
-                    <div className="space-y-2 sm:space-y-3">
-                      {study.results.slice(0, 3).map((result, i) => (
-                        <div key={i} className="pb-2 sm:pb-3 border-b border-border last:border-0">
-                          <div className="text-small font-medium text-text-primary">{result.metric}</div>
-                          <div className="text-small text-text-secondary">{result.value}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mt-4 flex items-center text-small text-accent font-medium">
-                      Read full case study <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
-                    </div>
+                {/* Results */}
+                <div className="lg:w-56 flex-shrink-0">
+                  <p className="text-label uppercase tracking-widest text-neutral-400 mb-3">
+                    Key results
+                  </p>
+                  <div className="space-y-3">
+                    {study.results.slice(0, 3).map((result, i) => (
+                      <div key={i} className="flex items-baseline gap-2">
+                        <span className="text-h3 font-bold text-neutral-950 leading-none">
+                          {result.value}
+                        </span>
+                        <span className="text-body-sm text-neutral-500 leading-tight">
+                          {result.metric}
+                        </span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </Link>
@@ -77,16 +77,11 @@ export default function CaseStudiesPage() {
         </div>
       </section>
 
-      {/* CTA - Responsive */}
-      <section className="py-12 sm:py-16 border-t border-border bg-bg-muted">
-        <div className="container-custom text-center max-w-2xl mx-auto">
-          <h2 className="text-h2 font-semibold text-text-primary mb-3 sm:mb-4">Ready to see similar results?</h2>
-          <p className="text-body text-text-secondary mb-6 sm:mb-8">
-            Let&apos;s discuss how we can help scale your technology infrastructure.
-          </p>
-          <PrimaryCTA href="/contact">Talk to an Engineer</PrimaryCTA>
-        </div>
-      </section>
+      <FinalCTASection
+        headline="Ready to achieve similar results?"
+        description="Let's discuss how we can help scale your technology infrastructure."
+        ctaText="Talk to an Engineer"
+      />
     </>
   );
 }

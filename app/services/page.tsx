@@ -1,5 +1,4 @@
 import ServiceAccordion from "@/components/ServiceAccordion";
-import InlineCTA from "@/components/cta/InlineCTA";
 import FinalCTASection from "@/components/cta/FinalCTASection";
 
 export const metadata = {
@@ -124,62 +123,46 @@ export default function Services() {
 
   return (
     <>
-      {/* Hero - Responsive */}
-      <section className="pt-16 sm:pt-20 pb-8 sm:pb-12">
+      {/* Hero */}
+      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 border-b border-neutral-200">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">Our Services</h1>
-            <p className="text-body text-text-secondary">
-              End-to-end technology solutions for modern enterprises
+          <div className="max-w-2xl">
+            <p className="section-label">What we offer</p>
+            <h1 className="text-display-sm font-bold text-neutral-950 mb-4 text-balance">
+              Engineering services that move at your speed
+            </h1>
+            <p className="text-body-lg text-neutral-500 leading-relaxed">
+              We embed senior engineers directly into your team. From backend systems to full-stack products, we build infrastructure that holds up at scale.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Services - Accordion */}
-      <section className="py-10 sm:py-12 border-t border-border">
+      {/* Services accordion */}
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="container-custom">
           <ServiceAccordion services={services} />
         </div>
       </section>
 
-      {/* CTA after services */}
-      <InlineCTA
-        headline="Not sure if this is right for you?"
-        description="Get a free technical assessment. We&apos;ll review your situation and recommend the best approach."
-        ctaText="Get a Free Technical Assessment"
-        ctaHref="/contact"
-      />
-
-      {/* Why Choose Us - Responsive Split Screen */}
-      <section className="py-12 sm:py-16 border-t border-border bg-bg-muted">
+      {/* CTA callout */}
+      <section className="py-12 sm:py-14 border-t border-neutral-200 bg-neutral-50">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            <div>
-              <h2 className="text-h2 font-semibold text-text-primary mb-6 sm:mb-8">Why Choose DataRadix</h2>
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="max-w-xl">
+              <h2 className="text-h2 font-bold text-neutral-950 mb-2 text-balance">
+                Not sure which service fits?
+              </h2>
+              <p className="text-body text-neutral-500 leading-relaxed">
+                Get a free technical assessment. We review your situation and recommend the best path forward — no commitment required.
+              </p>
             </div>
-            <div className="space-y-5 sm:space-y-6">
-              <div>
-                <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Senior Engineers</h3>
-                <p className="text-body text-text-secondary">
-                  We only work with senior engineers who have built systems at scale. No juniors learning on your project.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Proven Track Record</h3>
-                <p className="text-body text-text-secondary">
-                  We&apos;ve built systems processing billions of events and serving millions of users. We bring that experience to every project.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Partnership Approach</h3>
-                <p className="text-body text-text-secondary">
-                  We work as an extension of your team. Clear communication, transparency, and knowledge transfer.
-                </p>
-              </div>
-            </div>
+            <a
+              href="/contact"
+              className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-3 bg-neutral-950 text-white rounded-md text-body-sm font-semibold hover:bg-neutral-800 transition-colors min-h-[44px]"
+            >
+              Get a Free Assessment
+            </a>
           </div>
         </div>
       </section>

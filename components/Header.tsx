@@ -1,243 +1,201 @@
-// "use client";
-
-// import Link from "next/link";
-// import { useState } from "react";
-// import { Menu, X } from "lucide-react";
-// import { motion, AnimatePresence } from "framer-motion";
-
-// // export default function Header() {
-// //   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-// //   const navItems = [
-// //     { href: "/", label: "Home" },
-// //     { href: "/about", label: "About" },
-// //     { href: "/services", label: "Services" },
-// //     { href: "/industries", label: "Industries" },
-// //     { href: "/case-studies", label: "Case Studies" },
-// //     { href: "/blog", label: "Blog" },
-// //     { href: "/careers", label: "Careers" },
-// //     { href: "/contact", label: "Contact" },
-// //   ];
-
-// //   return (
-// //     <header className="sticky top-0 z-50 bg-bg-base/80 backdrop-blur-sm border-b border-border">
-// //       <nav className="container-custom">
-// //         <div className="flex items-center justify-between h-16">
-// // <Link href="/" className="text-lg sm:text-xl font-semibold text-text-primary hover:text-accent transition-colors">
-// //   DataRadix
-// // </Link>
-
-// //           {/* Desktop Navigation */}
-// //           <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-// //             {navItems.map((item) => (
-// //               <Link
-// //                 key={item.href}
-// //                 href={item.href}
-// //                 className="text-small font-medium text-text-secondary hover:text-text-primary transition-colors whitespace-nowrap"
-// //               >
-// //                 {item.label}
-// //               </Link>
-// //             ))}
-// //             <Link
-// //               href="/contact"
-// //               className="px-4 py-2 bg-accent text-white rounded-soft hover:bg-accent-hover transition-colors text-small font-medium whitespace-nowrap min-h-[44px] flex items-center"
-// //             >
-// //               Talk to an Engineer
-// //             </Link>
-// //           </div>
-
-// //           {/* Mobile menu button - 44px touch target */}
-// //           <button
-// //             className="lg:hidden p-3 text-text-secondary min-h-[44px] min-w-[44px] flex items-center justify-center"
-// //             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-// //             aria-label="Toggle menu"
-// //             aria-expanded={mobileMenuOpen}
-// //           >
-// //             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-// //           </button>
-// //         </div>
-
-// //         {/* Mobile Navigation */}
-// //         <AnimatePresence>
-// //           {mobileMenuOpen && (
-// //             <>
-// //               {/* Backdrop */}
-// //               <motion.div
-// //                 initial={{ opacity: 0 }}
-// //                 animate={{ opacity: 1 }}
-// //                 exit={{ opacity: 0 }}
-// //                 transition={{ duration: 0.2 }}
-// //                 className="fixed inset-0 bg-text-primary/20 backdrop-blur-sm lg:hidden z-40"
-// //                 onClick={() => setMobileMenuOpen(false)}
-// //               />
-
-// //               {/* Menu */}
-// //               <motion.div
-// //                 initial={{ opacity: 0, height: 0 }}
-// //                 animate={{ opacity: 1, height: "auto" }}
-// //                 exit={{ opacity: 0, height: 0 }}
-// //                 transition={{ duration: 0.2 }}
-// //                 className="lg:hidden py-4 space-y-2 border-t border-border relative z-50 bg-bg-base"
-// //               >
-// //                 {navItems.map((item) => (
-// //                   <Link
-// //                     key={item.href}
-// //                     href={item.href}
-// //                     className="block px-4 py-3 text-text-secondary hover:text-text-primary hover:bg-bg-muted transition-colors text-small min-h-[44px] flex items-center"
-// //                     onClick={() => setMobileMenuOpen(false)}
-// //                   >
-// //                     {item.label}
-// //                   </Link>
-// //                 ))}
-// //                 <Link
-// //                   href="/contact"
-// //                   className="block mx-4 mt-4 text-center px-4 py-3 bg-accent text-white rounded-soft hover:bg-accent-hover transition-colors text-small font-medium min-h-[44px] flex items-center justify-center"
-// //                   onClick={() => setMobileMenuOpen(false)}
-// //                 >
-// //                   Talk to an Engineer
-// //                 </Link>
-// //               </motion.div>
-// //             </>
-// //           )}
-// //         </AnimatePresence>
-// //       </nav>
-// //     </header>
-// //   );
-// // }
-
-
-
-
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const navItems = [
+  { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/industries", label: "Industries" },
+  { href: "/case-studies", label: "Case Studies" },
+  { href: "/blog", label: "Blog" },
+  { href: "/careers", label: "Careers" },
+];
 
-  const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/services", label: "Services" },
-    { href: "/industries", label: "Industries" },
-    { href: "/case-studies", label: "Case Studies" },
-    { href: "/blog", label: "Blog" },
-    { href: "/careers", label: "Careers" },
-    { href: "/contact", label: "Contact" },
-  ];
+export default function Header() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 shadow-sm">
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 sm:h-24">
-        {/* <div className="flex items-center justify-between h-24 lg:h-28 xl:h-32"> */}
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/95 backdrop-blur-md shadow-xs border-b border-neutral-200"
+          : "bg-white border-b border-transparent"
+      }`}
+    >
+      <nav className="container-custom">
+        <div className="flex items-center justify-between h-16 sm:h-[68px]">
 
           {/* Logo */}
-          {/* <Link href="/" className="flex items-center flex-shrink-0"> */}
-          <Link href="/" className="flex items-center gap-2">
-
-            {/* Mobile/Tablet Logo */}
+          <Link
+            href="/"
+            className="flex items-center flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-vivid focus-visible:ring-offset-2 rounded"
+            aria-label="DataRadix — Home"
+          >
+            {/* Icon-only mark for mobile (xs) */}
             <Image
               src="/images/Logo.png"
               alt="DataRadix"
-              width={120}
-              height={120}
+              width={36}
+              height={36}
               priority
-              className="h-20 sm:h-14 md:h-16 lg:hidden w-auto object-contain"
+              className="sm:hidden h-8 w-auto object-contain"
             />
-            {/* Desktop Logo */}
+            {/* Full logo for sm+ */}
             <Image
-              src="/images/Gray Black Modern Music Label Record Logo.png"
+              src="/images/Logo with text DataRadix.png"
               alt="DataRadix"
-              width={320}
-              height={90}
+              width={160}
+              height={40}
               priority
-              className="hidden lg:block h-24 xl:h-24 w-auto object-contain"
+              className="hidden sm:block h-8 w-auto object-contain"
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors whitespace-nowrap"
-              >
-                {item.label}
-              </Link>
-            ))}
+          {/* Desktop nav */}
+          <div className="hidden lg:flex items-center gap-0.5 xl:gap-1">
+            {navItems.map((item) => {
+              const isActive =
+                pathname === item.href ||
+                (item.href !== "/" && pathname.startsWith(item.href));
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`px-3 py-2 rounded-md text-body-sm font-medium transition-colors duration-150 whitespace-nowrap ${
+                    isActive
+                      ? "text-neutral-950 bg-neutral-100"
+                      : "text-neutral-500 hover:text-neutral-900 hover:bg-neutral-50"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Desktop CTA */}
+          <div className="hidden lg:flex items-center gap-3">
             <Link
               href="/contact"
-              className="ml-4 px-5 py-2.5 bg-accent text-white rounded-soft hover:bg-accent-hover rounded-lg transition-colors text-sm font-semibold whitespace-nowrap shadow-sm hover:shadow-md"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-neutral-950 text-white rounded-md text-body-sm font-semibold hover:bg-neutral-800 transition-colors duration-150 whitespace-nowrap"
             >
               Talk to an Engineer
+              <ArrowRight size={13} className="opacity-70" />
             </Link>
           </div>
 
-          {/* Mobile menu button */}
+          {/* Mobile hamburger */}
           <button
-            className="lg:hidden p-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={mobileMenuOpen}
+            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-md text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100 transition-colors"
+            onClick={() => setMobileOpen((v) => !v)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileOpen ? (
+                <motion.span
+                  key="x"
+                  initial={{ opacity: 0, rotate: -45 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: 45 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <X size={20} />
+                </motion.span>
+              ) : (
+                <motion.span
+                  key="menu"
+                  initial={{ opacity: 0, rotate: 45 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: -45 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <Menu size={20} />
+                </motion.span>
+              )}
+            </AnimatePresence>
           </button>
         </div>
+      </nav>
 
-        {/* Mobile Navigation */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <>
-              {/* Backdrop */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="fixed inset-0 bg-black/20 backdrop-blur-sm lg:hidden z-40 top-20 sm:top-24"
-                onClick={() => setMobileMenuOpen(false)}
-              />
+      {/* Mobile menu panel */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 top-16 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
+              onClick={() => setMobileOpen(false)}
+              aria-hidden="true"
+            />
 
-              {/* Menu Panel */}
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="absolute left-0 right-0 top-full lg:hidden bg-white border-b border-gray-200 shadow-lg z-50 max-h-[calc(100vh-5rem)] sm:max-h-[calc(100vh-6rem)] overflow-y-auto"
-              >
-                <div className="py-2 px-4 space-y-1">
-                  {navItems.map((item) => (
+            {/* Panel */}
+            <motion.div
+              id="mobile-menu"
+              key="panel"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute left-0 right-0 top-full z-50 bg-white border-b border-neutral-200 shadow-lg lg:hidden"
+            >
+              <div className="container-custom py-3 space-y-0.5">
+                {navItems.map((item) => {
+                  const isActive =
+                    pathname === item.href ||
+                    (item.href !== "/" && pathname.startsWith(item.href));
+                  return (
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors min-h-[44px] flex items-center"
-                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center px-3 py-3 rounded-md text-base font-medium transition-colors min-h-[48px] ${
+                        isActive
+                          ? "text-neutral-950 bg-neutral-100"
+                          : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50"
+                      }`}
                     >
                       {item.label}
                     </Link>
-                  ))}
-                  <div className="pt-2 pb-3">
-                    <Link
-                      href="/contact"
-                      className="block text-center px-5 py-3 bg-accent text-white rounded-soft hover:bg-accent-hover rounded-lg transition-colors text-base font-semibold min-h-[44px] flex items-center justify-center shadow-sm"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Talk to an Engineer
-                    </Link>
-                  </div>
+                  );
+                })}
+                <div className="pt-2 pb-1">
+                  <Link
+                    href="/contact"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-neutral-950 text-white rounded-md text-base font-semibold hover:bg-neutral-800 transition-colors min-h-[48px]"
+                  >
+                    Talk to an Engineer
+                    <ArrowRight size={15} className="opacity-70" />
+                  </Link>
                 </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
-      </nav>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
