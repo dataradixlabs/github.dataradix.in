@@ -5,135 +5,130 @@ export const metadata = {
   description: "Learn about DataRadix, our mission, values, and the team building scalable technology solutions for modern enterprises.",
 };
 
+const values = [
+  {
+    title: "Outcome-focused",
+    desc: "We measure success by business impact — latency, uptime, revenue. Not story points or lines of code.",
+  },
+  {
+    title: "Engineering excellence",
+    desc: "Clean, maintainable code. Systems designed for scale. No shortcuts that create technical debt.",
+  },
+  {
+    title: "True partnership",
+    desc: "We work inside your Slack, your sprints, your codebase. We become part of your team.",
+  },
+  {
+    title: "Continuous learning",
+    desc: "Technology evolves fast. We stay at the forefront of tools, patterns, and best practices.",
+  },
+];
+
+const howWeWork = [
+  {
+    step: "01",
+    title: "Understand the problem",
+    desc: "Not every problem needs a complex solution. We diagnose root causes before recommending anything.",
+  },
+  {
+    step: "02",
+    title: "Design for scale",
+    desc: "Systems architected to handle 10x growth without rewrites. Right decisions from the start.",
+  },
+  {
+    step: "03",
+    title: "Build incrementally",
+    desc: "Deliver value early and often. MVP, validate, iterate. Reduce risk at every step.",
+  },
+  {
+    step: "04",
+    title: "Transfer knowledge",
+    desc: "We document, train your team, and ensure you own everything we build. No lock-in.",
+  },
+];
+
 export default function About() {
   return (
     <>
-      {/* Hero - Responsive */}
-      <section className="pt-16 sm:pt-20 pb-8 sm:pb-12">
+      {/* Hero */}
+      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 border-b border-neutral-200">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">About DataRadix</h1>
-            <p className="text-body text-text-secondary">
-              We&apos;re a team of engineers, architects, and problem-solvers who build technology infrastructure that scales.
+          <div className="max-w-2xl">
+            <p className="section-label">Who we are</p>
+            <h1 className="text-display-sm font-bold text-neutral-950 mb-4 text-balance">
+              Engineers who build infrastructure that lasts
+            </h1>
+            <p className="text-body-lg text-neutral-500 leading-relaxed">
+              We&apos;re a team of senior engineers and architects. We&apos;ve built systems processing billions of events, serving millions of users, handling petabytes of data. We bring that experience to every project.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Mission & Values - Responsive Split Screen */}
-      <section className="py-12 sm:py-16 border-t border-border">
+      {/* Mission */}
+      <section className="py-16 sm:py-20 lg:py-24">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
             <div>
-              <h2 className="text-h2 font-semibold text-text-primary mb-5 sm:mb-6">Our Mission</h2>
-              <div className="prose-custom space-y-4">
+              <p className="section-label">Our mission</p>
+              <h2 className="text-h1 font-bold text-neutral-950 mb-6 text-balance">
+                Technology infrastructure shouldn&apos;t hold companies back
+              </h2>
+              <div className="space-y-4 text-body text-neutral-600 leading-relaxed">
                 <p>
-                  DataRadix exists to help companies build technology infrastructure that doesn&apos;t hold them back. Too many companies struggle with technical debt, scalability issues, and systems that can&apos;t keep up with growth.
+                  Too many companies struggle with technical debt, scalability bottlenecks, and systems that can&apos;t keep up with growth. DataRadix exists to fix that.
                 </p>
                 <p>
-                  We work with CTOs, founders, and engineering leaders to design and build systems that scale. From data engineering to cloud architecture, we deliver solutions that grow with your business—not against it.
+                  We work directly with CTOs, founders, and engineering leaders to design and build systems that scale with the business — not against it. Our approach is practical, not theoretical.
                 </p>
                 <p>
-                  Our approach is practical, not theoretical. We&apos;ve built systems that process billions of events, handle millions of users, and scale automatically. We bring that experience to every project.
+                  We&apos;re not consultants who write reports. We&apos;re engineers who write code, review PRs, and debug production issues alongside your team.
                 </p>
               </div>
             </div>
 
             <div>
-              <h2 className="text-h2 font-semibold text-text-primary mb-5 sm:mb-6">Our Values</h2>
-              <div className="space-y-5 sm:space-y-6">
-                <div>
-                  <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Outcome-Focused</h3>
-                  <p className="text-body text-text-secondary">
-                    We measure success by business impact, not lines of code. Every solution we build solves a real problem.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Engineering Excellence</h3>
-                  <p className="text-body text-text-secondary">
-                    We write clean, maintainable code. We design for scale. We build systems that last.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Partnership</h3>
-                  <p className="text-body text-text-secondary">
-                    We work as an extension of your team. Clear communication, transparency, and collaboration.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Continuous Learning</h3>
-                  <p className="text-body text-text-secondary">
-                    Technology evolves fast. We stay current with best practices, tools, and patterns.
-                  </p>
-                </div>
+              <p className="section-label">Our values</p>
+              <div className="space-y-5">
+                {values.map((v) => (
+                  <div key={v.title} className="p-5 rounded-xl border border-neutral-200 bg-white">
+                    <h3 className="text-h4 font-semibold text-neutral-950 mb-1.5">{v.title}</h3>
+                    <p className="text-body text-neutral-500 leading-relaxed">{v.desc}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How We Work - Responsive Grid */}
-      <section className="py-12 sm:py-16 border-t border-border bg-bg-muted">
+      {/* How we work */}
+      <section className="py-16 sm:py-20 border-t border-neutral-200 bg-neutral-50">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <h2 className="text-h2 font-semibold text-text-primary mb-6 sm:mb-8">How We Work</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
-              <div>
-                <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3">1. Understand the Problem</h3>
-                <p className="text-body text-text-secondary">
-                  We start by understanding your business, your challenges, and your goals. Not every problem needs a complex solution. We identify the root cause before proposing solutions.
-                </p>
-              </div>
+          <div className="max-w-xl mb-10 sm:mb-12">
+            <p className="section-label">Our process</p>
+            <h2 className="text-h1 font-bold text-neutral-950 text-balance">
+              How we engage
+            </h2>
+          </div>
 
-              <div>
-                <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3">2. Design for Scale</h3>
-                <p className="text-body text-text-secondary">
-                  We design systems that can handle 10x growth without major rewrites. This doesn&apos;t mean over-engineering—it means making the right architectural decisions from the start.
-                </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+            {howWeWork.map((step) => (
+              <div key={step.step} className="p-5 sm:p-6 rounded-xl border border-neutral-200 bg-white">
+                <div className="text-label font-mono text-neutral-300 mb-3">{step.step}</div>
+                <h3 className="text-h4 font-semibold text-neutral-950 mb-2">{step.title}</h3>
+                <p className="text-body-sm text-neutral-500 leading-relaxed">{step.desc}</p>
               </div>
-
-              <div>
-                <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3">3. Build Incrementally</h3>
-                <p className="text-body text-text-secondary">
-                  We deliver value early and often. Start with an MVP, validate, iterate. This approach reduces risk and ensures we&apos;re building the right thing.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3">4. Transfer Knowledge</h3>
-                <p className="text-body text-text-secondary">
-                  We don&apos;t just build and leave. We document everything, train your team, and ensure you can maintain and extend what we&apos;ve built.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Team - Responsive */}
-      <section className="py-12 sm:py-16 border-t border-border">
-        <div className="container-custom">
-          <div className="max-w-3xl">
-            <h2 className="text-h2 font-semibold text-text-primary mb-6 sm:mb-8">Our Team</h2>
-            <div className="prose-custom space-y-4">
-              <p>
-                Our team consists of senior engineers, architects, and technical leaders who have built systems processing billions of events, serving millions of users, and handling petabytes of data.
-              </p>
-              <p>
-                We&apos;ve worked at companies ranging from startups to Fortune 500 enterprises. We&apos;ve seen what works and what doesn&apos;t. We bring that experience to every project.
-              </p>
-              <p>
-                We&apos;re not consultants who disappear after the project. We&apos;re engineers who care about the systems we build. We write code, review PRs, and debug production issues alongside your team.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <FinalCTASection />
+      <FinalCTASection
+        headline="Ready to work with engineers who care?"
+        description="No sales deck. Just a real technical conversation about your challenges and how we can help."
+        ctaText="Talk to an Engineer"
+      />
     </>
   );
 }

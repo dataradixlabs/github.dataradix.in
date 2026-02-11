@@ -1,5 +1,4 @@
 import FinalCTASection from "@/components/cta/FinalCTASection";
-import InlineCTA from "@/components/cta/InlineCTA";
 
 export const metadata = {
   title: "Industries - DataRadix",
@@ -108,49 +107,56 @@ export default function Industries() {
 
   return (
     <>
-      {/* Hero - Responsive */}
-      <section className="pt-16 sm:pt-20 pb-8 sm:pb-12">
+      {/* Hero */}
+      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 border-b border-neutral-200">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">Industries We Serve</h1>
-            <p className="text-body text-text-secondary">
-              Deep expertise across verticals that depend on technology
+          <div className="max-w-2xl">
+            <p className="section-label">Where we operate</p>
+            <h1 className="text-display-sm font-bold text-neutral-950 mb-4 text-balance">
+              Deep expertise across high-growth verticals
+            </h1>
+            <p className="text-body-lg text-neutral-500 leading-relaxed">
+              We understand the unique technical constraints, compliance requirements, and scaling challenges of each industry we work in.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Industries - Responsive Grid */}
-      <section className="py-12 border-t border-border">
+      {/* Industry panels */}
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="container-custom">
-          <div className="space-y-10 sm:space-y-12">
-            {industries.map((industry, index) => (
-              <div key={industry.name} className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
-                <div>
-                  <h2 className="text-h2 font-semibold text-text-primary mb-2 sm:mb-3">{industry.name}</h2>
-                  <p className="text-body text-text-secondary mb-4 sm:mb-6">{industry.description}</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
+          <div className="space-y-0 divide-y divide-neutral-200 border border-neutral-200 rounded-xl overflow-hidden">
+            {industries.map((industry) => (
+              <div key={industry.name} className="bg-white p-6 sm:p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
                   <div>
-                    <h3 className="text-body font-semibold text-text-primary mb-3 sm:mb-4">Common Challenges</h3>
+                    <h2 className="text-h2 font-bold text-neutral-950 mb-2">{industry.name}</h2>
+                    <p className="text-body text-neutral-500 leading-relaxed">{industry.description}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-label uppercase tracking-widest text-neutral-400 mb-3">
+                      Common challenges
+                    </p>
                     <ul className="space-y-2">
                       {industry.challenges.map((challenge, i) => (
-                        <li key={i} className="text-body text-text-secondary flex items-start gap-2">
-                          <span className="text-accent mt-1 flex-shrink-0">•</span>
-                          <span>{challenge}</span>
+                        <li key={i} className="flex items-start gap-2 text-body text-neutral-600">
+                          <span className="w-1 h-1 rounded-full bg-neutral-400 mt-2.5 flex-shrink-0" />
+                          {challenge}
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   <div>
-                    <h3 className="text-body font-semibold text-text-primary mb-3 sm:mb-4">Our Solutions</h3>
+                    <p className="text-label uppercase tracking-widest text-neutral-400 mb-3">
+                      How we help
+                    </p>
                     <ul className="space-y-2">
                       {industry.solutions.map((solution, i) => (
-                        <li key={i} className="text-body text-text-secondary flex items-start gap-2">
-                          <span className="text-accent mt-1 flex-shrink-0">•</span>
-                          <span>{solution}</span>
+                        <li key={i} className="flex items-start gap-2 text-body text-neutral-600">
+                          <span className="w-1 h-1 rounded-full bg-neutral-950 mt-2.5 flex-shrink-0" />
+                          {solution}
                         </li>
                       ))}
                     </ul>
@@ -162,15 +168,11 @@ export default function Industries() {
         </div>
       </section>
 
-      {/* CTA */}
-      <InlineCTA
+      <FinalCTASection
         headline="Need industry-specific expertise?"
-        description="We've built systems for companies in your industry. Let's discuss how we can help."
-        ctaText="Explore a Collaboration"
-        ctaHref="/contact"
+        description="We've built systems for companies in your industry. Let's discuss how we can accelerate your roadmap."
+        ctaText="Start a Conversation"
       />
-
-      <FinalCTASection />
     </>
   );
 }

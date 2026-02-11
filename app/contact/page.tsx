@@ -1,364 +1,7 @@
-// // "use client";
-
-// // import { useState } from "react";
-// // import { Mail, Phone, MapPin, Send } from "lucide-react";
-// // import PrimaryCTA from "@/components/cta/PrimaryCTA";
-
-// // // Note: Metadata would go here but this is a client component
-// // // In production, you&apos;d use a server component wrapper or next/head
-
-// // export default function ContactPage() {
-// //   const [formData, setFormData] = useState({
-// //     name: "",
-// //     email: "",
-// //     company: "",
-// //     message: "",
-// //   });
-// //   const [submitted, setSubmitted] = useState(false);
-
-// //   const handleSubmit = (e: React.FormEvent) => {
-// //     e.preventDefault();
-// //     console.log("Form submitted:", formData);
-// //     setSubmitted(true);
-// //     setTimeout(() => {
-// //       setSubmitted(false);
-// //       setFormData({ name: "", email: "", company: "", message: "" });
-// //     }, 3000);
-// //   };
-
-// //   return (
-// //     <>
-// //       {/* Hero - Responsive */}
-// //       <section className="pt-16 sm:pt-20 pb-8 sm:pb-12">
-// //         <div className="container-custom">
-// //           <div className="max-w-3xl">
-// //             <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">Get in Touch</h1>
-// //             <p className="text-body text-text-secondary">
-// //               Let&apos;s discuss how we can help scale your technology infrastructure
-// //             </p>
-// //           </div>
-// //         </div>
-// //       </section>
-
-// //       {/* Contact Form - Responsive */}
-// //       <section className="py-12 sm:py-16 border-t border-border">
-// //         <div className="container-custom">
-// //           <div className="max-w-2xl mx-auto">
-// //             <div className="bg-bg-base border border-border rounded-soft p-6 sm:p-10 lg:p-12">
-// //               {!submitted ? (
-// //                 <>
-// //                   <h2 className="text-xl sm:text-h2 font-semibold text-text-primary mb-3 sm:mb-4">Start a Conversation</h2>
-// //                   <p className="text-body text-text-secondary mb-6 sm:mb-10">
-// //                     Tell us about your project, and we&apos;ll get back to you within 24 hours.
-// //                   </p>
-
-// //                   <form action="https://formsubmit.co/642147d10dc50f9555a577858279f91f"
-// //                   method="POST"className="space-y-5 sm:space-y-6">
-// //                     <div>
-// //                       <label htmlFor="name" className="block text-small font-medium text-text-primary mb-2">
-// //                         Name *
-// //                       </label>
-// //                       <input
-// //                         type="text"
-// //                         id="name"
-// //                         required
-// //                         value={formData.name}
-// //                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-// //                         className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px]"
-// //                       />
-// //                     </div>
-
-// //                     <div>
-// //                       <label htmlFor="email" className="block text-small font-medium text-text-primary mb-2">
-// //                         Email *
-// //                       </label>
-// //                       <input
-// //                         type="email"
-// //                         id="email"
-// //                         required
-// //                         value={formData.email}
-// //                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-// //                         className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px]"
-// //                       />
-// //                     </div>
-
-// //                     <div>
-// //                       <label htmlFor="company" className="block text-small font-medium text-text-primary mb-2">
-// //                         Company
-// //                       </label>
-// //                       <input
-// //                         type="text"
-// //                         id="company"
-// //                         value={formData.company}
-// //                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-// //                         className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px]"
-// //                       />
-// //                     </div>
-
-// //                     <div>
-// //                       <label htmlFor="message" className="block text-small font-medium text-text-primary mb-2">
-// //                         Message *
-// //                       </label>
-// //                       <textarea
-// //                         id="message"
-// //                         required
-// //                         rows={6}
-// //                         value={formData.message}
-// //                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-// //                         className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body resize-none min-h-[120px]"
-// //                         placeholder="Tell us about your project, challenges, or questions..."
-// //                       />
-// //                     </div>
-
-// //                     <button
-// //                       type="submit"
-// //                       className="w-full bg-accent text-white py-3 rounded-soft font-medium hover:bg-accent-hover transition-colors text-small flex items-center justify-center gap-2 min-h-[44px]"
-// //                     >
-// //                       <Send size={18} />
-// //                       Send Message
-// //                     </button>
-
-// //                     <input type="hidden" name="_subject" value="New Contact Form Submission - DataRadix" />
-// // <input type="hidden" name="_captcha" value="false" />
-// // <input type="hidden" name="_template" value="table" />
-// // <input type="hidden" name="_next" value="https://dataradix.in/contact?success=true" />
-// //                   </form>
-
-// //                   <p className="text-small text-text-secondary mt-4 sm:mt-6 text-center">
-// //                     We respond within 24 hours
-// //                   </p>
-// //                 </>
-// //               ) : (
-// //                 <div className="text-center py-8 sm:py-12">
-// //                   <div className="w-12 sm:w-16 h-12 sm:h-16 bg-bg-muted rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-// //                     <svg className="w-6 sm:w-8 h-6 sm:h-8 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-// //                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-// //                     </svg>
-// //                   </div>
-// //                   <h3 className="text-lg sm:text-h3 font-semibold text-text-primary mb-2">Message Sent!</h3>
-// //                   <p className="text-body text-text-secondary">We&apos;ll get back to you within 24 hours.</p>
-// //                 </div>
-// //               )}
-// //             </div>
-// //           </div>
-// //         </div>
-// //       </section>
-
-// //       {/* Alternative Contact - Responsive */}
-// //       <section className="py-12 sm:py-16 border-t border-border bg-bg-muted">
-// //         <div className="container-custom">
-// //           <div className="max-w-2xl mx-auto text-center">
-// //             <h2 className="text-lg sm:text-h2 font-semibold text-text-primary mb-4 sm:mb-6">Prefer Email?</h2>
-// //             <p className="text-body text-text-secondary mb-8 sm:mb-12">
-// //               Send us an email directly at{" "}
-// //               <a href="mailto:info@dataradix.in" className="text-accent hover:text-accent-hover transition-colors break-all">
-// //                 info@dataradix.in
-// //               </a>
-// //             </p>
-
-// //             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-// //               <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-// //                 <Mail className="text-accent mx-auto mb-3" size={24} />
-// //                 <h3 className="font-semibold text-text-primary mb-2 text-body">Email</h3>
-// //                 <a href="mailto:info@dataradix.in" className="text-small text-accent hover:text-accent-hover transition-colors break-all">
-// //                   info@dataradix.in
-// //                 </a>
-// //               </div>
-
-// //               <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-// //                 <Phone className="text-accent mx-auto mb-3" size={24} />
-// //                 <h3 className="font-semibold text-text-primary mb-2 text-body">Phone</h3>
-// //                 <a href="tel:+91XXXXXXXXXX" className="text-small text-accent hover:text-accent-hover transition-colors">
-// //                   +91 XXX XXX XXXX
-// //                 </a>
-// //               </div>
-
-// //               <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-// //                 <MapPin className="text-accent mx-auto mb-3" size={24} />
-// //                 <h3 className="font-semibold text-text-primary mb-2 text-body">Location</h3>
-// //                 <p className="text-small text-text-secondary">Remote-first</p>
-// //               </div>
-// //             </div>
-// //           </div>
-// //         </div>
-// //       </section>
-// //     </>
-// //   );
-// // }
-
-
-// "use client";
-
-// import { useState } from "react";
-// import { Mail, Phone, MapPin, Send } from "lucide-react";
-
-// export default function ContactPage() {
-//   const [formData, setFormData] = useState({
-//     name: "",
-//     email: "",
-//     company: "",
-//     message: "",
-//   });
-
-//   return (
-//     <>
-//       {/* Hero - Responsive */}
-//       <section className="pt-16 sm:pt-20 pb-8 sm:pb-12">
-//         <div className="container-custom">
-//           <div className="max-w-3xl">
-//             <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">Get in Touch</h1>
-//             <p className="text-body text-text-secondary">
-//               Let&apos;s discuss how we can help scale your technology infrastructure
-//             </p>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* Contact Form - Responsive */}
-//       <section className="py-12 sm:py-16 border-t border-border">
-//         <div className="container-custom">
-//           <div className="max-w-2xl mx-auto">
-//             <div className="bg-bg-base border border-border rounded-soft p-6 sm:p-10 lg:p-12">
-//               <h2 className="text-xl sm:text-h2 font-semibold text-text-primary mb-3 sm:mb-4">Start a Conversation</h2>
-//               <p className="text-body text-text-secondary mb-6 sm:mb-10">
-//                 Tell us about your project, and we&apos;ll get back to you within 24 hours.
-//               </p>
-
-//               {/* FIXED: Removed onSubmit={handleSubmit} to allow native form submission */}
-//               <form 
-//                 action="https://formsubmit.co/642147d10dc50f9555a577858279f91f"
-//                 method="POST"
-//                 className="space-y-5 sm:space-y-6"
-//               >
-//                 <div>
-//                   <label htmlFor="name" className="block text-small font-medium text-text-primary mb-2">
-//                     Name *
-//                   </label>
-//                   <input
-//                     type="text"
-//                     id="name"
-//                     name="name"
-//                     required
-//                     value={formData.name}
-//                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-//                     className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px]"
-//                   />
-//                 </div>
-
-//                 <div>
-//                   <label htmlFor="email" className="block text-small font-medium text-text-primary mb-2">
-//                     Email *
-//                   </label>
-//                   <input
-//                     type="email"
-//                     id="email"
-//                     name="email"
-//                     required
-//                     value={formData.email}
-//                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-//                     className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px]"
-//                   />
-//                 </div>
-
-//                 <div>
-//                   <label htmlFor="company" className="block text-small font-medium text-text-primary mb-2">
-//                     Company
-//                   </label>
-//                   <input
-//                     type="text"
-//                     id="company"
-//                     name="company"
-//                     value={formData.company}
-//                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-//                     className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px]"
-//                   />
-//                 </div>
-
-//                 <div>
-//                   <label htmlFor="message" className="block text-small font-medium text-text-primary mb-2">
-//                     Message *
-//                   </label>
-//                   <textarea
-//                     id="message"
-//                     name="message"
-//                     required
-//                     rows={6}
-//                     value={formData.message}
-//                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-//                     className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body resize-none min-h-[120px]"
-//                     placeholder="Tell us about your project, challenges, or questions..."
-//                   />
-//                 </div>
-
-//                 {/* Hidden FormSubmit configuration fields */}
-//                 <input type="hidden" name="_subject" value="New Contact Form Submission - DataRadix" />
-//                 <input type="hidden" name="_captcha" value="false" />
-//                 <input type="hidden" name="_template" value="table" />
-//                 <input type="hidden" name="_next" value="https://dataradix.in/contact?success=true" />
-
-//                 <button
-//                   type="submit"
-//                   className="w-full bg-accent text-white py-3 rounded-soft font-medium hover:bg-accent-hover transition-colors text-small flex items-center justify-center gap-2 min-h-[44px]"
-//                 >
-//                   <Send size={18} />
-//                   Send Message
-//                 </button>
-//               </form>
-
-//               <p className="text-small text-text-secondary mt-4 sm:mt-6 text-center">
-//                 We respond within 24 hours
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* Alternative Contact - Responsive */}
-//       <section className="py-12 sm:py-16 border-t border-border bg-bg-muted">
-//         <div className="container-custom">
-//           <div className="max-w-2xl mx-auto text-center">
-//             <h2 className="text-lg sm:text-h2 font-semibold text-text-primary mb-4 sm:mb-6">Prefer Email?</h2>
-//             <p className="text-body text-text-secondary mb-8 sm:mb-12">
-//               Send us an email directly at{" "}
-//               <a href="mailto:info@dataradix.in" className="text-accent hover:text-accent-hover transition-colors break-all">
-//                 info@dataradix.in
-//               </a>
-//             </p>
-
-//             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-//               <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-//                 <Mail className="text-accent mx-auto mb-3" size={24} />
-//                 <h3 className="font-semibold text-text-primary mb-2 text-body">Email</h3>
-//                 <a href="mailto:info@dataradix.in" className="text-small text-accent hover:text-accent-hover transition-colors break-all">
-//                   info@dataradix.in
-//                 </a>
-//               </div>
-
-//               <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-//                 <Phone className="text-accent mx-auto mb-3" size={24} />
-//                 <h3 className="font-semibold text-text-primary mb-2 text-body">Phone</h3>
-//                 <a href="tel:+91XXXXXXXXXX" className="text-small text-accent hover:text-accent-hover transition-colors">
-//                   +91 XXX XXX XXXX
-//                 </a>
-//               </div>
-
-//               <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-//                 <MapPin className="text-accent mx-auto mb-3" size={24} />
-//                 <h3 className="font-semibold text-text-primary mb-2 text-body">Location</h3>
-//                 <p className="text-small text-text-secondary">Remote-first</p>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-//     </>
-//   );
-// }
-
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import { Mail, MapPin, Send, CheckCircle } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -378,209 +21,202 @@ export default function ContactPage() {
       const formElement = e.target as HTMLFormElement;
       const formDataToSend = new FormData(formElement);
 
-      // Submit to FormSubmit using fetch
       await fetch("https://formsubmit.co/642147d10dc50f9555a577858279f91f", {
         method: "POST",
         body: formDataToSend,
-        headers: {
-          'Accept': 'application/json'
-        }
+        headers: { Accept: "application/json" },
       });
 
-      // Show success message
       setSubmitted(true);
-
-      // Reset form after 4 seconds
       setTimeout(() => {
         setSubmitted(false);
         setFormData({ name: "", email: "", company: "", message: "" });
         setIsSubmitting(false);
       }, 4000);
-
     } catch (error) {
       console.error("Form submission error:", error);
       setIsSubmitting(false);
-      alert("There was an error submitting the form. Please try again.");
     }
   };
 
   return (
     <>
-      {/* Hero - Responsive */}
-      <section className="pt-16 sm:pt-20 pb-8 sm:pb-12">
+      {/* Hero */}
+      <section className="pt-16 sm:pt-20 pb-12 sm:pb-16 border-b border-neutral-200">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <h1 className="text-h1 font-semibold text-text-primary mb-4 sm:mb-6">Get in Touch</h1>
-            <p className="text-body text-text-secondary">
-              Let&apos;s discuss how we can help scale your technology infrastructure
+          <div className="max-w-2xl">
+            <p className="section-label">Get in touch</p>
+            <h1 className="text-display-sm font-bold text-neutral-950 mb-4 text-balance">
+              Let&apos;s talk about your engineering challenges
+            </h1>
+            <p className="text-body-lg text-neutral-500 leading-relaxed">
+              Tell us about your project. We respond within 24 hours — no sales pitch, just a real technical conversation.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Contact Form - Responsive */}
-      <section className="py-12 sm:py-16 border-t border-border">
+      {/* Form + sidebar */}
+      <section className="py-12 sm:py-16 lg:py-20">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-bg-base border border-border rounded-soft p-6 sm:p-10 lg:p-12">
-              {!submitted ? (
-                <>
-                  <h2 className="text-xl sm:text-h2 font-semibold text-text-primary mb-3 sm:mb-4">Start a Conversation</h2>
-                  <p className="text-body text-text-secondary mb-6 sm:mb-10">
-                    Tell us about your project, and we&apos;ll get back to you within 24 hours.
-                  </p>
+          <div className="grid lg:grid-cols-3 gap-10 lg:gap-14">
 
-                  <form 
-                    onSubmit={handleSubmit}
-                    className="space-y-5 sm:space-y-6"
-                  >
-                    <div>
-                      <label htmlFor="name" className="block text-small font-medium text-text-primary mb-2">
-                        Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            {/* Form */}
+            <div className="lg:col-span-2">
+              <div className="bg-white border border-neutral-200 rounded-xl p-6 sm:p-8">
+                {!submitted ? (
+                  <>
+                    <h2 className="text-h2 font-bold text-neutral-950 mb-2">
+                      Start a conversation
+                    </h2>
+                    <p className="text-body text-neutral-500 mb-8 leading-relaxed">
+                      Describe your project, your stack, and what you&apos;re trying to accomplish.
+                    </p>
+
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                      <div className="grid sm:grid-cols-2 gap-5">
+                        <div>
+                          <label htmlFor="name" className="block text-body-sm font-medium text-neutral-700 mb-1.5">
+                            Name <span className="text-neutral-400">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            required
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            disabled={isSubmitting}
+                            className="w-full px-3.5 py-2.5 border border-neutral-200 rounded-md bg-white text-neutral-950 text-body-sm placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:border-transparent transition min-h-[42px] disabled:opacity-50"
+                            placeholder="Your full name"
+                          />
+                        </div>
+                        <div>
+                          <label htmlFor="email" className="block text-body-sm font-medium text-neutral-700 mb-1.5">
+                            Work email <span className="text-neutral-400">*</span>
+                          </label>
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            required
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            disabled={isSubmitting}
+                            className="w-full px-3.5 py-2.5 border border-neutral-200 rounded-md bg-white text-neutral-950 text-body-sm placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:border-transparent transition min-h-[42px] disabled:opacity-50"
+                            placeholder="you@company.com"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label htmlFor="company" className="block text-body-sm font-medium text-neutral-700 mb-1.5">
+                          Company
+                        </label>
+                        <input
+                          type="text"
+                          id="company"
+                          name="company"
+                          value={formData.company}
+                          onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                          disabled={isSubmitting}
+                          className="w-full px-3.5 py-2.5 border border-neutral-200 rounded-md bg-white text-neutral-950 text-body-sm placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:border-transparent transition min-h-[42px] disabled:opacity-50"
+                          placeholder="Your company name"
+                        />
+                      </div>
+
+                      <div>
+                        <label htmlFor="message" className="block text-body-sm font-medium text-neutral-700 mb-1.5">
+                          Tell us about your project <span className="text-neutral-400">*</span>
+                        </label>
+                        <textarea
+                          id="message"
+                          name="message"
+                          required
+                          rows={5}
+                          value={formData.message}
+                          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                          disabled={isSubmitting}
+                          className="w-full px-3.5 py-2.5 border border-neutral-200 rounded-md bg-white text-neutral-950 text-body-sm placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:border-transparent transition resize-none disabled:opacity-50"
+                          placeholder="What are you building? What's the challenge? What does success look like?"
+                        />
+                      </div>
+
+                      <input type="hidden" name="_subject" value="New Contact - DataRadix" />
+                      <input type="hidden" name="_captcha" value="false" />
+                      <input type="hidden" name="_template" value="table" />
+
+                      <button
+                        type="submit"
                         disabled={isSubmitting}
-                        className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
-                      />
+                        className="inline-flex items-center gap-2 px-5 py-3 bg-neutral-950 text-white rounded-md text-body-sm font-semibold hover:bg-neutral-800 transition-colors min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            </svg>
+                            Sending…
+                          </>
+                        ) : (
+                          <>
+                            <Send size={14} />
+                            Send Message
+                          </>
+                        )}
+                      </button>
+                      <p className="text-body-sm text-neutral-400">We respond within 24 hours.</p>
+                    </form>
+                  </>
+                ) : (
+                  <div className="text-center py-12">
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-green-50 rounded-full mb-4">
+                      <CheckCircle className="w-8 h-8 text-green-600" />
                     </div>
-
-                    <div>
-                      <label htmlFor="email" className="block text-small font-medium text-text-primary mb-2">
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        disabled={isSubmitting}
-                        className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="company" className="block text-small font-medium text-text-primary mb-2">
-                        Company
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                        disabled={isSubmitting}
-                        className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="message" className="block text-small font-medium text-text-primary mb-2">
-                        Message *
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        required
-                        rows={6}
-                        value={formData.message}
-                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        disabled={isSubmitting}
-                        className="w-full px-4 py-3 border border-border rounded-soft focus:ring-2 focus:ring-accent focus:border-transparent bg-bg-base text-text-primary text-body resize-none min-h-[120px] disabled:opacity-50 disabled:cursor-not-allowed"
-                        placeholder="Tell us about your project, challenges, or questions..."
-                      />
-                    </div>
-
-                    {/* Hidden FormSubmit configuration fields */}
-                    <input type="hidden" name="_subject" value="New Contact Form Submission - DataRadix" />
-                    <input type="hidden" name="_captcha" value="false" />
-                    <input type="hidden" name="_template" value="table" />
-
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full bg-accent text-white py-3 rounded-soft font-medium hover:bg-accent-hover transition-colors text-small flex items-center justify-center gap-2 min-h-[44px] disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send size={18} />
-                          Send Message
-                        </>
-                      )}
-                    </button>
-                  </form>
-
-                  <p className="text-small text-text-secondary mt-4 sm:mt-6 text-center">
-                    We respond within 24 hours
-                  </p>
-                </>
-              ) : (
-                <div className="text-center py-8 sm:py-12 animate-fade-in">
-                  <div className="w-16 sm:w-20 h-16 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                    <CheckCircle className="w-8 sm:w-10 h-8 sm:h-10 text-green-600" />
+                    <h3 className="text-h3 font-bold text-neutral-950 mb-2">Message sent!</h3>
+                    <p className="text-body text-neutral-500">
+                      We&apos;ll get back to you within 24 hours.
+                    </p>
                   </div>
-                  <h3 className="text-xl sm:text-2xl font-semibold text-text-primary mb-2">Message Sent Successfully!</h3>
-                  <p className="text-body text-text-secondary mb-4">
-                    Thank you for reaching out. We&apos;ll get back to you within 24 hours.
-                  </p>
-                  <p className="text-small text-text-secondary">
-                    Form will reset in a moment...
-                  </p>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Alternative Contact - Responsive */}
-      <section className="py-12 sm:py-16 border-t border-border bg-bg-muted">
-        <div className="container-custom">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-lg sm:text-h2 font-semibold text-text-primary mb-4 sm:mb-6">Prefer Email?</h2>
-            <p className="text-body text-text-secondary mb-8 sm:mb-12">
-              Send us an email directly at{" "}
-              <a href="mailto:info@dataradix.in" className="text-accent hover:text-accent-hover transition-colors break-all">
-                info@dataradix.in
-              </a>
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-              <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-                <Mail className="text-accent mx-auto mb-3" size={24} />
-                <h3 className="font-semibold text-text-primary mb-2 text-body">Email</h3>
-                <a href="mailto:info@dataradix.in" className="text-small text-accent hover:text-accent-hover transition-colors break-all">
-                  info@dataradix.in
-                </a>
+            {/* Sidebar */}
+            <div className="space-y-6">
+              <div className="p-5 bg-neutral-50 border border-neutral-200 rounded-xl space-y-4">
+                <h3 className="text-h4 font-semibold text-neutral-950">What to expect</h3>
+                <div className="space-y-3">
+                  {[
+                    "Response within 24 hours",
+                    "A technical conversation, not a sales call",
+                    "Clear next steps and scope assessment",
+                    "No obligation or commitment",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-2.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 flex-shrink-0" />
+                      <span className="text-body-sm text-neutral-600 leading-relaxed">{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-                <Phone className="text-accent mx-auto mb-3" size={24} />
-                <h3 className="font-semibold text-text-primary mb-2 text-body">Phone</h3>
-                <a href="tel:+91XXXXXXXXXX" className="text-small text-accent hover:text-accent-hover transition-colors">
-                  +91 XXX XXX XXXX
-                </a>
-              </div>
-
-              <div className="bg-bg-base p-5 sm:p-6 rounded-soft border border-border">
-                <MapPin className="text-accent mx-auto mb-3" size={24} />
-                <h3 className="font-semibold text-text-primary mb-2 text-body">Location</h3>
-                <p className="text-small text-text-secondary">Remote-first</p>
+              <div className="p-5 bg-white border border-neutral-200 rounded-xl space-y-4">
+                <h3 className="text-h4 font-semibold text-neutral-950">Contact directly</h3>
+                <div className="space-y-3">
+                  <a
+                    href="mailto:info@dataradix.in"
+                    className="flex items-center gap-2.5 text-body-sm text-neutral-600 hover:text-neutral-950 transition-colors"
+                  >
+                    <Mail size={15} className="text-neutral-400 flex-shrink-0" />
+                    info@dataradix.in
+                  </a>
+                  <div className="flex items-center gap-2.5 text-body-sm text-neutral-600">
+                    <MapPin size={15} className="text-neutral-400 flex-shrink-0" />
+                    Remote-first · India
+                  </div>
+                </div>
               </div>
             </div>
           </div>
