@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getCaseStudyBySlug, getAllCaseStudySlugs } from "@/lib/data/case-studies";
+import InlineCTA from "@/components/cta/InlineCTA";
 import FinalCTASection from "@/components/cta/FinalCTASection";
 import CaseStudyContent from "@/components/CaseStudyContent";
 
@@ -30,44 +31,30 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
 
   return (
     <>
-      {/* Hero */}
-      <section className="pt-16 sm:pt-20 pb-10 sm:pb-14 border-b border-neutral-200">
+      {/* Hero - Responsive */}
+      <section className="pt-16 sm:pt-20 pb-6 sm:pb-8">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <span className="badge badge-neutral mb-4">{study.clientIndustry}</span>
-            <h1 className="text-display-sm font-bold text-neutral-950 mb-4 text-balance">{study.title}</h1>
-            <p className="text-body-lg text-neutral-500 leading-relaxed">{study.excerpt}</p>
+          <div className="max-w-3xl mx-auto">
+            <div className="text-small text-text-secondary mb-2 sm:mb-3">{study.clientIndustry}</div>
+            <h1 className="text-h1 font-semibold text-text-primary mb-3 sm:mb-4">{study.title}</h1>
+            <p className="text-body text-text-secondary">{study.excerpt}</p>
           </div>
         </div>
       </section>
 
-      {/* Results bar */}
-      <section className="border-b border-neutral-200">
+      {/* Challenge & Solution - Responsive Split Screen */}
+      <section className="py-10 sm:py-12 border-t border-border">
         <div className="container-custom">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-neutral-200">
-            {study.results.map((result, i) => (
-              <div key={i} className="bg-white py-5 px-4 sm:px-6">
-                <div className="text-h2 font-bold text-neutral-950 mb-1 leading-none">{result.value}</div>
-                <div className="text-body-sm text-neutral-500">{result.metric}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Challenge & Solution */}
-      <section className="py-12 sm:py-16 lg:py-20">
-        <div className="container-custom">
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 max-w-5xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
             <div>
-              <p className="section-label">The challenge</p>
-              <div className="prose-custom">
+              <h2 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3 sm:mb-4">The Challenge</h2>
+              <div className="text-body text-text-secondary leading-relaxed">
                 <CaseStudyContent content={study.challenge} />
               </div>
             </div>
             <div>
-              <p className="section-label">Our solution</p>
-              <div className="prose-custom">
+              <h2 className="text-lg sm:text-h3 font-semibold text-text-primary mb-3 sm:mb-4">Our Solution</h2>
+              <div className="text-body text-text-secondary leading-relaxed">
                 <CaseStudyContent content={study.solution} />
               </div>
             </div>
@@ -75,36 +62,57 @@ export default function CaseStudyPage({ params }: { params: { slug: string } }) 
         </div>
       </section>
 
-      {/* Full content */}
-      <article className="py-10 sm:py-12 border-t border-neutral-200">
+      {/* Content - Responsive */}
+      <article className="py-10 sm:py-12 border-t border-border">
         <div className="container-custom">
-          <div className="max-w-3xl prose-custom">
+          <div className="max-w-3xl mx-auto">
             <CaseStudyContent content={study.content} />
           </div>
         </div>
       </article>
 
-      {/* Tech stack */}
-      <section className="py-12 sm:py-16 border-t border-neutral-200 bg-neutral-50">
+      {/* Results & Tech Stack - Responsive Split Screen */}
+      <section className="py-12 sm:py-16 border-t border-border bg-bg-muted">
         <div className="container-custom">
-          <div className="max-w-3xl">
-            <p className="section-label">Technology stack</p>
-            <div className="flex flex-wrap gap-2 mt-3">
-              {study.techStack.map((tech) => (
-                <span key={tech} className="px-3 py-1.5 bg-white text-neutral-700 border border-neutral-200 rounded-md text-body-sm font-medium">
-                  {tech}
-                </span>
-              ))}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto">
+            <div>
+              <h2 className="text-lg sm:text-h3 font-semibold text-text-primary mb-6 sm:mb-8">Key Results</h2>
+              <div className="space-y-3 sm:space-y-4">
+                {study.results.map((result, i) => (
+                  <div key={i} className="pb-3 sm:pb-4 border-b border-border last:border-0">
+                    <div className="font-semibold text-text-primary mb-1 text-body">{result.metric}</div>
+                    <div className="text-body text-text-secondary">{result.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-lg sm:text-h3 font-semibold text-text-primary mb-6 sm:mb-8">Technology Stack</h2>
+              <div className="flex flex-wrap gap-2 sm:gap-3">
+                {study.techStack.map((tech, i) => (
+                  <span
+                    key={i}
+                    className="px-3 sm:px-4 py-1.5 sm:py-2 bg-bg-base text-text-primary rounded-soft border border-border text-small"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <FinalCTASection
-        headline="Facing similar challenges?"
-        description="Talk to the team that built this. We can help you achieve the same results."
-        ctaText="Talk to an Engineer"
+      {/* CTA */}
+      <InlineCTA
+        headline="Facing Similar Challenges?"
+        description="Talk to the team that built this. We can help you achieve similar results."
+        ctaText="Talk to the Team That Built This"
+        ctaHref="/contact"
       />
+
+      <FinalCTASection />
     </>
   );
 }
