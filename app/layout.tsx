@@ -4,44 +4,16 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: {
-    default: "DataRadix — Engineering teams that build infrastructure at scale",
-    template: "%s — DataRadix",
-  },
-  description:
-    "Senior engineering teams embedded in your product. Custom software, data engineering, cloud & DevOps, AI automation. Built to scale.",
-  keywords: [
-    "data engineering",
-    "cloud infrastructure",
-    "custom software development",
-    "DevOps",
-    "backend engineering",
-    "AI automation",
-    "scalable systems",
-  ],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: "DataRadix",
-    title: "DataRadix — Engineering teams that build infrastructure at scale",
-    description:
-      "Senior engineering teams embedded in your product. Custom software, data engineering, cloud & DevOps, AI automation. Built to scale.",
-  },
+  title: "DataRadix - Engineering scalable, data-driven, cloud-native solutions",
+  description: "IT Solutions & Technology Services for modern enterprises. Custom software development, data engineering, cloud & DevOps, AI & automation.",
+  keywords: ["IT solutions", "data engineering", "cloud services", "software development", "DevOps"],
   icons: {
-    icon: "/favicon_io/favicon.ico",
-    shortcut: "/favicon_io/favicon-16x16.png",
-    apple: "/favicon_io/apple-touch-icon.png",
-  },
-  robots: {
-    index: true,
-    follow: true,
+    icon: "favicon-dataradix.ico",
+    shortcut: "favicon-dataradix.ico",
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -51,10 +23,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className={`${inter.className} antialiased`}>
+    <html lang="en">
+      <body className={inter.className}>
         <Header />
-        <main>{children}</main>
+        <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>

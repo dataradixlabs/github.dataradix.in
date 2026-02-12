@@ -6,35 +6,29 @@ import { ChevronDown } from "lucide-react";
 
 interface TechCapability {
   capability: string;
-  description: string;
   technologies: string[];
 }
 
 const techStack: TechCapability[] = [
   {
     capability: "Backend",
-    description: "High-throughput APIs and microservices",
     technologies: ["Node.js", "Python", "Go", "Scala", "Java"],
   },
   {
     capability: "Data",
-    description: "Real-time pipelines and analytics platforms",
-    technologies: ["Kafka", "Spark", "Airflow", "Snowflake", "dbt", "Flink"],
+    technologies: ["Kafka", "Spark", "Airflow", "Snowflake", "dbt"],
   },
   {
     capability: "Cloud",
-    description: "Infrastructure as code, multi-cloud",
     technologies: ["AWS", "GCP", "Azure", "Terraform", "Kubernetes"],
   },
   {
     capability: "Frontend",
-    description: "Performant, accessible web applications",
-    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "GraphQL"],
+    technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS"],
   },
   {
     capability: "DevOps",
-    description: "Continuous delivery and observability",
-    technologies: ["Docker", "Kubernetes", "CI/CD", "Prometheus", "Grafana", "OpenTelemetry"],
+    technologies: ["Docker", "Kubernetes", "CI/CD", "Monitoring", "Observability"],
   },
 ];
 
@@ -42,72 +36,40 @@ export default function TechStack() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <div className="rounded-xl border border-neutral-200 bg-white overflow-hidden">
-      {/* Desktop tabs */}
-      <div className="hidden md:flex border-b border-neutral-200 overflow-x-auto">
+    <div className="border border-border rounded-soft bg-bg-base">
+      {/* Desktop: Tabs */}
+      <div className="hidden md:flex border-b border-border overflow-x-auto">
         {techStack.map((item, index) => (
           <button
             key={item.capability}
             onClick={() => setActiveTab(index)}
-            className={`relative px-5 py-3.5 text-body-sm font-medium transition-colors whitespace-nowrap min-h-[44px] flex items-center ${
+            className={`px-4 lg:px-6 py-4 text-small font-medium transition-colors whitespace-nowrap border-b-2 min-h-[44px] flex items-center ${
               activeTab === index
-                ? "text-neutral-950"
-                : "text-neutral-500 hover:text-neutral-800"
+                ? "border-accent text-text-primary"
+                : "border-transparent text-text-secondary hover:text-text-primary"
             }`}
           >
             {item.capability}
-            {activeTab === index && (
-              <motion.span
-                layoutId="tab-indicator"
-                className="absolute bottom-0 left-0 right-0 h-0.5 bg-neutral-950"
-              />
-            )}
           </button>
         ))}
       </div>
 
-      {/* Desktop content */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={`desktop-${activeTab}`}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.2 }}
-          className="hidden md:block p-6"
-        >
-          <p className="text-body-sm text-neutral-500 mb-4">
-            {techStack[activeTab].description}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {techStack[activeTab].technologies.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1.5 bg-neutral-50 text-neutral-700 border border-neutral-200 rounded-md text-body-sm font-medium"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </motion.div>
-      </AnimatePresence>
-
-      {/* Mobile accordion */}
-      <div className="md:hidden divide-y divide-neutral-100">
+      {/* Mobile: Accordion */}
+      <div className="md:hidden">
         {techStack.map((item, index) => (
-          <div key={item.capability}>
+          <div key={item.capability} className="border-b border-border last:border-0">
             <button
               onClick={() => setActiveTab(activeTab === index ? -1 : index)}
-              className={`w-full flex items-center justify-between px-4 py-3.5 text-body-sm font-medium transition-colors min-h-[48px] ${
+              className={`w-full px-4 py-4 text-small font-medium transition-colors flex items-center justify-between min-h-[44px] ${
                 activeTab === index
-                  ? "text-neutral-950 bg-neutral-50"
-                  : "text-neutral-600 hover:text-neutral-900"
+                  ? "text-text-primary bg-bg-muted"
+                  : "text-text-secondary"
               }`}
             >
               <span>{item.capability}</span>
               <ChevronDown
-                size={16}
-                className={`transition-transform duration-200 text-neutral-400 ${
+                size={18}
+                className={`transition-transform ${
                   activeTab === index ? "rotate-180" : ""
                 }`}
               />
@@ -118,18 +80,15 @@ export default function TechStack() {
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="px-4 pb-4 pt-1">
-                    <p className="text-body-sm text-neutral-500 mb-3">
-                      {item.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {item.technologies.map((tech) => (
+                  <div className="px-4 pb-4">
+                    <div className="flex flex-wrap gap-3">
+                      {item.technologies.map((tech, i) => (
                         <span
-                          key={tech}
-                          className="px-3 py-1.5 bg-white text-neutral-700 border border-neutral-200 rounded-md text-body-sm"
+                          key={i}
+                          className="px-3 py-1.5 bg-bg-muted text-text-primary rounded-soft border border-border text-small"
                         >
                           {tech}
                         </span>
@@ -142,6 +101,29 @@ export default function TechStack() {
           </div>
         ))}
       </div>
+
+      {/* Desktop: Content */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.2 }}
+          className="hidden md:block p-6 lg:p-8"
+        >
+          <div className="flex flex-wrap gap-3">
+            {techStack[activeTab].technologies.map((tech, i) => (
+              <span
+                key={i}
+                className="px-4 py-2 bg-bg-muted text-text-primary rounded-soft border border-border text-small"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
