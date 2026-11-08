@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 // Import data directly from the TS file by mocking the parts we need or using a simple parser
 // Since we want to avoid complex TS execution in a script, we'll read the file and extract the routes
 // Alternatively, we can define the base domain here
-const BASE_URL = 'https://DataRadix.solutions'; // Replace with actual domain
+const BASE_URL = 'https://dataradix.in';
 
 // 1. Define Static Routes
 const staticRoutes = [
