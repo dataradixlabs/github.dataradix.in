@@ -1076,16 +1076,16 @@ export const CONTACT_METHODS = [
   {
     icon: Mail,
     title: 'Email Us',
-    content: 'hello@DataRadix.com',
+    content: 'info@dataradix.in',
     description: 'Send us an email anytime',
-    link: 'mailto:hello@DataRadix.com',
+    link: 'mailto:info@dataradix.in',
   },
   {
     icon: Phone,
     title: 'Call Us',
-    content: '+1 (234) 567-890',
+    content: '+91 *******',
     description: 'Mon-Fri from 9am to 6pm',
-    link: 'tel:+1234567890',
+    link: 'tel:+91*******',
   },
   {
     icon: MapPin,

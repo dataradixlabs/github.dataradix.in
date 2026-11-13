@@ -18,7 +18,7 @@ export function ChatBot() {
     // Simulate bot response
     setTimeout(() => {
       setMessages(prev => [...prev, {
-        text: "Thanks for your message! Our team will get back to you shortly. For immediate assistance, please contact us at hello@DataRadix.com",
+        text: "Thanks for your message! Our team will get back to you shortly. For immediate assistance, please contact us at info@dataradix.in",
         isUser: false
       }]);
     }, 1000);

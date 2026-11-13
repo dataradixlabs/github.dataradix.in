@@ -45,14 +45,14 @@ export function Footer() {
             <div className="space-y-3 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-foreground" />
-                <a href="mailto:hello@DataRadix.com" className="hover:text-foreground transition-colors">
-                  hello@DataRadix.com
+                <a href="mailto:info@dataradix.in" className="hover:text-foreground transition-colors">
+                  info@dataradix.in
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-foreground" />
-                <a href="tel:+1234567890" className="hover:text-foreground transition-colors">
-                  +1 (234) 567-890
+                <a href="tel:+91*******" className="hover:text-foreground transition-colors">
+                  +91 *******
                 </a>
               </div>
               <div className="flex items-center gap-2">

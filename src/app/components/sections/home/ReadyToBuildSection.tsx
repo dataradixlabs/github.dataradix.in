@@ -28,7 +28,7 @@ export function ReadyToBuildSection() {
               <ArrowRight className="w-5 h-5" />
             </Link>
             <a
-              href="mailto:hello@DataRadix.com"
+              href="mailto:info@dataradix.in"
               className="px-8 py-4 border border-border hover:bg-secondary text-foreground font-medium transition-colors"
             >
               Email Us
