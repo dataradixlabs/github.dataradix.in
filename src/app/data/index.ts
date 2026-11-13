@@ -835,7 +835,9 @@ export const BLOG_POSTS = [
     ],
   },
   {
-        title: 'The Future of AI in Software Development',
+    id: 'future-of-ai-development',
+    image: '/blog/future-of-ai-development.svg',
+    title: 'The Future of AI in Software Development',
     excerpt: 'Exploring how artificial intelligence is transforming the way we build software, from code generation to automated testing.',
     author: { name: 'Utkarsh', avatar: 'U', bio: 'Software Development Engineer' },
     date: 'April 10, 2026',
@@ -929,7 +931,9 @@ export const BLOG_POSTS = [
     featured: false,
   },
   {
-        title: 'Optimizing Mobile App Performance',
+    id: 'mobile-app-performance',
+    image: '/blog/mobile-app-performance.svg',
+    title: 'Optimizing Mobile App Performance',
     excerpt: 'Practical tips and techniques to make your mobile apps blazingly fast and responsive.',
     author: { name: 'Utkarsh', avatar: 'U', bio: 'Software Development Engineer' },
     date: 'March 28, 2026',
@@ -939,7 +943,9 @@ export const BLOG_POSTS = [
     featured: false,
   },
   {
-        title: 'Building Scalable Design Systems',
+    id: 'design-systems-guide',
+    image: '/blog/design-systems-guide.svg',
+    title: 'Building Scalable Design Systems',
     excerpt: 'How to create and maintain design systems that grow with your product and team.',
     author: { name: 'Utkarsh', avatar: 'U', bio: 'Software Development Engineer' },
     date: 'March 25, 2026',
