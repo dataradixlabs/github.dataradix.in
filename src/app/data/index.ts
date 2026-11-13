@@ -239,6 +239,7 @@ export const VALUE_PROPS = [
 export const CASE_STUDIES = [
   {
     id: 'fintech-payment-platform-transformation',
+    image: '/case-studies/fintech-payment-platform-transformation.svg',
     title: 'FinTech Platform Transformation',
     client: 'PayFlow Inc.',
     category: 'Web Development',
@@ -295,6 +296,7 @@ export const CASE_STUDIES = [
   },
   {
     id: 'healthcare-telemedicine-mobile-app',
+    image: '/case-studies/healthcare-telemedicine-mobile-app.svg',
     title: 'Healthcare Mobile App',
     client: 'MediCare Solutions',
     category: 'Mobile Development',
@@ -345,6 +347,7 @@ export const CASE_STUDIES = [
   },
   {
     id: 'enterprise-ecommerce-cloud-migration',
+    image: '/case-studies/enterprise-ecommerce-cloud-migration.svg',
     title: 'E-Commerce Cloud Migration',
     client: 'ShopGlobal',
     category: 'Cloud & DevOps',
@@ -394,6 +397,7 @@ export const CASE_STUDIES = [
   },
   {
     id: 'ai-driven-content-recommendation-engine',
+    image: '/case-studies/ai-driven-content-recommendation-engine.svg',
     title: 'AI Recommendation Engine',
     client: 'StreamFlix',
     category: 'AI & Data',
@@ -443,6 +447,7 @@ export const CASE_STUDIES = [
   },
   {
     id: 'saas-platform-ui-ux-redesign',
+    image: '/case-studies/saas-platform-ui-ux-redesign.svg',
     title: 'SaaS Platform Redesign',
     client: 'ProductivityPro',
     category: 'Design',
@@ -492,6 +497,7 @@ export const CASE_STUDIES = [
   },
   {
     id: 'smart-retail-pos-system-development',
+    image: '/case-studies/smart-retail-pos-system-development.svg',
     title: 'Smart Retail POS System',
     client: 'RetailTech',
     category: 'Web Development',
@@ -548,8 +554,7 @@ export const TESTIMONIALS = [
 
 export const BLOG_POSTS = [
   {
-    id: 'most-relevant-technologies-for-software-engineers-in-2027',
-    title: 'The Most Relevant Technologies for Software Engineers in 2027',
+        title: 'The Most Relevant Technologies for Software Engineers in 2027',
     excerpt: 'A research-driven guide to the languages, architectures, agentic runtimes, and distributed platforms that will define software engineering in 2027.',
     author: { name: 'Utkarsh Jindal', avatar: 'UJ', bio: 'Software Development Engineer' },
     date: 'November 13, 2026',
@@ -625,14 +630,13 @@ export const BLOG_POSTS = [
       <p>Master the fundamentals, learn to architect and verify complex distributed systems, and you will remain indispensable in 2027 and beyond.</p>
     `,
     relatedPosts: [
-      { id: 'mastering-akka-clustering',
-    title: "Mastering Akka Clustering: Build Systems That Don't Fall Apart" },
-      { id: 'high-performance-akka-http',
-    title: 'High-Performance Akka HTTP' },
+      { id: 'mastering-akka-clustering', title: "Mastering Akka Clustering: Build Systems That Don't Fall Apart" },
+      { id: 'high-performance-akka-http', title: 'High-Performance Akka HTTP' },
     ],
   },
   {
     id: 'mastering-akka-clustering',
+    image: '/blog/mastering-akka-clustering.svg',
     title: "Mastering Akka Clustering: Build Systems That Don't Fall Apart",
     excerpt: 'How to build resilient, distributed systems that scale across thousands of nodes using Scala and Akka Cluster.',
     author: { name: 'Ranjan Singh', avatar: 'UA', bio: 'Distributed Systems Architect' },
@@ -700,12 +704,12 @@ export const BLOG_POSTS = [
     `,
     relatedPosts: [
       { id: 'high-performance-akka-http', title: 'High-Performance Akka HTTP' },
-      { id: 'akka-persistence-event-sourcing',
-    title: 'Akka Persistence & Event Sourcing' },
+      { id: 'akka-persistence-event-sourcing', title: 'Akka Persistence & Event Sourcing' },
     ],
   },
   {
     id: 'high-performance-akka-http',
+    image: '/blog/high-performance-akka-http.svg',
     title: 'High-Performance Akka HTTP: Beyond the Basic REST API',
     excerpt: 'Architecting reactive REST APIs with back-pressure and streaming capabilities for modern data-intensive applications.',
     author: { name: 'Ranjan Singh', avatar: 'UA', bio: 'Distributed Systems Architect' },
@@ -767,6 +771,7 @@ export const BLOG_POSTS = [
   },
   {
     id: 'akka-persistence-event-sourcing',
+    image: '/blog/akka-persistence-event-sourcing.svg',
     title: 'Akka Persistence and Event Sourcing: Store What Happened, Not Just What Is',
     excerpt: 'Why the current state is a lie and how to build truly resilient systems using Akka Persistence and Event Sourcing.',
     author: { name: 'Ranjan Singh', avatar: 'UA', bio: 'Distributed Systems Architect' },
@@ -828,8 +833,7 @@ export const BLOG_POSTS = [
     ],
   },
   {
-    id: 'future-of-ai-development',
-    title: 'The Future of AI in Software Development',
+        title: 'The Future of AI in Software Development',
     excerpt: 'Exploring how artificial intelligence is transforming the way we build software, from code generation to automated testing.',
     author: { name: 'Sarah Kim', avatar: 'S', bio: 'AI Research Lead' },
     date: 'April 10, 2026',
@@ -869,14 +873,13 @@ export const BLOG_POSTS = [
       <p>The future isn't about AI replacing developers; it's about AI amplifying human capabilities. Developers who embrace these tools will be able to build better software, faster, while focusing on the aspects of development that require human insight and creativity.</p>
     `,
     relatedPosts: [
-      { id: 'microservices-best-practices',
-    title: 'Microservices Architecture' },
-      { id: 'react-server-components',
-    title: 'React Server Components' },
+      { id: 'microservices-best-practices', title: 'Microservices Architecture' },
+      { id: 'react-server-components', title: 'React Server Components' },
     ],
   },
   {
     id: 'microservices-best-practices',
+    image: '/blog/microservices-best-practices.svg',
     title: 'Microservices Architecture: Best Practices for 2026',
     excerpt: 'A comprehensive guide to building scalable microservices that actually work in production environments.',
     author: { name: 'Alex Rivera', avatar: 'A', bio: 'CEO & Founder' },
@@ -895,13 +898,13 @@ export const BLOG_POSTS = [
       <p>Every microservice must own its data. If two services share a database, you've built a "distributed monolith"—the worst of both worlds.</p>
     `,
     relatedPosts: [
-      { id: 'kubernetes-production',
-    title: 'Kubernetes in Production' },
+      { id: 'kubernetes-production', title: 'Kubernetes in Production' },
       { id: 'akka-persistence-event-sourcing', title: 'Akka Persistence' },
     ],
   },
   {
     id: 'react-server-components',
+    image: '/blog/react-server-components.svg',
     title: 'Understanding React Server Components',
     excerpt: "Deep dive into React Server Components and how they're changing the landscape of web development.",
     author: { name: 'Emily Chen', avatar: 'E', bio: 'VP of Engineering' },
@@ -913,6 +916,7 @@ export const BLOG_POSTS = [
   },
   {
     id: 'kubernetes-production',
+    image: '/blog/kubernetes-production.svg',
     title: 'Running Kubernetes in Production: Lessons Learned',
     excerpt: 'Real-world experiences and hard-learned lessons from managing Kubernetes clusters at scale.',
     author: { name: 'David Park', avatar: 'D', bio: 'Head of DevOps' },
@@ -923,8 +927,7 @@ export const BLOG_POSTS = [
     featured: false,
   },
   {
-    id: 'mobile-app-performance',
-    title: 'Optimizing Mobile App Performance',
+        title: 'Optimizing Mobile App Performance',
     excerpt: 'Practical tips and techniques to make your mobile apps blazingly fast and responsive.',
     author: { name: 'James Wilson', avatar: 'J', bio: 'Director of Mobile' },
     date: 'March 28, 2026',
@@ -934,8 +937,7 @@ export const BLOG_POSTS = [
     featured: false,
   },
   {
-    id: 'design-systems-guide',
-    title: 'Building Scalable Design Systems',
+        title: 'Building Scalable Design Systems',
     excerpt: 'How to create and maintain design systems that grow with your product and team.',
     author: { name: 'Marcus Johnson', avatar: 'M', bio: 'Head of Design' },
     date: 'March 25, 2026',
