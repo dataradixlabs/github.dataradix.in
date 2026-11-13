@@ -554,7 +554,9 @@ export const TESTIMONIALS = [
 
 export const BLOG_POSTS = [
   {
-        title: 'The Most Relevant Technologies for Software Engineers in 2027',
+    id: 'most-relevant-technologies-for-software-engineers-in-2027',
+    image: '/blog-technologies-2027.jpg',
+    title: 'The Most Relevant Technologies for Software Engineers in 2027',
     excerpt: 'A research-driven guide to the languages, architectures, agentic runtimes, and distributed platforms that will define software engineering in 2027.',
     author: { name: 'Utkarsh Jindal', avatar: 'UJ', bio: 'Software Development Engineer' },
     date: 'November 13, 2026',
