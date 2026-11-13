@@ -24,9 +24,32 @@ export function CaseStudyDetailPage() {
   return (
     <div className="overflow-x-hidden">
       <SEOManager 
-        title={study.title} 
+        title={`${study.title} | ${study.category} Case Study`} 
         description={study.description} 
-        keywords={`${study.title}, ${study.category}, Case Study, ${study.tech.join(', ')}, DataRadix Success`}
+        ogType="article"
+        ogImage={study.image || '/logo.svg'}
+        canonicalUrl={`https://dataradix.in/case-studies/${study.id}`}
+        keywords={[study.title, study.category, 'Case Study', ...study.tech, 'DataRadix Engineering']}
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Case Studies', url: '/case-studies' },
+          { name: study.title, url: `/case-studies/${study.id}` }
+        ]}
+        schema={{
+          '@type': 'Article',
+          headline: study.title,
+          description: study.description,
+          image: study.image ? (study.image.startsWith('http') ? study.image : `https://dataradix.in${study.image}`) : 'https://dataradix.in/logo.svg',
+          publisher: {
+            '@type': 'Organization',
+            name: 'DataRadix',
+            url: 'https://dataradix.in',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://dataradix.in/logo.svg'
+            }
+          }
+        }}
       />
 
       {/* Header */}
@@ -76,16 +99,26 @@ export function CaseStudyDetailPage() {
         </div>
       </section>
 
-      {/* Hero Image */}
-      <section className="relative py-16 overflow-hidden bg-muted border-b border-border">
+      {/* Hero Visual */}
+      <section className="relative py-12 overflow-hidden bg-muted border-b border-border">
         <div className="absolute inset-0 grid-pattern opacity-100" />
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="aspect-video border border-border bg-background flex items-center justify-center"
+            className="aspect-video border border-border bg-background flex items-center justify-center overflow-hidden"
           >
-            <study.icon className="w-32 h-32 text-muted-foreground/30 relative z-10" />
+            {study.image ? (
+              <img
+                src={study.image}
+                alt={`${study.title} Architecture and Outcomes Overview - ${study.category}`}
+                className="w-full h-full object-cover"
+                width={1200}
+                height={675}
+              />
+            ) : (
+              <study.icon className="w-32 h-32 text-muted-foreground/30 relative z-10" />
+            )}
           </motion.div>
         </div>
       </section>

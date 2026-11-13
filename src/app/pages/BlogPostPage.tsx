@@ -26,7 +26,42 @@ export function BlogPostPage() {
       <SEOManager 
         title={post.title} 
         description={post.excerpt} 
-        keywords={`${post.title}, ${post.category}, Tech Blog, ${post.author.name}, DataRadix Insights`}
+        ogType="article"
+        ogImage={post.image || '/logo.svg'}
+        canonicalUrl={`https://dataradix.in/blog/${post.id}`}
+        keywords={[post.title, post.category, 'Software Engineering', post.author.name, 'DataRadix Engineering']}
+        articleData={{
+          publishedTime: '2026-11-13T00:00:00Z',
+          authorName: post.author.name,
+          section: post.category,
+          tags: [post.category, 'Tech Architecture', 'Software Development']
+        }}
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Blog', url: '/blog' },
+          { name: post.title, url: `/blog/${post.id}` }
+        ]}
+        schema={{
+          '@type': 'BlogPosting',
+          headline: post.title,
+          description: post.excerpt,
+          image: post.image ? (post.image.startsWith('http') ? post.image : `https://dataradix.in${post.image}`) : 'https://dataradix.in/logo.svg',
+          datePublished: '2026-11-13T00:00:00Z',
+          author: {
+            '@type': 'Person',
+            name: post.author.name,
+            jobTitle: post.author.bio
+          },
+          publisher: {
+            '@type': 'Organization',
+            name: 'DataRadix',
+            url: 'https://dataradix.in',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://dataradix.in/logo.svg'
+            }
+          }
+        }}
       />
 
       {/* Header */}

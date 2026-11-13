@@ -62,15 +62,30 @@ async function generateSitemap() {
 
   const allRoutes = [...new Set([...staticRoutes, ...dynamicRoutes])];
 
-  // Generate XML
+  // Generate XML with Google Image Sitemap namespace
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${allRoutes.map(route => `  <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+${allRoutes.map(route => {
+  let imageTag = '';
+  if (route.startsWith('/blog/')) {
+    const slug = route.replace('/blog/', '');
+    const imgUrl = slug === 'most-relevant-technologies-for-software-engineers-in-2027' 
+      ? `${BASE_URL}/blog-technologies-2027.jpg` 
+      : `${BASE_URL}/blog/${slug}.svg`;
+    imageTag = `\n    <image:image>\n      <image:loc>${imgUrl}</image:loc>\n      <image:title>${slug.replace(/-/g, ' ')}</image:title>\n    </image:image>`;
+  } else if (route.startsWith('/case-studies/')) {
+    const slug = route.replace('/case-studies/', '');
+    imageTag = `\n    <image:image>\n      <image:loc>${BASE_URL}/case-studies/${slug}.svg</image:loc>\n      <image:title>${slug.replace(/-/g, ' ')} architecture case study</image:title>\n    </image:image>`;
+  }
+
+  return `  <url>
     <loc>${BASE_URL}${route}</loc>
     <lastmod>${new Date().toISOString().split('T')[0]}</lastmod>
     <changefreq>${route === '' ? 'daily' : 'weekly'}</changefreq>
-    <priority>${route === '' ? '1.0' : route.split('/').length > 2 ? '0.6' : '0.8'}</priority>
-  </url>`).join('\n')}
+    <priority>${route === '' ? '1.0' : route.split('/').length > 2 ? '0.7' : '0.8'}</priority>${imageTag}
+  </url>`;
+}).join('\n')}
 </urlset>`;
 
   // Generate Robots.txt
