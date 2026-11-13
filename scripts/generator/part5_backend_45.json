@@ -1,0 +1,362 @@
+[
+  {
+    "title": "Distributed Saga Pattern: Orchestration vs. Choreography in Microservices",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Microservices", "Saga Pattern", "Distributed Transactions", "Architecture"],
+    "coreConcept": "Managing multi-service transactions without two-phase commit (2PC) using state machine orchestrators (Temporal) versus event choreography.",
+    "codeSnippet": "// Temporal Workflow Definition for Order Saga\n@WorkflowInterface\npublic interface OrderSagaWorkflow {\n    @WorkflowMethod\n    void executeOrder(OrderRequest request);\n}"
+  },
+  {
+    "title": "Temporal.io Workflow Engine: Deterministic Replay and Durable Execution",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Temporal", "Durable Execution", "Orchestration", "Microservices"],
+    "coreConcept": "How Temporal event history replaying enables zero-loss workflows that survive server reboots, pod evictions, and downstream network outages.",
+    "codeSnippet": "public class OrderSagaImpl implements OrderSagaWorkflow {\n    private final PaymentActivity payment = Workflow.newActivityStub(PaymentActivity.class);\n    private final InventoryActivity inventory = Workflow.newActivityStub(InventoryActivity.class);\n    @Override\n    public void executeOrder(OrderRequest req) {\n        inventory.reserve(req.itemId());\n        payment.charge(req.amount()); // Automatically retries with exponential backoff\n    }\n}"
+  },
+  {
+    "title": "gRPC vs. REST vs. GraphQL: Microsecond Benchmarks and Schema Governance",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["gRPC", "Protobuf", "API Design", "Performance"],
+    "coreConcept": "Comparing HTTP/2 multiplexing, Protobuf binary encoding, and wire size across high-throughput inter-service microservice boundaries.",
+    "codeSnippet": "syntax = \"proto3\";\npackage in.dataradix.rpc;\n\nservice PaymentService {\n  rpc ProcessPayment (PaymentRequest) returns (PaymentResponse);\n}\nmessage PaymentRequest {\n  string transaction_id = 1;\n  int64 amount_cents = 2;\n}"
+  },
+  {
+    "title": "Transactional Outbox Pattern with Debezium and Kafka CDC",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Transactional Outbox", "Debezium", "Kafka", "Data Consistency"],
+    "coreConcept": "Writing domain state and outbox events in a single ACID database transaction, while Debezium streams outbox rows to Kafka safely.",
+    "codeSnippet": "-- Atomic write to orders and outbox table\nBEGIN;\nINSERT INTO orders (id, customer_id, total) VALUES ('ord-1', 'cust-42', 99.00);\nINSERT INTO outbox_events (aggregate_type, aggregate_id, event_type, payload)\n  VALUES ('Order', 'ord-1', 'OrderCreated', '{\"total\": 99.00}');\nCOMMIT;"
+  },
+  {
+    "title": "API Gateway Architecture: Envoy vs. Kong vs. Traefik Performance Shootout",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Envoy", "API Gateway", "Reverse Proxy", "Networking"],
+    "coreConcept": "Evaluating C++ non-blocking event-driven Envoy proxies against Lua/Nginx-based Kong for connection pooling, TLS termination, and rate limits.",
+    "codeSnippet": "# Envoy cluster configuration snippet\nstatic_resources:\n  listeners:\n  - name: listener_0\n    address:\n      socket_address: { address: 0.0.0.0, port_value: 10000 }"
+  },
+  {
+    "title": "Distributed Rate Limiting: Redis Sliding Window Counter vs. Token Bucket",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Rate Limiting", "Redis", "Distributed Systems", "Algorithms"],
+    "coreConcept": "Preventing API abuse across auto-scaled pods using Redis Lua scripts executing atomic sliding-window timestamp evaluations.",
+    "codeSnippet": "-- Redis Lua atomic sliding-window rate limiter\nlocal key = KEYS[1]\nlocal now = tonumber(ARGV[1])\nlocal window = tonumber(ARGV[2])\nlocal limit = tonumber(ARGV[3])\nlocal clearBefore = now - window\nredis.call('ZREMRANGEBYSCORE', key, 0, clearBefore)\nlocal current = redis.call('ZCARD', key)\nif current < limit then\n  redis.call('ZADD', key, now, now)\n  return 1\nelse\n  return 0\nend"
+  },
+  {
+    "title": "Resilience Patterns: Circuit Breakers, Bulkheads, and Outlier Detection",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Resilience", "Circuit Breaker", "Bulkhead", "High Availability"],
+    "coreConcept": "Combining thread pool isolation (bulkhead) and circuit breakers (Resilience4j) with Envoy outlier detection to isolate sick instances.",
+    "codeSnippet": "CircuitBreakerConfig config = CircuitBreakerConfig.custom()\n    .failureRateThreshold(50.0f)\n    .waitDurationInOpenState(Duration.ofSeconds(10))\n    .slidingWindowSize(20)\n    .build();"
+  },
+  {
+    "title": "Distributed Tracing with OpenTelemetry (OTel): Context Propagation across RPCs",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["OpenTelemetry", "Distributed Tracing", "Observability", "Jaeger"],
+    "coreConcept": "Injecting and extracting W3C `traceparent` headers across asynchronous HTTP, gRPC, and Kafka boundaries for end-to-end trace correlation.",
+    "codeSnippet": "TextMapSetter<HttpURLConnection> setter = (carrier, key, value) -> carrier.setRequestProperty(key, value);\nTracer tracer = GlobalOpenTelemetry.getTracer(\"backend-service\");\nSpan span = tracer.spanBuilder(\"DispatchPayment\").startSpan();\ntry (Scope scope = span.makeCurrent()) {\n    GlobalOpenTelemetry.getPropagators().getTextMapPropagator().inject(Context.current(), conn, setter);\n} finally { span.end(); }"
+  },
+  {
+    "title": "Zero-Downtime Database Schema Migrations with Flyway and Blue-Green Deployments",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Flyway", "Database Migrations", "Zero Downtime", "PostgreSQL"],
+    "coreConcept": "Applying the Expand and Contract pattern (Add column -> dual write -> backfill -> read new -> drop old) without downtime.",
+    "codeSnippet": "-- Migration V2__expand_user_full_name.sql\nALTER TABLE users ADD COLUMN first_name VARCHAR(100), ADD COLUMN last_name VARCHAR(100);\n-- Application dual-writes during transition phase before old column is dropped"
+  },
+  {
+    "title": "Event-Driven Architecture (EDA): Idempotency Keys and Duplicate Message Handling",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["EDA", "Idempotency", "Messaging", "Clean Architecture"],
+    "coreConcept": "Using unique client idempotency keys stored in Redis or database unique constraint tables to guarantee safe message reprocessing.",
+    "codeSnippet": "INSERT INTO processed_events (event_id, handler_name, processed_at)\nVALUES ('evt-88910', 'BillingHandler', NOW())\nON CONFLICT (event_id) DO NOTHING;"
+  },
+  {
+    "title": "Service Mesh Architecture: Istio vs. Linkerd 2.x Resource Footprint",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Service Mesh", "Istio", "Linkerd", "Kubernetes"],
+    "coreConcept": "Benchmarking sidecar memory consumption and latency overhead: Envoy sidecars in Istio vs. Rust micro-proxies in Linkerd.",
+    "codeSnippet": "# Linkerd mutual TLS annotations\nmetadata:\n  annotations:\n    linkerd.io/inject: enabled"
+  },
+  {
+    "title": "Backend Caching Strategies: Cache-Aside vs. Write-Through vs. Refresh-Ahead",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Caching", "Redis", "Cache Stampede", "High Availability"],
+    "coreConcept": "Preventing cache stampedes during hot-key expiration using probabilistic early expiration (XFetch algorithm) and distributed mutexes.",
+    "codeSnippet": "// XFetch Probabilistic Cache Refresh\ndouble delta = computeTime;\ndouble beta = 1.0;\nif (now - (delta * beta * Math.log(Math.random())) >= expiryTime) {\n    recomputeCacheInBackground();\n}"
+  },
+  {
+    "title": "Designing High-Throughput Webhook Ingestion Systems with SQS and Fast Consumers",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Webhooks", "AWS SQS", "Architecture", "Scalability"],
+    "coreConcept": "Buffering bursts of inbound third-party partner webhooks into FIFO queues and acknowledging HTTP 200 within 20 milliseconds.",
+    "codeSnippet": "// Ultra-fast HTTP handler writing raw body to queue\napp.post(\"/webhook\", (req, res) -> {\n    sqsClient.sendMessage(queueUrl, req.body());\n    res.status(202).send(\"Accepted\");\n});"
+  },
+  {
+    "title": "Authentication in Microservices: Stateless JWT vs. Stateful Token Introspection",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["OAuth2", "JWT", "Security", "Microservices"],
+    "coreConcept": "Balancing JWT cryptographic signature validation at the edge with fast revocation blacklists using distributed Redis sets.",
+    "codeSnippet": "boolean isRevoked = redis.sismember(\"revoked_token_jti\", jwt.getJWTClaimsSet().getJWTID());\nif (isRevoked) throw new UnauthorizedException(\"Token has been revoked\");"
+  },
+  {
+    "title": "CQRS (Command Query Responsibility Segregation): Separating Read and Write Stores",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["CQRS", "System Design", "Microservices", "Event Sourcing"],
+    "coreConcept": "Optimizing write workloads with PostgreSQL ACID normalized tables while replicating read models into denormalized Elasticsearch or Redis stores.",
+    "codeSnippet": "// Command side: pure transactional integrity\ncommandBus.dispatch(new CreateOrderCommand(\"cust-1\", items));\n// Query side: fast read models\nOrderView view = orderQueryRepository.findById(\"ord-1\");"
+  },
+  {
+    "title": "Graceful Shutdown in Kubernetes: PreStop Hooks, SIGTERM, and Connection Draining",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Kubernetes", "DevOps", "Site Reliability", "Zero Downtime"],
+    "coreConcept": "Aligning pod lifecycle states: removing endpoints from kube-proxy, sleeping 15 seconds in preStop hook, and draining open HTTP keep-alive sockets.",
+    "codeSnippet": "lifecycle:\n  preStop:\n    exec:\n      command: [\"/bin/sh\", \"-c\", \"sleep 15\"]"
+  },
+  {
+    "title": "Optimistic Locking vs. Pessimistic Locking: High-Concurrency Inventory Reservations",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Databases", "Concurrency", "Locking", "E-Commerce"],
+    "coreConcept": "Benchmarking SELECT FOR UPDATE row locks vs. version-column conditional updates (WHERE version = 5) during flash-sale traffic spikes.",
+    "codeSnippet": "UPDATE inventory \nSET quantity = quantity - 1, version = version + 1 \nWHERE product_id = 'prod-99' AND version = 4 AND quantity > 0;"
+  },
+  {
+    "title": "Designing Multi-Region Active-Active Microservices with Global Databases",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Multi-Region", "Active-Active", "Distributed Systems", "AWS Aurora"],
+    "coreConcept": "Routing traffic via Anycast DNS and handling multi-master conflict resolution with conflict-free data types and CRDT reconciliation.",
+    "codeSnippet": "# Route53 Geoproximity routing policy with health checks"
+  },
+  {
+    "title": "Async Task Processing: Redis Streams vs. RabbitMQ vs. Apache Kafka",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["RabbitMQ", "Redis Streams", "Kafka", "Message Brokers"],
+    "coreConcept": "Choosing between fine-grained AMQP message routing, lightweight Redis Consumer Groups, and high-throughput partition streaming.",
+    "codeSnippet": "# Redis Streams consumer group creation\nXGROUP CREATE stream:tasks workers $ MKSTREAM"
+  },
+  {
+    "title": "Microservices Communication: Contract Testing with Pact Framework",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Pact", "Contract Testing", "CI/CD", "Testing"],
+    "coreConcept": "Preventing breaking API changes between consumer frontends and provider microservices before deployment using automated Pact contracts.",
+    "codeSnippet": "// Pact consumer contract expectation\nPactDslResponse response = ConsumerPactBuilder\n    .consumer(\"BillingFrontend\").hasPactWith(\"PaymentAPI\")\n    .uponReceiving(\"Payment request\")\n    .path(\"/pay\").method(\"POST\").willRespondWith().status(200);"
+  },
+  {
+    "title": "Zero-Trust Service-to-Service Security with mTLS and SPIFFE/SPIRE",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["SPIFFE", "Zero Trust", "mTLS", "Security"],
+    "coreConcept": "Issuing dynamic cryptographic X.509 SVID credentials to microservice workloads for mutual identity verification without hardcoded API secrets.",
+    "codeSnippet": "// SPIFFE ID verification in incoming client certificate\n// spiffe://dataradix.in/ns/prod/sa/order-service"
+  },
+  {
+    "title": "Building Real-Time Bidirectional Systems with WebSockets and Redis Pub/Sub",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["WebSockets", "Redis", "Real-Time", "Full Duplex"],
+    "coreConcept": "Scaling WebSocket server nodes horizontally using Redis backplanes to broadcast live chat and ticker updates to millions of open connections.",
+    "codeSnippet": "// Node.js / Go WebSocket Redis adapter publishing events across pods\nredisSub.subscribe('room:lobby', (msg) => {\n  broadcastToLocalSockets(msg);\n});"
+  },
+  {
+    "title": "API Versioning Strategies: URL Path vs. Header vs. Content Negotiation",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["API Design", "REST", "Versioning", "Best Practices"],
+    "coreConcept": "Designing backward-compatible API contracts, deprecation sunsets, and evaluating URI prefixing (/v1) vs. Accept header versioning.",
+    "codeSnippet": "// Header based content negotiation\n// Accept: application/vnd.dataradix.v2+json"
+  },
+  {
+    "title": "Chaos Engineering in Microservices: Simulating Latency and Blackholes with Chaos Mesh",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Chaos Mesh", "Chaos Engineering", "Resilience", "SRE"],
+    "coreConcept": "Injecting packet corruption, DNS resolution failures, and simulated JVM GC pauses in staging environments to validate automated failover.",
+    "codeSnippet": "apiVersion: chaos-mesh.org/v1alpha1\nkind: NetworkChaos\nmetadata: { name: delay-payment }\nspec:\n  action: delay\n  mode: one\n  selector: { namespaces: [\"prod\"], labelSelectors: { \"app\": \"payment\" } }\n  delay: { latency: \"500ms\", jitter: \"100ms\" }"
+  },
+  {
+    "title": "Backend Microservice Observability: SLIs, SLOs, and Error Budgets with Prometheus",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Prometheus", "SLO", "SRE", "Alerting"],
+    "coreConcept": "Defining multi-window multi-burn-rate alerts on 99th percentile request latency and 5xx error rates to protect service reliability.",
+    "codeSnippet": "# Prometheus PromQL for Error Budget Burn Rate\nexpr: (sum(rate(http_requests_total{status=~\"5..\"}[1h])) / sum(rate(http_requests_total[1h]))) > (14.4 * 0.001)"
+  },
+  {
+    "title": "Designing High-Speed In-Memory Lookups with Google Guava and Caffeine Caches",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Caffeine", "In-Memory Cache", "Performance", "Java"],
+    "coreConcept": "How Caffeine implements Window TinyLFU eviction to achieve near-optimal hit ratios with concurrent lock-free reads and writes.",
+    "codeSnippet": "Cache<String, UserSession> sessionCache = Caffeine.newBuilder()\n    .maximumSize(50000)\n    .expireAfterWrite(Duration.ofMinutes(15))\n    .recordStats()\n    .build();"
+  },
+  {
+    "title": "Event Sourcing: Handling Schema Evolution with Event Adapters and Upcasters",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Event Sourcing", "Schema Evolution", "Architecture", "Upcasting"],
+    "coreConcept": "Transforming immutable historical V1 JSON event payloads into current V3 domain objects on-the-fly during aggregate rehydration.",
+    "codeSnippet": "public class OrderEventUpcaster {\n    public JsonNode upcast(JsonNode oldEvent, int fromVersion) {\n        if (fromVersion == 1) {\n            ((ObjectNode) oldEvent).put(\"currency\", \"USD\"); // Migrate V1 -> V2\n        }\n        return oldEvent;\n    }\n}"
+  },
+  {
+    "title": "Microservice Health Checks: Liveness vs. Readiness vs. Startup Probes in Depth",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Kubernetes", "Health Checks", "DevOps", "Microservices"],
+    "coreConcept": "Avoiding death spirals: why checking downstream databases inside liveness probes causes entire fleets of pods to reboot simultaneously.",
+    "codeSnippet": "readinessProbe:\n  httpGet: { path: /health/ready, port: 8080 }\n  periodSeconds: 5\nlivenessProbe:\n  httpGet: { path: /health/live, port: 8080 }\n  failureThreshold: 3"
+  },
+  {
+    "title": "Designing Scalable Feature Flag Systems: Unleash vs. LaunchDarkly Architectures",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Feature Flags", "Unleash", "Continuous Delivery", "Architecture"],
+    "coreConcept": "Evaluating local in-memory flag evaluation with SSE (Server-Sent Events) synchronization versus centralized lookup latency.",
+    "codeSnippet": "UnleashConfig config = UnleashConfig.builder()\n    .appName(\"order-service\").instanceId(\"pod-1\").unleashAPI(\"http://unleash/api/\").build();\nUnleash unleash = new DefaultUnleash(config);\nif (unleash.isEnabled(\"new_payment_gateway\")) { runNewGateway(); }"
+  },
+  {
+    "title": "Database Read-Write Splitting in Backend Microservices: Handling Replication Lag",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Databases", "Replication Lag", "High Scale", "PostgreSQL"],
+    "coreConcept": "Enforcing 'read-your-own-writes' consistency by directing reads to primary for 5 seconds after mutations using session token heuristics.",
+    "codeSnippet": "// Route to primary if recent write occurred in current session\nDataSource target = (session.getLastWriteTime() > System.currentTimeMillis() - 5000) \n    ? primaryDataSource : replicaDataSource;"
+  },
+  {
+    "title": "Zero-Trust Network Architecture with Cilium and eBPF in Microservices",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Cilium", "eBPF", "Kubernetes", "Security"],
+    "coreConcept": "Replacing slow iptables packet inspection with kernel-level eBPF programs for microsegmentation and L7 API security policies.",
+    "codeSnippet": "apiVersion: \"cilium.io/v2\"\nkind: CiliumNetworkPolicy\nmetadata: { name: \"allow-billing-only\" }\nspec:\n  endpointSelector: { matchLabels: { app: \"payment\" } }\n  ingress:\n  - fromEndpoints: [{ matchLabels: { app: \"billing\" } }]\n    toPorts: [{ ports: [{ port: \"8080\", protocol: TCP }] }]"
+  },
+  {
+    "title": "Event Notification vs. Event-Carried State Transfer in Distributed Systems",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["EDA", "Distributed Systems", "Data Modeling", "Kafka"],
+    "coreConcept": "Architectural tradeoffs between lightweight event alerts requiring RPC callbacks versus fat events carrying complete entity state.",
+    "codeSnippet": "// Event-Carried State Transfer payload\n{\n  \"eventId\": \"evt-901\",\n  \"eventType\": \"UserUpdated\",\n  \"user\": { \"id\": \"u-1\", \"email\": \"u@dataradix.in\", \"tier\": \"ENTERPRISE\" }\n}"
+  },
+  {
+    "title": "Designing Multi-Tenant Backend Microservices: Schema-per-Tenant vs. Shared Schema",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Multi-Tenancy", "SaaS", "PostgreSQL", "Database Architecture"],
+    "coreConcept": "Comparing PostgreSQL Row-Level Security (RLS) in shared schemas against separate tenant database schemas for compliance and scale.",
+    "codeSnippet": "-- PostgreSQL Row Level Security (RLS)\nALTER TABLE documents ENABLE ROW LEVEL SECURITY;\nCREATE POLICY tenant_isolation_policy ON documents\n  USING (tenant_id = current_setting('app.current_tenant_id'));"
+  },
+  {
+    "title": "Backend Load Shedding: Protecting Overloaded Services with Adaptive Concurrency",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Load Shedding", "Vegas Algorithm", "Resilience", "Site Reliability"],
+    "coreConcept": "Using TCP Vegas and gradient latency algorithms (Netflix ConcurrencyLimits) to reject low-priority traffic before latency collapses.",
+    "codeSnippet": "Limit limit = VegasLimit.newBuilder().build();\nboolean acquired = limit.acquire();\nif (!acquired) throw new ServiceOverloadedException(\"Dropping request to preserve p99 SLA\");"
+  },
+  {
+    "title": "The Strangler Fig Pattern: Incrementally Migrating Monoliths to Microservices",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Strangler Fig", "Monolith to Microservices", "Refactoring", "System Design"],
+    "coreConcept": "Using reverse proxies to intercept specific URL prefixes and routing them to new cloud microservices while leaving the legacy core intact.",
+    "codeSnippet": "# Nginx strangler routing rule\nlocation /orders/ {\n    proxy_pass http://new-order-microservice:8080;\n}\nlocation / {\n    proxy_pass http://legacy-monolith:80;\n}"
+  },
+  {
+    "title": "Designing Idempotent REST APIs: IETF Standards and Client Replay Protection",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Idempotency-Key", "IETF", "REST API", "Clean Architecture"],
+    "coreConcept": "Implementing the IETF Idempotency-Key HTTP specification to prevent duplicate billing charges on retry network glitches.",
+    "codeSnippet": "// HTTP Header: Idempotency-Key: 8b7e2890-a434-4bc8-8db9-f197063db1a4\nif (cache.contains(key)) {\n    return cache.getStoredResponse(key);\n}"
+  },
+  {
+    "title": "Serverless Microservices with AWS Lambda and API Gateway: Cold Start Mitigation",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["AWS Lambda", "Serverless", "Cold Start", "Cloud Architecture"],
+    "coreConcept": "Using SnapStart, Provisioned Concurrency, and lightweight container images to reduce JVM/Node cold starts from 5s to under 150ms.",
+    "codeSnippet": "# SAM template enabling AWS Lambda SnapStart for Java 21\nResources:\n  PaymentFunction:\n    Type: AWS::Serverless::Function\n    Properties:\n      Runtime: java21\n      SnapStart:\n        ApplyOn: PublishedVersions"
+  },
+  {
+    "title": "Designing Distributed Locks with Redis Redlock: Algorithm Analysis and Jepsen Critiques",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Redlock", "Redis", "Distributed Locks", "Consensus"],
+    "coreConcept": "Analyzing Martin Kleppmann's critique of Redlock, GC pause hazards, and when to use Apache ZooKeeper or etcd fencing tokens instead.",
+    "codeSnippet": "RLock lock = redissonClient.getLock(\"resource-lock\");\ntry {\n    boolean res = lock.tryLock(100, 5000, TimeUnit.MILLISECONDS);\n    if (res) executeCriticalSection();\n} finally { lock.unlock(); }"
+  },
+  {
+    "title": "Microservices Communication: Synchronous vs. Asynchronous Trade-Off Matrix",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Microservices", "System Design", "Architecture", "Best Practices"],
+    "coreConcept": "Deciding between direct HTTP/gRPC call chains and event queues based on temporal coupling, failure cascades, and consistency requirements.",
+    "codeSnippet": "// Architectural decision rubric for system designers"
+  },
+  {
+    "title": "Implementing Dead Letter Queues (DLQ) and Automated Retry Backoff Workflows",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["DLQ", "Kafka", "RabbitMQ", "Resilience"],
+    "coreConcept": "Designing exponential backoff retry topics (orders.retry-1, orders.retry-2) before routing poisoned messages into parking DLQs.",
+    "codeSnippet": "// Spring Kafka DeadLetterPublishingRecoverer\nSeekToCurrentErrorHandler handler = new SeekToCurrentErrorHandler(\n    new DeadLetterPublishingRecoverer(template),\n    new FixedBackOff(1000L, 3));"
+  },
+  {
+    "title": "Microservice Data Consistency: Two-Phase Commit (2PC) vs. Eventual Consistency",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Distributed Systems", "2PC", "Consistency", "Transactions"],
+    "coreConcept": "Why coordinator locking in 2PC destroys availability and scalability in cloud microservices, and how compensation workflows solve it.",
+    "codeSnippet": "// Comparison diagram of Coordinator lock state vs Compensating transaction"
+  },
+  {
+    "title": "Securing Microservices: Role-Based Access Control (RBAC) and Open Policy Agent (OPA)",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["OPA", "Rego", "Authorization", "Security"],
+    "coreConcept": "Decoupling authorization policy logic from application code using Open Policy Agent sidecars and declarative Rego policy rules.",
+    "codeSnippet": "package httpapi.authz\ndefault allow = false\nallow {\n    input.method == \"GET\"\n    input.path = [\"finance\", \"reports\"]\n    input.user.roles[_] == \"finance_auditor\"\n}"
+  },
+  {
+    "title": "Designing Resilient WebSocket Backends with Horizontal Redis Pub/Sub",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["WebSockets", "Redis Pub/Sub", "Real-Time", "Architecture"],
+    "coreConcept": "Heartbeating, connection drain handling, and fanout routing for 100,000+ simultaneous financial trading dashboard connections.",
+    "codeSnippet": "// Heartbeat check ensuring dead sockets are evicted quickly"
+  },
+  {
+    "title": "Microservices Anti-Patterns: Distributed Monoliths, Entity Services, and Shared Databases",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Anti-Patterns", "Microservices", "Architecture", "Lessons Learned"],
+    "coreConcept": "Diagnosing common organizational failure modes where microservices require synchronized cross-repo deployments and shared DB tables.",
+    "codeSnippet": "// Architectural diagnosis checklist for identifying distributed monolith bottlenecks"
+  },
+  {
+    "title": "Next-Generation Backend Frameworks: Rust Axum vs. Go Gin vs. Modern Java",
+    "category": "Backend & Microservices",
+    "accent": "#2563EB",
+    "tags": ["Rust", "Go", "Java", "Backend Benchmarks"],
+    "coreConcept": "Comparing memory safety, binary footprint, developer velocity, and CPU utilization across modern language stacks in production.",
+    "codeSnippet": "// Axum Rust route definition\nasync function handler() -> &'static str {\n    \"High-performance memory-safe backend response\"\n}"
+  }
+]

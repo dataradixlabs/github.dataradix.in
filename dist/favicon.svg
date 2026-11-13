@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="dr-grad-primary" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="50%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+    <linearGradient id="dr-grad-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38BDF8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#059669" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base outer container shape with rounded corner -->
+  <rect x="2" y="2" width="36" height="36" rx="8" fill="#0A0D14" stroke="#1E293B" stroke-width="1.5"/>
+
+  <!-- Subtle inner background grid nodes -->
+  <circle cx="10" cy="10" r="1.2" fill="#334155" opacity="0.6"/>
+  <circle cx="30" cy="10" r="1.2" fill="#334155" opacity="0.6"/>
+  <circle cx="10" cy="30" r="1.2" fill="#334155" opacity="0.6"/>
+  <circle cx="30" cy="30" r="1.2" fill="#334155" opacity="0.6"/>
+
+  <!-- Left stem: Data column / Pillar -->
+  <rect x="8.5" y="9" width="4.5" height="22" rx="2" fill="url(#dr-grad-primary)"/>
+
+  <!-- Radix / Arc connecting to center and extending out (D + R geometry) -->
+  <path d="M13 11 C 21 11, 26.5 13.5, 26.5 18 C 26.5 21.5, 22.5 24, 16 24.5" 
+        stroke="url(#dr-grad-primary)" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Forward-branching dynamic leg (representing growth, radix, compute) -->
+  <path d="M18.5 23 L 28.5 30" 
+        stroke="url(#dr-grad-primary)" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Central pulse node: radix anchor -->
+  <circle cx="18.5" cy="23" r="2.2" fill="#38BDF8"/>
+  <circle cx="28.5" cy="30" r="1.8" fill="#10B981"/>
+</svg>

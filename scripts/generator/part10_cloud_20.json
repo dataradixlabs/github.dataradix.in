@@ -1,0 +1,162 @@
+[
+  {
+    "title": "Kubernetes Resource Management: Requests, Limits, and CFS Bandwidth Throttling",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Kubernetes", "DevOps", "CFS Quota", "Performance"],
+    "coreConcept": "How the Linux Completely Fair Scheduler (CFS) throttles container CPU when quota limits are reached, and tuning cpu.cfs_quota_us.",
+    "codeSnippet": "resources:\n  requests:\n    memory: \"2Gi\"\n    cpu: \"1000m\"\n  limits:\n    memory: \"4Gi\"\n    # Best practice: Avoid hard CPU limits in latency-sensitive services to prevent CFS throttling"
+  },
+  {
+    "title": "GitOps with ArgoCD and Helm: Automated Reconciliation and Drift Detection",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["GitOps", "ArgoCD", "Kubernetes", "CI/CD"],
+    "coreConcept": "Declarative multi-cluster deployment models, self-healing sync policies, and managing secret encryption via Sealed Secrets or SOPS.",
+    "codeSnippet": "apiVersion: argoproj.io/v1alpha1\nkind: Application\nmetadata: { name: \"backend-api\" }\nspec:\n  syncPolicy:\n    automated: { prune: true, selfHeal: true }\n  source:\n    repoURL: \"https://github.dataradix.in/gitops-deployments.git\"\n    targetRevision: HEAD\n    path: apps/backend"
+  },
+  {
+    "title": "Terraform Infrastructure as Code: Remote State Locking with AWS S3 and DynamoDB",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Terraform", "AWS", "IaC", "DevOps"],
+    "coreConcept": "Preventing concurrent infrastructure modifications and race conditions using S3 versioned buckets and DynamoDB state lock tables.",
+    "codeSnippet": "terraform {\n  backend \"s3\" {\n    bucket         = \"dataradix-terraform-state\"\n    key            = \"prod/infrastructure.tfstate\"\n    region         = \"ap-south-1\"\n    dynamodb_table = \"terraform-locks\"\n    encrypt        = true\n  }\n}"
+  },
+  {
+    "title": "Kubernetes Ingress Controllers: Nginx vs. Traefik vs. Cilium BPF Benchmarks",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Kubernetes", "Ingress", "Cilium", "Networking"],
+    "coreConcept": "Measuring latency overhead and TLS handshake termination performance across traditional iptables proxies and kernel eBPF datapath routing.",
+    "codeSnippet": "# Cilium Ingress Controller enabling direct eBPF routing without kube-proxy\nbpf:\n  masquerade: true\nkubeProxyReplacement: true"
+  },
+  {
+    "title": "Zero-Downtime Deployments: Blue-Green vs. Canary with Flagger and Prometheus Metrics",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Canary Deployment", "Flagger", "Prometheus", "Site Reliability"],
+    "coreConcept": "Automating progressive traffic shifting (10% -> 20% -> 50% -> 100%) and rolling back automatically if error rates exceed 0.1% or latency surges.",
+    "codeSnippet": "apiVersion: flagger.app/v1beta1\nkind: Canary\nmetadata: { name: backend-service }\nspec:\n  analysis:\n    interval: 1m\n    threshold: 3\n    stepWeight: 10\n    metrics:\n    - name: request-success-rate\n      thresholdRange: { min: 99 }"
+  },
+  {
+    "title": "Docker Multi-Stage Builds: Optimizing JVM and Go Container Images for Minimal CVEs",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Docker", "Containers", "Security", "Optimization"],
+    "coreConcept": "Using Distroless or Alpine runtime images, removing compilers and package managers, and minimizing final image layers below 50MB.",
+    "codeSnippet": "# Stage 1: Build\nFROM eclipse-temurin:21-jdk-alpine AS builder\nWORKDIR /build\nCOPY . .\nRUN ./gradlew bootJar --no-daemon\n\n# Stage 2: Distroless Runtime\nFROM gcr.io/distroless/java21-debian12\nCOPY --from=builder /build/build/libs/app.jar /app.jar\nCMD [\"/app.jar\"]"
+  },
+  {
+    "title": "Observability with Prometheus and Grafana: Designing High-Cardinality Alerting Rules",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Prometheus", "Grafana", "Observability", "PromQL"],
+    "coreConcept": "Avoiding time-series explosion by omitting unbounded user/IP labels and constructing robust quantile queries (histogram_quantile).",
+    "codeSnippet": "# PromQL: 99th percentile HTTP latency over 5 minutes\nhistogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le, service))"
+  },
+  {
+    "title": "Cloud FinOps: Slashing AWS EMR and Kubernetes Spend with Karpenter and Spot Instances",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["FinOps", "Karpenter", "AWS", "Cost Optimization"],
+    "coreConcept": "Replacing cluster autoscaler with Karpenter for sub-minute EC2 provisioning, instance consolidation, and graceful 2-minute spot termination handling.",
+    "codeSnippet": "apiVersion: karpenter.sh/v1beta1\nkind: NodePool\nmetadata: { name: spot-compute }\nspec:\n  template:\n    spec:\n      requirements:\n      - key: karpenter.sh/capacity-type\n        operator: In\n        values: [\"spot\"]\n      - key: node.kubernetes.io/instance-type\n        operator: In\n        values: [\"m6i.2xlarge\", \"m6a.2xlarge\", \"c6i.2xlarge\"]"
+  },
+  {
+    "title": "Kubernetes Pod Disruption Budgets (PDB) and High Availability Scheduling",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Kubernetes", "High Availability", "PDB", "DevOps"],
+    "coreConcept": "Guaranteeing minimum available pod replicas during node draining, kernel upgrades, and cluster auto-scaling operations.",
+    "codeSnippet": "apiVersion: policy/v1\nkind: PodDisruptionBudget\nmetadata: { name: api-pdb }\nspec:\n  minAvailable: 2\n  selector:\n    matchLabels: { app: api }"
+  },
+  {
+    "title": "Securing CI/CD Pipelines: OpenID Connect (OIDC) Authentication with AWS and GitHub Actions",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["GitHub Actions", "AWS", "OIDC", "Security"],
+    "coreConcept": "Eliminating long-lived AWS IAM access keys in GitHub Secrets by exchanging short-lived JWT OIDC tokens directly with AWS STS.",
+    "codeSnippet": "- name: Configure AWS Credentials\n  uses: aws-actions/configure-aws-credentials@v4\n  with:\n    role-to-assume: arn:aws:iam::123456789012:role/GitHubDeployRole\n    aws-region: ap-south-1"
+  },
+  {
+    "title": "Kubernetes Network Policies: Calico vs. Cilium eBPF Security Enforcement",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Kubernetes", "Calico", "Cilium", "Network Security"],
+    "coreConcept": "Enforcing default-deny egress and ingress rules to prevent compromised pods from performing lateral movement across Kubernetes namespaces.",
+    "codeSnippet": "apiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata: { name: default-deny-all }\nspec:\n  podSelector: {}\n  policyTypes: [\"Ingress\", \"Egress\"]"
+  },
+  {
+    "title": "Centralized Log Aggregation: Grafana Loki vs. Elasticsearch/Logstash/Kibana (ELK)",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Loki", "ELK", "LogQL", "Observability"],
+    "coreConcept": "Comparing Loki's lightweight index-free label indexing against Lucene inverted index RAM footprints for multi-terabyte log archives.",
+    "codeSnippet": "# LogQL: Extracting latency percentiles from raw JSON logs in Loki\nsum(rate({app=\"payment\"} |= \"status=error\" [5m])) by (endpoint)"
+  },
+  {
+    "title": "Managing Secrets at Scale: HashiCorp Vault Integration with Kubernetes CSI Driver",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Vault", "Kubernetes CSI", "Security", "Secret Management"],
+    "coreConcept": "Injecting dynamic short-lived database credentials directly into pod shared memory filesystems without storing secrets in etcd.",
+    "codeSnippet": "apiVersion: secrets-store.csi.x-k8s.io/v1\nkind: SecretProviderClass\nmetadata: { name: vault-db-creds }\nspec:\n  provider: vault\n  parameters:\n    vaultAddress: \"https://vault.dataradix.in:8200\"\n    roleName: \"order-service-role\""
+  },
+  {
+    "title": "Automating Chaos Engineering in Production: LitmusChaos Experiments on EKS",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Chaos Engineering", "LitmusChaos", "SRE", "Kubernetes"],
+    "coreConcept": "Running scheduled pod-delete, container-kill, and network-latency experiments during business hours to validate automated self-healing.",
+    "codeSnippet": "apiVersion: litmuschaos.io/v1alpha1\nkind: ChaosEngine\nmetadata: { name: engine-k8s }\nspec:\n  appinfo: { appns: \"default\", applabel: \"app=redis\" }\n  experiments:\n  - name: pod-delete\n    spec: { components: { env: [{ name: \"TOTAL_CHAOS_DURATION\", value: \"30\" }] } }"
+  },
+  {
+    "title": "Infrastructure Testing: Terratest for Automated Verification of AWS Cloud Resources",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Terratest", "Terraform", "Go", "IaC Testing"],
+    "coreConcept": "Writing Go test suites that provision ephemeral VPCs and RDS databases, validate connectivity, and destroy resources automatically in CI.",
+    "codeSnippet": "func TestTerraformAwsVpc(t *testing.T) {\n    terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{\n        TerraformDir: \"../modules/vpc\",\n    })\n    defer terraform.Destroy(t, terraformOptions)\n    terraform.InitAndApply(t, terraformOptions)\n    vpcId := terraform.Output(t, terraformOptions, \"vpc_id\")\n    assert.NotEmpty(t, vpcId)\n}"
+  },
+  {
+    "title": "Kubernetes Custom Resource Definitions (CRDs) and Controller Runtime with Kubebuilder",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Kubernetes Operator", "Kubebuilder", "Go", "Cloud Native"],
+    "coreConcept": "Building custom domain operators in Go that reconcile state, manage child Deployments, and handle status updates via Informer caches.",
+    "codeSnippet": "func (r *DatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {\n    var db customv1.Database\n    if err := r.Get(ctx, req.NamespacedName, &db); err != nil { return ctrl.Result{}, client.IgnoreNotFound(err) }\n    // Reconcile underlying statefulset and secrets\n    return ctrl.Result{}, nil\n}"
+  },
+  {
+    "title": "Site Reliability Engineering (SRE): Incident Postmortems and Blameless Culture",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["SRE", "Postmortem", "DevOps Culture", "Best Practices"],
+    "coreConcept": "Conducting 5-Whys root-cause analyses, tracking corrective action items, and engineering human-error resilience into deployment gates.",
+    "codeSnippet": "# Standard Postmortem Template Structure:\n# 1. Executive Summary & Impact\n# 2. Timeline (UTC)\n# 3. Root Cause Analysis (5 Whys)\n# 4. Corrective Action Items (Jira tickets with owners)"
+  },
+  {
+    "title": "Zero-Downtime Multi-AZ Kubernetes Cluster Upgrades with EKS Managed Node Groups",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["AWS EKS", "Cluster Upgrades", "DevOps", "Kubernetes"],
+    "coreConcept": "Upgrading control plane API versions, draining worker nodes with cordon and drain, and testing deprecated API removals with Pluto.",
+    "codeSnippet": "# Check for deprecated Kubernetes API resources before upgrade\npluto detect-helm -o wide\n# Safely drain node respecting PodDisruptionBudgets\nkubectl drain node-1 --ignore-daemonsets --delete-emptydir-data"
+  },
+  {
+    "title": "Securing Container Supply Chains with Sigstore Cosign and SLSA Provenance",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Sigstore", "Cosign", "Supply Chain Security", "DevSecOps"],
+    "coreConcept": "Signing OCI container images cryptographically in CI pipelines and enforcing Kyverno admission policies to block unsigned images.",
+    "codeSnippet": "# Sign container image using GitHub Actions OIDC keyless signature\ncosign sign --yes ghcr.io/dataradix/backend:v1.0.0\n# Verify image signature\ncosign verify --certificate-identity-regexp 'https://github.com/dataradix/.*' ghcr.io/dataradix/backend:v1.0.0"
+  },
+  {
+    "title": "The Future of Cloud Infrastructure: WebAssembly (Wasm) Micro-Runtimes vs. Containers",
+    "category": "Cloud & DevOps",
+    "accent": "#059669",
+    "tags": ["Wasm", "WasmEdge", "Future Cloud", "Serverless"],
+    "coreConcept": "How lightweight Wasm modules with sub-millisecond cold starts and tiny megabyte footprints are augmenting traditional Docker containers.",
+    "codeSnippet": "// Running Wasm microservice inside Kubernetes with Spin or WasmEdge runtime"
+  }
+]

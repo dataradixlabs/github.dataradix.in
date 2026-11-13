@@ -1,0 +1,282 @@
+[
+  {
+    "title": "Java 21 Virtual Threads (Project Loom) Architecture and Carrier Thread Pinning",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java 21", "Virtual Threads", "Project Loom", "Concurrency"],
+    "coreConcept": "How JVM virtual threads mount onto OS carrier worker threads, and how synchronized blocks cause carrier pinning that degrades throughput.",
+    "codeSnippet": "// Detecting virtual thread pinning via JVM flag\n// -Djdk.tracePinnedThreads=full\ntry (var executor = java.util.concurrent.Executors.newVirtualThreadPerTaskExecutor()) {\n    java.util.stream.IntStream.range(0, 10_000).forEach(i -> {\n        executor.submit(() -> {\n            java.lang.Thread.sleep(java.time.Duration.ofMillis(100));\n            return i;\n        });\n    });\n}"
+  },
+  {
+    "title": "Java Structured Concurrency: Scoped Values vs. ThreadLocal Under High Load",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java 21", "Structured Concurrency", "ScopedValue", "ThreadLocal"],
+    "coreConcept": "Why ThreadLocal causes memory leaks with virtual threads and how immutable ScopedValue simplifies contextual inheritance across tasks.",
+    "codeSnippet": "import jdk.incubator.concurrent.StructuredTaskScope;\nimport java.util.concurrent.Future;\n\ntry (var scope = new StructuredTaskScope.ShutdownOnFailure()) {\n    Future<String> user = scope.fork(() -> fetchUser(userId));\n    Future<Integer> score = scope.fork(() -> fetchScore(userId));\n    scope.join();\n    scope.throwIfFailed();\n    return new UserProfile(user.resultNow(), score.resultNow());\n}"
+  },
+  {
+    "title": "Generational ZGC: Sub-Millisecond Garbage Collection Tuning at 100GB Heap",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JVM", "ZGC", "Garbage Collection", "Performance Tuning"],
+    "coreConcept": "Configuring generational ZGC colored pointers and load barriers to eliminate stop-the-world pauses on massive distributed backend nodes.",
+    "codeSnippet": "# JVM arguments for sub-millisecond ZGC pause time\njava -XX:+UseZGC -XX:+ZGenerational \\\n     -Xms64g -Xmx64g \\\n     -XX:+UnlockDiagnosticVMOptions \\\n     -XX:GuaranteedSafepointInterval=0 \\\n     -jar backend-service.jar"
+  },
+  {
+    "title": "Java Foreign Function & Memory API (Project Panama): Bypassing JNI Overhead",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java 22", "Project Panama", "FFM API", "Native Interop"],
+    "coreConcept": "Allocating safe off-heap memory and invoking native C/C++ libraries directly without fragile C wrapper headers or JNI transition penalties.",
+    "codeSnippet": "import java.lang.foreign.*;\nimport java.lang.invoke.MethodHandle;\n\ntry (Arena arena = Arena.ofConfined()) {\n    Linker linker = Linker.nativeLinker();\n    SymbolLookup stdlib = linker.defaultLookup();\n    MemorySegment strlenAddr = stdlib.find(\"strlen\").orElseThrow();\n    MethodHandle strlen = linker.downcallHandle(strlenAddr, FunctionDescriptor.of(ValueLayout.JAVA_LONG, ValueLayout.ADDRESS));\n    MemorySegment str = arena.allocateFrom(\"DataRadix\");\n    long len = (long) strlen.invoke(str);\n}"
+  },
+  {
+    "title": "High-Throughput IO with Java NIO, Epoll, and ByteBuffers: Zero-Copy Transfers",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java NIO", "Zero Copy", "SocketChannel", "Performance"],
+    "coreConcept": "Using FileChannel.transferTo and DirectByteBuffer to bypass kernel user-space copy buffers for high-speed file and network distribution.",
+    "codeSnippet": "import java.io.FileInputStream;\nimport java.net.InetSocketAddress;\nimport java.nio.channels.FileChannel;\nimport java.nio.channels.SocketChannel;\n\ntry (FileChannel src = new FileInputStream(\"data.bin\").getChannel();\n     SocketChannel dest = SocketChannel.open(new InetSocketAddress(\"remote-host\", 9000))) {\n    // Kernel zero-copy sendfile syscall\n    src.transferTo(0, src.size(), dest);\n}"
+  },
+  {
+    "title": "Java 21 Pattern Matching and Record Patterns: Eliminating Boilerplate in DTOs",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java 21", "Pattern Matching", "Records", "Clean Code"],
+    "coreConcept": "Leveraging record deconstruction patterns and switch expressions with compile-time exhaustiveness for event handling architectures.",
+    "codeSnippet": "sealed interface Transaction permits CardPayment, WireTransfer, Crypto {}\nrecord CardPayment(String cardNumber, double amount) implements Transaction {}\nrecord WireTransfer(String swiftCode, double amount) implements Transaction {}\n\nString process(Transaction tx) {\n    return switch (tx) {\n        case CardPayment(var card, var amt) when amt > 10000 -> \"Card flagged for review\";\n        case CardPayment(var card, var amt) -> \"Card approved: $\" + amt;\n        case WireTransfer(var swift, var amt) -> \"Wire initiated via \" + swift;\n        default -> \"Unrecognized transaction\";\n    };\n}"
+  },
+  {
+    "title": "Low-Latency Java with LMAX Disruptor: Lock-Free RingBuffers and Cache Lines",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Disruptor", "High Frequency Trading", "Lock-Free", "RingBuffer"],
+    "coreConcept": "How mechanical sympathy, CPU cache-line padding, and lock-free CAS sequence numbers enable 10M+ operations per second on a single thread.",
+    "codeSnippet": "import com.lmax.disruptor.dsl.Disruptor;\nimport com.lmax.disruptor.RingBuffer;\nimport java.util.concurrent.Executors;\n\nDisruptor<OrderEvent> disruptor = new Disruptor<>(\n    OrderEvent::new, 1024 * 1024, Executors.defaultThreadFactory());\ndisruptor.handleEventsWith((event, sequence, endOfBatch) -> {\n    // Single-writer lock-free order processing\n    processOrder(event);\n});\ndisruptor.start();"
+  },
+  {
+    "title": "JMH (Java Microbenchmark Harness): Avoiding JIT Dead-Code Elimination Pitfalls",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JMH", "Benchmarking", "JIT", "Performance"],
+    "coreConcept": "Writing scientifically rigorous microbenchmarks using Blackhole consumers, warmup iterations, and compiler hint annotations.",
+    "codeSnippet": "import org.openjdk.jmh.annotations.*;\nimport org.openjdk.jmh.infra.Blackhole;\n\n@BenchmarkMode(Mode.Throughput)\n@Warmup(iterations = 3)\n@Measurement(iterations = 5)\npublic class ParserBenchmark {\n    @Benchmark\n    public void testParsing(Blackhole bh) {\n        String result = parseJson(\"{\\\"status\\\": 200}\");\n        bh.consume(result); // Prevents JIT dead-code elimination\n    }\n}"
+  },
+  {
+    "title": "Demystifying the JVM JIT Compiler: C1, C2, Tiered Compilation, and Inlining",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JVM", "JIT", "HotSpot", "C2 Compiler"],
+    "coreConcept": "How the HotSpot engine profiles bytecode, optimizes hot loops via On-Stack Replacement (OSR), and triggers deoptimizations.",
+    "codeSnippet": "# Flags to inspect JIT compiler inlining and assembly generation\njava -XX:+UnlockDiagnosticVMOptions \\\n     -XX:+PrintCompilation \\\n     -XX:+PrintInlining \\\n     -XX:+LogCompilation \\\n     -jar app.jar"
+  },
+  {
+    "title": "Memory Layout of Java Objects: JOL (Java Object Layout) and Compressed OOPs",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JVM", "JOL", "Memory Layout", "Compressed OOPs"],
+    "coreConcept": "Analyzing object mark words, klass pointers, field alignment padding, and the memory impact of switching past 32GB heaps (-XX:+UseCompressedOops).",
+    "codeSnippet": "import org.openjdk.jol.info.ClassLayout;\n\npublic class MemoryInspector {\n    public static void main(String[] args) {\n        System.out.println(ClassLayout.parseClass(Order.class).toPrintable());\n    }\n}"
+  },
+  {
+    "title": "Java ClassLoader Architecture: Custom ClassLoaders and Isolated Plugin Runtimes",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JVM", "ClassLoader", "Plugins", "Class Loading"],
+    "coreConcept": "Understanding the delegation hierarchy (Bootstrap, Platform, App) and implementing isolated child-first classloaders for hot plugin reloading.",
+    "codeSnippet": "public class ChildFirstClassLoader extends java.net.URLClassLoader {\n    public ChildFirstClassLoader(java.net.URL[] urls, ClassLoader parent) {\n        super(urls, parent);\n    }\n    @Override\n    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {\n        try { return findClass(name); }\n        catch (ClassNotFoundException e) { return super.loadClass(name, resolve); }\n    }\n}"
+  },
+  {
+    "title": "Off-Heap Memory Management in Java: Unsafe, ByteBuffers, and Off-Heap Caches",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java", "Off-Heap", "Memory Management", "Unsafe"],
+    "coreConcept": "Managing large data tables beyond JVM heap limits to prevent GC pause spikes, using direct memory and native memory allocators.",
+    "codeSnippet": "import java.nio.ByteBuffer;\n\n// Allocate 1GB off-heap direct buffer\nByteBuffer directBuffer = ByteBuffer.allocateDirect(1024 * 1024 * 1024);\ndirectBuffer.putLong(0, 9876543210L);\nlong value = directBuffer.getLong(0);"
+  },
+  {
+    "title": "Analyzing Java Thread Dumps and Profiling CPU Spikes with Async-Profiler",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Async-Profiler", "Troubleshooting", "Thread Dumps", "Flame Graphs"],
+    "coreConcept": "Generating interactive SVG FlameGraphs using async-profiler to diagnose lock contention, CPU cache misses, and hidden kernel overhead.",
+    "codeSnippet": "# Profile Java process with async-profiler for 60 seconds\n./asprof -d 60 -f flamegraph.html <PID>\n# Capture thread dump via jcmd\njcmd <PID> Thread.print > threaddump.txt"
+  },
+  {
+    "title": "Java Vector API (Project Panama): SIMD Processing for High-Volume Analytics",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java 22", "Vector API", "SIMD", "High Performance"],
+    "coreConcept": "Leveraging CPU AVX-512 vector execution registers directly in Java code for 8x speedups in numeric array computations.",
+    "codeSnippet": "import jdk.incubator.vector.FloatVector;\nimport jdk.incubator.vector.VectorSpecies;\n\nstatic final VectorSpecies<Float> SPECIES = FloatVector.SPECIES_PREFERRED;\nvoid vectorAdd(float[] a, float[] b, float[] c) {\n    int i = 0;\n    int upperBound = SPECIES.loopBound(a.length);\n    for (; i < upperBound; i += SPECIES.length()) {\n        var va = FloatVector.fromArray(SPECIES, a, i);\n        var vb = FloatVector.fromArray(SPECIES, b, i);\n        va.add(vb).intoArray(c, i);\n    }\n}"
+  },
+  {
+    "title": "Diagnosing Java Metaspace OOMs and Native Memory Leaks with NMT",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JVM", "Native Memory Tracking", "Metaspace", "OOM"],
+    "coreConcept": "Enabling Native Memory Tracking (-XX:NativeMemoryTracking=detail) to pinpoint direct buffer allocations, JIT code cache leaks, and classloader bloat.",
+    "codeSnippet": "# Step 1: Enable NMT at startup\njava -XX:NativeMemoryTracking=summary -jar app.jar\n# Step 2: Compare baseline via jcmd\njcmd <PID> VM.native_memory baseline\njcmd <PID> VM.native_memory detail.diff"
+  },
+  {
+    "title": "Spring Boot 3 on GraalVM Native Image: Production Optimization Guide",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Spring Boot 3", "GraalVM", "Native Image", "Microservices"],
+    "coreConcept": "Configuring Ahead-of-Time (AOT) engine hints for dynamic reflection, proxies, and Hibernate metadata for sub-50ms cloud startup times.",
+    "codeSnippet": "import org.springframework.aot.hint.RuntimeHints;\nimport org.springframework.aot.hint.RuntimeHintsRegistrar;\n\npublic class CustomHints implements RuntimeHintsRegistrar {\n    @Override\n    public void registerHints(RuntimeHints hints, ClassLoader classLoader) {\n        hints.reflection().registerType(CustomPayload.class);\n    }\n}"
+  },
+  {
+    "title": "Java Concurrency In Practice: AtomicFieldUpdater vs. AtomicReference Overhead",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java", "Concurrency", "Lock-Free", "AtomicFieldUpdater"],
+    "coreConcept": "Saving millions of pointer allocations in high-volume queue nodes by replacing AtomicReference instances with volatile fields and FieldUpdaters.",
+    "codeSnippet": "import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;\n\npublic class Node<T> {\n    volatile Node<T> next;\n    private static final AtomicReferenceFieldUpdater<Node, Node> NEXT_UPDATER =\n        AtomicReferenceFieldUpdater.newUpdater(Node.class, Node.class, \"next\");\n    public boolean casNext(Node<T> expect, Node<T> update) {\n        return NEXT_UPDATER.compareAndSet(this, expect, update);\n    }\n}"
+  },
+  {
+    "title": "Designing Multi-Tenant Connection Pools with HikariCP in Java",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["HikariCP", "Database", "Connection Pool", "Performance"],
+    "coreConcept": "Tuning maximumPoolSize, connectionTimeout, and leakDetectionThreshold based on PostgreSQL connection limits and executor concurrency.",
+    "codeSnippet": "HikariConfig config = new HikariConfig();\nconfig.setJdbcUrl(\"jdbc:postgresql://db.dataradix.in:5432/primary\");\nconfig.setMaximumPoolSize(20);\nconfig.setMinimumIdle(5);\nconfig.setIdleTimeout(300000);\nconfig.setConnectionTimeout(20000);\nconfig.setLeakDetectionThreshold(5000);\nHikariDataSource ds = new HikariDataSource(config);"
+  },
+  {
+    "title": "Java Memory Model (JMM): Happens-Before, Volatile Semantics, and CPU Cache Flushes",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JMM", "Volatile", "Happens-Before", "Hardware Architecture"],
+    "coreConcept": "How memory barriers (LoadLoad, LoadStore, StoreStore, StoreLoad) prevent out-of-order execution across multi-core processor architectures.",
+    "codeSnippet": "public class DoubleCheckedLocking {\n    private static volatile DoubleCheckedLocking instance;\n    public static DoubleCheckedLocking getInstance() {\n        if (instance == null) {\n            synchronized (DoubleCheckedLocking.class) {\n                if (instance == null) instance = new DoubleCheckedLocking();\n            }\n        }\n        return instance;\n    }\n}"
+  },
+  {
+    "title": "Quarkus vs. Micronaut vs. Spring Boot 3: Enterprise Performance Shootout",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Quarkus", "Micronaut", "Spring Boot 3", "Benchmarks"],
+    "coreConcept": "Comparing compile-time dependency injection and build-time metamodels against traditional reflection-based enterprise application servers.",
+    "codeSnippet": "// Quarkus reactive endpoint returning Mutiny Uni\nimport io.smallrye.mutiny.Uni;\nimport jakarta.ws.rs.GET;\nimport jakarta.ws.rs.Path;\n\n@Path(\"/stream\")\npublic class ReactiveEndpoint {\n    @GET\n    public Uni<String> getEvent() {\n        return Uni.createFrom().item(\"Engineered for sub-10ms latency\");\n    }\n}"
+  },
+  {
+    "title": "Implementing Custom Serialization with Java Externalizable vs. Kryo vs. Avro",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java", "Serialization", "Kryo", "Avro"],
+    "coreConcept": "Eliminating Java default ObjectOutputStream overhead and security vulnerabilities via binary field serialization protocols.",
+    "codeSnippet": "import com.esotericsoftware.kryo.Kryo;\nimport com.esotericsoftware.kryo.io.Output;\nimport java.io.ByteArrayOutputStream;\n\nKryo kryo = new Kryo();\nkryo.register(OrderEvent.class);\nOutput output = new Output(new ByteArrayOutputStream());\nkryo.writeObject(output, new OrderEvent(\"ord-1\", 450.00));"
+  },
+  {
+    "title": "Mastering the Java ForkJoinPool: Work-Stealing Algorithm and RecursiveTask",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java", "ForkJoinPool", "Parallelism", "Work-Stealing"],
+    "coreConcept": "How deque work-stealing enables parallel array divide-and-conquer tasks without worker thread starvation under asymmetric loads.",
+    "codeSnippet": "import java.util.concurrent.RecursiveTask;\nimport java.util.concurrent.ForkJoinPool;\n\nclass ArraySumTask extends RecursiveTask<Long> {\n    final long[] array; final int start, end;\n    ArraySumTask(long[] arr, int s, int e) { this.array = arr; this.start = s; this.end = e; }\n    @Override protected Long compute() {\n        if (end - start <= 1000) {\n            long sum = 0; for (int i = start; i < end; i++) sum += array[i]; return sum;\n        }\n        int mid = (start + end) / 2;\n        var left = new ArraySumTask(array, start, mid);\n        var right = new ArraySumTask(array, mid, end);\n        left.fork();\n        return right.compute() + left.join();\n    }\n}"
+  },
+  {
+    "title": "Java Heap Dump Analysis: Identifying Retained Heap Leaks with Eclipse MAT",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Eclipse MAT", "Heap Dump", "Memory Leaks", "Troubleshooting"],
+    "coreConcept": "Using dominator trees, shallow vs. retained heap sizing, and incoming GC roots to diagnose memory leaks in distributed Java microservices.",
+    "codeSnippet": "# Trigger on-demand heap dump via jcmd\njcmd <PID> GC.heap_dump /tmp/production_heap.hprof"
+  },
+  {
+    "title": "Tuning Netty EventLoopGroups and ByteBuf Allocation for Java Network Gateways",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Netty", "ByteBuf", "EventLoop", "Networking"],
+    "coreConcept": "Configuring PooledByteBufAllocator and pinning channel pipelines to single event-loop threads to achieve lock-free TCP packet forwarding.",
+    "codeSnippet": "EventLoopGroup bossGroup = new EpollEventLoopGroup(1);\nEventLoopGroup workerGroup = new EpollEventLoopGroup(Runtime.getRuntime().availableProcessors() * 2);\nServerBootstrap b = new ServerBootstrap();\nb.group(bossGroup, workerGroup)\n .channel(EpollServerSocketChannel.class)\n .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);"
+  },
+  {
+    "title": "Java 21 Virtual Threads with JDBC: Addressing Connection Pool Starvation",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java 21", "JDBC", "HikariCP", "Virtual Threads"],
+    "coreConcept": "Why spawning 50,000 virtual threads querying a 50-connection JDBC pool causes catastrophic queuing delays without admission semaphores.",
+    "codeSnippet": "import java.util.concurrent.Semaphore;\n\n// Admission limiter protecting JDBC pool against unbounded virtual thread storms\nSemaphore dbPermits = new Semaphore(50);\nvoid executeGuardedQuery() throws InterruptedException {\n    dbPermits.acquire();\n    try { runJdbcQuery(); }\n    finally { dbPermits.release(); }\n}"
+  },
+  {
+    "title": "Understanding CPU False Sharing in Java and the @Contended Annotation",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JVM", "False Sharing", "CPU Cache", "Performance"],
+    "coreConcept": "Preventing cache line bouncing (L1/L2 coherence invalidations) between CPU cores sharing adjacent variables using jdk.internal.vm.annotation.Contended.",
+    "codeSnippet": "import jdk.internal.vm.annotation.Contended;\n\npublic class CacheLinePaddedMetrics {\n    @Contended\n    public volatile long producerCounter = 0L;\n    @Contended\n    public volatile long consumerCounter = 0L;\n}"
+  },
+  {
+    "title": "Securing Java Runtimes: JVM Sandbox Policies, Modules, and Jepsen Auditing",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Security", "JVM", "Java Modules", "Compliance"],
+    "coreConcept": "Restricting unauthorized native code execution, deserialization attacks, and reflection tampering using strong module encapsulation.",
+    "codeSnippet": "// module-info.java strong encapsulation\nmodule in.dataradix.engine {\n    requires java.sql;\n    exports in.dataradix.engine.api;\n    // Unexported packages are completely inaccessible even via reflection\n}"
+  },
+  {
+    "title": "Continuous Profiling in Java: JDK Flight Recorder (JFR) and Grafana Pyroscope",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["JFR", "Continuous Profiling", "Observability", "Grafana"],
+    "coreConcept": "Running low-overhead (<1% CPU) JDK Flight Recording continuously in production and streaming events into Grafana Pyroscope.",
+    "codeSnippet": "# Launch JVM with continuous JFR recording enabled\njava -XX:StartFlightRecording=disk=true,dumponexit=true,filename=/var/log/recording.jfr \\\n     -jar gateway.jar"
+  },
+  {
+    "title": "Java CompletableFuture: Mastering Async Callbacks, ForkJoin, and Timeouts",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java", "CompletableFuture", "Asynchronous", "Concurrency"],
+    "coreConcept": "Chaining non-blocking computations with thenCompose, handling partial degradations via exceptionally, and enforcing strict timeouts.",
+    "codeSnippet": "CompletableFuture.supplyAsync(() -> fetchRemoteOrder())\n    .orTimeout(200, java.util.concurrent.TimeUnit.MILLISECONDS)\n    .exceptionally(ex -> fallbackOrder())\n    .thenAccept(order -> render(order));"
+  },
+  {
+    "title": "Using Java Record Compact Constructors for High-Performance Invariant Validation",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java", "Records", "Domain Driven Design", "Validation"],
+    "coreConcept": "Validating immutability constraints inside record compact constructors without field assignment boilerplate.",
+    "codeSnippet": "public record Money(java.math.BigDecimal amount, String currency) {\n    public Money {\n        java.util.Objects.requireNonNull(amount, \"Amount cannot be null\");\n        if (amount.signum() < 0) throw new IllegalArgumentException(\"Amount must be non-negative\");\n        if (currency.length() != 3) throw new IllegalArgumentException(\"Invalid ISO currency code\");\n    }\n}"
+  },
+  {
+    "title": "Bytecode Engineering with ByteBuddy: Runtime Dynamic Agent Instrumentation",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["ByteBuddy", "Java Agent", "Bytecode", "APM"],
+    "coreConcept": "Injecting execution timing and OpenTelemetry spans into third-party JAR classes at runtime without source code modifications.",
+    "codeSnippet": "new AgentBuilder.Default()\n    .type(ElementMatchers.nameStartsWith(\"com.thirdparty.service\"))\n    .transform((builder, type, loader, module) ->\n        builder.method(ElementMatchers.isAnnotatedWith(Timed.class))\n               .intercept(MethodDelegation.to(TimingInterceptor.class))\n    ).installOn(instrumentation);"
+  },
+  {
+    "title": "GraalVM Polyglot Runtime: Running Python, JavaScript, and Java in One Process",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["GraalVM", "Polyglot", "Python", "Interoperability"],
+    "coreConcept": "Executing custom user Python transformation scripts inside the JVM address space with zero inter-process IPC communication overhead.",
+    "codeSnippet": "import org.graalvm.polyglot.*;\n\ntry (Context context = Context.newBuilder().allowAllAccess(true).build()) {\n    Value result = context.eval(\"python\", \"[x * 2 for x in [1, 2, 3]]\");\n    System.out.println(\"Calculated: \" + result.getArrayElement(0));\n}"
+  },
+  {
+    "title": "Java Concurrency: StampedLock vs. ReentrantReadWriteLock Benchmarks",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java", "StampedLock", "Concurrency", "High Throughput"],
+    "coreConcept": "Using optimistic reading locks to eliminate read-lock cache coherence write contention in high-read low-write multi-threaded caches.",
+    "codeSnippet": "import java.util.concurrent.locks.StampedLock;\n\nStampedLock sl = new StampedLock();\nlong stamp = sl.tryOptimisticRead();\nint currentBalance = balance;\nif (!sl.validate(stamp)) {\n    stamp = sl.readLock();\n    try { currentBalance = balance; } finally { sl.unlockRead(stamp); }\n}"
+  },
+  {
+    "title": "JVM Compiler Intrinsic Functions: How HotSpot Optimizes Math and Memory Operations",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["HotSpot", "Intrinsics", "Assembly", "CPU Architecture"],
+    "coreConcept": "How JVM replaces standard bytecode with hand-tuned hardware assembly instructions for operations like Math.min and System.arraycopy.",
+    "codeSnippet": "# Print intrinsic methods replaced by the compiler\njava -XX:+UnlockDiagnosticVMOptions -XX:+PrintIntrinsics -jar app.jar"
+  },
+  {
+    "title": "The Road to Java 25: Value Objects (Project Valhalla) and Flat Array Layouts",
+    "category": "Java & JVM",
+    "accent": "#EA580C",
+    "tags": ["Java 25", "Project Valhalla", "Value Objects", "Future JVM"],
+    "coreConcept": "How identity-free value classes enable C-like memory locality and contiguous arrays of objects without pointer chasing.",
+    "codeSnippet": "// Preview of Valhalla value object syntax\n// value record ComplexNumber(double real, double img) {}"
+  }
+]

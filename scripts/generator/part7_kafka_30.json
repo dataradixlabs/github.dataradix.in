@@ -1,0 +1,242 @@
+[
+  {
+    "title": "Apache Kafka Exactly-Once Semantics (EOS): Two-Phase Commits and Transaction Coordinators",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "EOS", "Transactions", "Streaming"],
+    "coreConcept": "How producer transactional IDs, PID epochs, and __transaction_state internal log coordinate two-phase commits across output topics.",
+    "codeSnippet": "Properties props = new Properties();\nprops.put(\"bootstrap.servers\", \"kafka:9092\");\nprops.put(\"transactional.id\", \"tx-order-processor-1\");\nprops.put(\"enable.idempotence\", \"true\");\nKafkaProducer<String, String> producer = new KafkaProducer<>(props);\nproducer.initTransactions();\ntry {\n    producer.beginTransaction();\n    producer.send(new ProducerRecord<>(\"orders.processed\", \"key\", \"payload\"));\n    producer.sendOffsetsToTransaction(offsets, consumerGroupId);\n    producer.commitTransaction();\n} catch (Exception e) {\n    producer.abortTransaction();\n}"
+  },
+  {
+    "title": "Kafka Consumer Lag: Root Causes, Parallel Consumers, and Rebalance Storms",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Consumer Lag", "Rebalances", "Troubleshooting"],
+    "coreConcept": "Diagnosing max.poll.interval.ms expirations, configuring CooperativeStickyAssignor, and using concurrency pools to process partitions.",
+    "codeSnippet": "props.put(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, \n          \"org.apache.kafka.clients.consumer.CooperativeStickyAssignor\");\nprops.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 300000); // 5 min processing window"
+  },
+  {
+    "title": "Apache Flink Checkpointing Architecture: Chandy-Lamport Algorithm and RocksDB State",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Apache Flink", "Checkpointing", "RocksDB", "Streaming"],
+    "coreConcept": "How asynchronous barrier snapshots align streaming state consistently across operators without stopping incoming data flow.",
+    "codeSnippet": "StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();\nenv.enableCheckpointing(10000, CheckpointingMode.EXACTLY_ONCE);\nenv.setStateBackend(new EmbeddedRocksDBStateBackend(true)); // Incremental checkpointing"
+  },
+  {
+    "title": "Kafka Controller Quorum: KRaft vs. ZooKeeper Consensus and Metadata Log",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "KRaft", "Consensus", "Architecture"],
+    "coreConcept": "Why replacing ZooKeeper with Raft-based internal @metadata log enables sub-second controller failovers and millions of partitions per cluster.",
+    "codeSnippet": "# kraft server.properties configuration\nprocess.roles=broker,controller\nnode.id=1\ncontroller.quorum.voters=1@kafka1:9093,2@kafka2:9093,3@kafka3:9093"
+  },
+  {
+    "title": "Designing Real-Time Aggregations with Kafka Streams: Windowing and Grace Periods",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka Streams", "Windowing", "Real-Time", "Aggregations"],
+    "coreConcept": "Tumbling vs. hopping windows, managing state stores in RocksDB, and handling out-of-order records with explicit grace periods.",
+    "codeSnippet": "builder.stream(\"payments\", Consumed.with(Serdes.String(), paymentSerde))\n  .groupByKey()\n  .windowedBy(TimeWindows.ofSizeWithNoGrace(Duration.ofMinutes(5)))\n  .aggregate(() -> 0L, (k, v, agg) -> agg + v.getAmount(), Materialized.as(\"payment-agg-store\"));"
+  },
+  {
+    "title": "Kafka Broker Tuning: PageCache, Sendfile Zero-Copy, and Disk Flush Policies",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Zero Copy", "PageCache", "Performance Tuning"],
+    "coreConcept": "Why Kafka leaves disk caching to OS PageCache and relies on kernel sendfile zero-copy to stream terabytes without JVM heap pressure.",
+    "codeSnippet": "# Recommended OS sysctl settings for high-throughput Kafka broker nodes\nvm.dirty_background_ratio = 5\nvm.dirty_ratio = 10\nvm.swappiness = 1"
+  },
+  {
+    "title": "Kafka Schema Registry and Avro Evolution: Full vs. Backward vs. Forward Compatibility",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Schema Registry", "Avro", "Data Governance"],
+    "coreConcept": "Enforcing schema evolution rules to ensure downstream consumers never crash when upstream producers add or remove fields.",
+    "codeSnippet": "// Avro Schema with default values ensuring backward compatibility\n{\n  \"type\": \"record\",\n  \"name\": \"UserEvent\",\n  \"fields\": [\n    {\"name\": \"id\", \"type\": \"string\"},\n    {\"name\": \"loyalty_tier\", \"type\": \"string\", \"default\": \"STANDARD\"}\n  ]\n}"
+  },
+  {
+    "title": "Real-Time Deduplication in Kafka Streams using StateStores and Timers",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka Streams", "Deduplication", "StateStore", "Stream Processing"],
+    "coreConcept": "Using custom Processor API with KeyValueStore and punctuator timers to deduplicate identical event keys within a sliding 1-hour window.",
+    "codeSnippet": "public class DeduplicationTransformer implements ValueTransformerWithKey<String, Event, Event> {\n    private KeyValueStore<String, Long> dedupStore;\n    @Override\n    public Event transform(String key, Event value) {\n        if (dedupStore.get(key) != null) return null; // Drop duplicate\n        dedupStore.put(key, System.currentTimeMillis());\n        return value;\n    }\n}"
+  },
+  {
+    "title": "Apache Flink CEP (Complex Event Processing): Detecting Multi-Event Patterns",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Flink", "CEP", "Pattern Matching", "Fraud Detection"],
+    "coreConcept": "Specifying temporal event patterns (e.g., three failed logins followed by successful password reset within 2 minutes) for real-time fraud alerts.",
+    "codeSnippet": "Pattern<LoginEvent, ?> pattern = Pattern.<LoginEvent>begin(\"first_fail\")\n    .where(e -> !e.isSuccess())\n    .times(3).consecutive()\n    .followedBy(\"reset\")\n    .where(e -> e.isPasswordReset())\n    .within(Time.minutes(2));"
+  },
+  {
+    "title": "Kafka Topic Compaction Internals: Log Cleaner, Segments, and Tomestones",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Topic Compaction", "Storage", "Architecture"],
+    "coreConcept": "How cleaner threads build in-memory skimmer hash maps to retain only the latest record per key, and how null tombstones purge entries.",
+    "codeSnippet": "# Topic compaction settings\ncleanup.policy=compact\ndelete.retention.ms=86400000\nmin.cleanable.dirty.ratio=0.5\nsegment.ms=604800000"
+  },
+  {
+    "title": "Zero-Downtime Kafka Broker Upgrades and Partition Reassignments",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "DevOps", "Operations", "SRE"],
+    "coreConcept": "Using kafka-reassign-partitions.sh with replication throttle limits to migrate partition replicas across new hardware safely.",
+    "codeSnippet": "# Reassign partitions with 50MB/s bandwidth throttle to protect active clients\nbin/kafka-reassign-partitions.sh --bootstrap-server kafka:9092 \\\n  --reassignment-json-file reassign.json \\\n  --execute \\\n  --throttle 50000000"
+  },
+  {
+    "title": "Kafka Multi-Cluster MirrorMaker 2 (MM2): Active-Passive vs. Active-Active Replication",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["MirrorMaker 2", "Multi-Cluster", "Disaster Recovery", "Kafka"],
+    "coreConcept": "Configuring identity replication, consumer offset synchronization, and heartbeats across AWS US and EU Kafka clusters.",
+    "codeSnippet": "# mm2.properties snippet\nclusters = us-east, eu-west\nus-east.bootstrap.servers = us-kafka:9092\neu-west.bootstrap.servers = eu-kafka:9092\nus-east->eu-west.enabled = true\nus-east->eu-west.topics = orders.*"
+  },
+  {
+    "title": "Redpanda vs. Apache Kafka: C++ Thread-per-Core Architecture Benchmarks",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Redpanda", "Kafka", "C++", "Hardware Sympathy"],
+    "coreConcept": "How Redpanda's Seastar framework pins single threads to CPU cores, bypasses OS PageCache via direct I/O, and avoids JVM GC pauses.",
+    "codeSnippet": "// Redpanda storage engine direct I/O write alignment\n// Bypasses OS buffer cache, writing directly to NVMe SSDs"
+  },
+  {
+    "title": "Kafka Tiered Storage: Decoupling Compute and Storage with AWS S3",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Tiered Storage", "Kafka", "AWS S3", "Cost Optimization"],
+    "coreConcept": "Offloading cold historical log segments to object storage automatically, allowing brokers to retain years of data at 90% lower disk costs.",
+    "codeSnippet": "remote.log.storage.system.enable=true\nremote.log.manager.class.name=org.apache.kafka.server.log.remote.storage.RemoteLogManager\nlog.local.retention.bytes=10737418240 # 10GB local NVMe retention"
+  },
+  {
+    "title": "Building Stateful Event-Driven Microservices with Flink SQL",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Flink SQL", "Streaming", "Real-Time", "Analytics"],
+    "coreConcept": "Writing continuous streaming queries with dynamic tables, changelog streams, and joining Kafka topics with MySQL dimension tables.",
+    "codeSnippet": "CREATE TABLE orders_stream (\n    order_id STRING,\n    customer_id STRING,\n    amount DECIMAL(10, 2),\n    order_time TIMESTAMP(3),\n    WATERMARK FOR order_time AS order_time - INTERVAL '5' SECOND\n) WITH ('connector' = 'kafka', 'topic' = 'orders', 'properties.bootstrap.servers' = 'kafka:9092');"
+  },
+  {
+    "title": "Kafka Security: mTLS Authentication, ACLs, and Wire Encryption",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Security", "mTLS", "ACLs"],
+    "coreConcept": "Configuring mutual TLS certificates for client and broker authentication, and provisioning granular read/write topic ACLs.",
+    "codeSnippet": "# Grant write permission to billing producer service principal\nbin/kafka-acls.sh --bootstrap-server kafka:9092 \\\n  --add --allow-principal User:CN=billing-service \\\n  --operation Write --topic orders"
+  },
+  {
+    "title": "Designing Real-Time Leaderboards with Redis and Kafka Stream Consumers",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Redis", "Kafka", "Leaderboards", "Architecture"],
+    "coreConcept": "Streaming gaming score events through Kafka and applying incremental score updates to Redis Sorted Sets (ZADD/ZINCRBY) in real time.",
+    "codeSnippet": "// Update user leaderboard in Redis\njredis.zincrby(\"leaderboard:global\", scoreDelta, userId);\nSet<Tuple> top10 = jredis.zrevrangeWithScores(\"leaderboard:global\", 0, 9);"
+  },
+  {
+    "title": "Kafka Connect Architecture: Distributed Workers, Converters, and Custom SMIs",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka Connect", "Data Ingestion", "Architecture", "Distributed Systems"],
+    "coreConcept": "Configuring distributed Connect worker clusters, selecting JSON/Avro converters, and chaining Single Message Transforms (SMTs).",
+    "codeSnippet": "{\n  \"name\": \"s3-sink-connector\",\n  \"config\": {\n    \"connector.class\": \"io.confluent.connect.s3.S3SinkConnector\",\n    \"tasks.max\": \"4\",\n    \"topics\": \"orders.completed\",\n    \"s3.bucket.name\": \"prod-kafka-archive\"\n  }\n}"
+  },
+  {
+    "title": "Kafka Producer Deep Dive: BufferPool, RecordAccumulator, and Batch Compression",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka Producer", "RecordAccumulator", "Performance", "Compression"],
+    "coreConcept": "How linger.ms and batch.size allow RecordAccumulator to create high-density snappy/zstd compressed batches, cutting network IOPS by 70%.",
+    "codeSnippet": "props.put(\"linger.ms\", 20);\nprops.put(\"batch.size\", 65536); // 64KB batch size\nprops.put(\"compression.type\", \"zstd\");\nprops.put(\"buffer.memory\", 67108864); // 64MB buffer pool"
+  },
+  {
+    "title": "Real-Time Telemetry Processing: Apache Druid vs. ClickHouse for Kafka Ingestion",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Druid", "ClickHouse", "Kafka", "OLAP"],
+    "coreConcept": "Comparing ClickHouse Kafka Engine + Materialized Views against Apache Druid real-time Tranquility indexing tasks for sub-second telemetry.",
+    "codeSnippet": "-- ClickHouse Kafka Engine and Materialized View\nCREATE TABLE kafka_telemetry_queue (\n    device_id String, val Float64, ts DateTime\n) ENGINE = Kafka SETTINGS kafka_broker_list = 'kafka:9092', kafka_topic_list = 'telemetry';"
+  },
+  {
+    "title": "Kafka Poison Pill Messages: Handling Corrupted Records Without Halting Consumers",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Error Handling", "DLQ", "Resilience"],
+    "coreConcept": "Implementing ErrorHandlingDeserializer to catch corrupted bytes, forward error metadata to dead-letter topics, and keep consumers running.",
+    "codeSnippet": "props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);\nprops.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, KafkaAvroDeserializer.class);"
+  },
+  {
+    "title": "Apache Flink Dynamic Scaling: Reactive Mode vs. Adaptive Scheduler",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Flink", "Auto-Scaling", "Kubernetes", "DevOps"],
+    "coreConcept": "Configuring Flink Reactive Mode on Kubernetes to automatically adjust job parallelism up and down as Horizontal Pod Autoscalers scale pods.",
+    "codeSnippet": "jobmanager.scheduler: adaptive\njobmanager.adaptive-scheduler.min-parallelism-increase-delay: 15s"
+  },
+  {
+    "title": "Benchmarking Kafka Wire Compression: Snappy vs. LZ4 vs. Zstandard (ZSTD)",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Compression", "ZSTD", "Benchmarks"],
+    "coreConcept": "Evaluating CPU utilization vs. network bandwidth savings across text JSON, binary Avro, and structured Protobuf messages.",
+    "codeSnippet": "# Recommended production Kafka compression\ncompression.type=zstd"
+  },
+  {
+    "title": "Kafka High Watermark (HW) vs. Log End Offset (LEO): Replication Protocol Mechanics",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Replication", "Internals", "Distributed Systems"],
+    "coreConcept": "How leader and follower replicas exchange fetch requests to advance High Watermark, and why consumers only read up to the HW.",
+    "codeSnippet": "// Deep diagram trace: Leader LEO, Follower LEO, In-Sync Replicas (ISR) and HW advancement"
+  },
+  {
+    "title": "Building Real-Time Audit Trails with Kafka: Immutable Event Ledgers",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Audit Trail", "Security", "Compliance", "Kafka"],
+    "coreConcept": "Designing cryptographically verified event envelopes signed by client private keys and retained in immutable WORM-compliant storage.",
+    "codeSnippet": "// Audit event schema with digital signature\n{\n  \"eventId\": \"aud-190\",\n  \"actor\": \"admin@dataradix.in\",\n  \"action\": \"GRANT_ROLE\",\n  \"signature\": \"MEUCIQCb8...\"\n}"
+  },
+  {
+    "title": "Kafka Partition Rebalancing: Eager vs. Cooperative Rebalancing Mechanics",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Rebalancing", "Performance", "Consumer"],
+    "coreConcept": "Why eager rebalances stop the world for all consumers in a group, and how incremental cooperative rebalances revoke only migrated partitions.",
+    "codeSnippet": "// Visual comparison of Eager Stop-the-world vs Cooperative migration phases"
+  },
+  {
+    "title": "Stream-to-Stream Joins in Apache Flink: Interval Joins vs. Temporal Joins",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Flink", "Stream Joins", "Streaming", "Real-Time"],
+    "coreConcept": "Joining unbounded clickstream events with delayed order events within bounded time intervals (BETWEEN order_time - 15 MIN AND order_time).",
+    "codeSnippet": "SELECT * FROM orders o, shipments s\nWHERE o.order_id = s.order_id\n  AND s.ship_time BETWEEN o.order_time AND o.order_time + INTERVAL '4' HOUR;"
+  },
+  {
+    "title": "Kafka Producer Quotas and Client Throttling: Enforcing Multi-Tenant SLAs",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Quotas", "Multi-Tenancy", "Operations"],
+    "coreConcept": "Configuring producer_byte_rate and consumer_byte_rate limits per client principal to isolate noisy neighbors on shared clusters.",
+    "codeSnippet": "bin/kafka-configs.sh --bootstrap-server kafka:9092 \\\n  --alter --add-config 'producer_byte_rate=10485760,consumer_byte_rate=20971520' \\\n  --entity-type users --entity-name analytics-team"
+  },
+  {
+    "title": "Monitoring Apache Kafka with Prometheus: Top 10 Critical JMX Metrics",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["Kafka", "Prometheus", "Monitoring", "JMX"],
+    "coreConcept": "Configuring jmx_prometheus_javaagent and alerting on UnderReplicatedPartitions, ActiveControllerCount, OfflinePartitions, and ISR Shrinks.",
+    "codeSnippet": "# Prometheus Alerting Rule: Under-Replicated Partitions\nalert: KafkaUnderReplicatedPartitions\nexpr: kafka_server_replicamanager_underreplicatedpartitions > 0\nfor: 5m\nlabels: { severity: critical }"
+  },
+  {
+    "title": "The Future of Streaming: WASM Inside Kafka and Serverless Event Streams",
+    "category": "Kafka & Streaming",
+    "accent": "#F59E0B",
+    "tags": ["WebAssembly", "WASM", "Future Streaming", "Kafka"],
+    "coreConcept": "Running lightweight WebAssembly filtering and transformation functions directly inside streaming brokers without sidecar containers.",
+    "codeSnippet": "// Conceptual WASM stream filter compiled from Rust running inline inside broker"
+  }
+]

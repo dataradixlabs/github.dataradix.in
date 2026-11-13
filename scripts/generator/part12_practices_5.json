@@ -1,0 +1,42 @@
+[
+  {
+    "title": "DataRadix Case Study: Slashing AWS EMR and Spark Infrastructure Costs by 64% at Scale",
+    "category": "Engineering Practices & Case Studies",
+    "accent": "#4F46E5",
+    "tags": ["Case Study", "FinOps", "AWS EMR", "Spark Optimization"],
+    "coreConcept": "A complete architectural retrospective on eliminating shuffle spills, adopting Karpenter on spot compute, and tuning Iceberg compaction.",
+    "codeSnippet": "# Metrics summary before vs after optimization\n# EMR Cluster Daily Spend: $4,850 -> $1,740 (-64% reduction)\n# p95 Pipeline Duration: 142 mins -> 48 mins"
+  },
+  {
+    "title": "DataRadix Case Study: Re-Architecting High-Throughput Fintech Ledger with Akka and Kafka",
+    "category": "Engineering Practices & Case Studies",
+    "accent": "#4F46E5",
+    "tags": ["Case Study", "Fintech", "Akka", "Kafka", "CQRS"],
+    "coreConcept": "How DataRadix engineered an immutable event-sourced ledger processing 50,000 transactions per second with strict zero-loss guarantees.",
+    "codeSnippet": "// Performance profile: Zero 2PC distributed deadlocks, p99.9 latency under 12ms"
+  },
+  {
+    "title": "DataRadix Case Study: Migrating a Legacy Spring Monolith to Scala 3 and Cats Effect",
+    "category": "Engineering Practices & Case Studies",
+    "accent": "#4F46E5",
+    "tags": ["Case Study", "Scala 3", "Cats Effect", "Modernization"],
+    "coreConcept": "The 6-month migration roadmap: strangler fig routing, thread-safety audits, memory footprint drop from 32GB to 4GB, and zero production regressions.",
+    "codeSnippet": "// Architectural transformation blueprint: blocking threads to pure fiber runtimes"
+  },
+  {
+    "title": "Engineering Velocity: Trunk-Based Development, Ephemeral Environments, and Continuous Delivery",
+    "category": "Engineering Practices & Case Studies",
+    "accent": "#4F46E5",
+    "tags": ["Engineering Practices", "DevOps", "Trunk-Based Development", "CI/CD"],
+    "coreConcept": "Eliminating long-lived feature branches, deploying per-PR preview Kubernetes environments, and achieving 15-minute lead time for changes.",
+    "codeSnippet": "# Ephemeral namespace automation per Pull Request in GitHub Actions\nkubectl create namespace pr-${{ github.event.pull_request.number }}\nhelm install app ./chart -n pr-${{ github.event.pull_request.number }}"
+  },
+  {
+    "title": "Software Architecture Decision Records (ADRs): Documenting Context and Trade-Offs",
+    "category": "Engineering Practices & Case Studies",
+    "accent": "#4F46E5",
+    "tags": ["ADR", "Architecture", "Engineering Leadership", "Documentation"],
+    "coreConcept": "Structuring lightweight MADR templates (Context, Decision, Consequences, Compliance) to prevent institutional memory loss across engineering teams.",
+    "codeSnippet": "# ADR 042: Adoption of Apache Iceberg for Lakehouse Storage\n## Status: Accepted\n## Context: Hive directory listing overhead on AWS S3 is degrading query planning SLAs.\n## Decision: Adopt Iceberg with Apache Polaris catalog.\n## Consequences: Positive: O(1) query planning. Negative: Compaction cron jobs required."
+  }
+]

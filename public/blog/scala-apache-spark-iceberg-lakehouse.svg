@@ -25,7 +25,7 @@
 
   <!-- Tech Geometric Pipeline Visual on Right -->
   <g transform="translate(850, 320)" opacity="0.9">
-    <!-- Outer Orbit & Grid -->
+    <!-- Outer Orbit &amp; Grid -->
     <circle cx="0" cy="0" r="170" stroke="#1E293B" stroke-width="2" stroke-dasharray="6 6" fill="none"/>
     <circle cx="0" cy="0" r="120" stroke="#DC2626" stroke-width="2" fill="none" opacity="0.4"/>
     <circle cx="0" cy="0" r="70" fill="#0F172A" stroke="#334155" stroke-width="2"/>

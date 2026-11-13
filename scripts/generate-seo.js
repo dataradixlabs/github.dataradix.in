@@ -5,9 +5,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Import data directly from the TS file by mocking the parts we need or using a simple parser
-// Since we want to avoid complex TS execution in a script, we'll read the file and extract the routes
-// Alternatively, we can define the base domain here
 const BASE_URL = 'https://dataradix.in';
 
 // 1. Define Static Routes
@@ -25,24 +22,27 @@ const staticRoutes = [
   '/cookies'
 ];
 
-// 2. Extract Dynamic Routes from data file
+// 2. Extract Dynamic Routes
 async function generateSitemap() {
   const dataPath = path.resolve(__dirname, '../src/app/data/index.ts');
   const dataContent = fs.readFileSync(dataPath, 'utf-8');
 
-  // Simple regex to find IDs for services and blog posts
-  // This is a robust enough approach for a build script
-  const serviceIds = [...dataContent.matchAll(/id:\s*['"]([^'"]+)['"]/g)]
-    .map(match => match[1])
-    .filter(id => !id.includes('-')) // Filter out things that aren't IDs if needed, but here IDs have hyphens
+  const catalogPath = path.resolve(__dirname, '../src/app/data/catalog/generatedCatalog.ts');
+  let queuedBlogIds = [];
+  if (fs.existsSync(catalogPath)) {
+    const catalogContent = fs.readFileSync(catalogPath, 'utf-8');
+    // Read all queued blogs up to today
+    const todayIso = new Date().toISOString().split('T')[0];
     
-  // More specific matches to separate services from blog posts if possible
-  // In our data/index.ts:
-  // Services start early
-  // Blog posts start around line 480
-  
+    // Extract posts with their publishDate
+    const postMatches = [...catalogContent.matchAll(/id:\s*['"]([^'"]+)['"][\s\S]*?publishDate:\s*['"]([^'"]+)['"]/g)];
+    queuedBlogIds = postMatches
+      .filter(m => m[2] <= todayIso)
+      .map(m => m[1]);
+  }
+
   const servicesMatch = dataContent.match(/export const SERVICES = \[([\s\S]*?)\];/);
-  const blogPostsMatch = dataContent.match(/export const BLOG_POSTS = \[([\s\S]*?)\];/);
+  const baseBlogPostsMatch = dataContent.match(/const BASE_BLOG_POSTS = \[([\s\S]*?)\];/);
   const caseStudiesMatch = dataContent.match(/export const CASE_STUDIES = \[([\s\S]*?)\];/);
 
   const extractIds = (block) => {
@@ -51,12 +51,13 @@ async function generateSitemap() {
   };
 
   const services = extractIds(servicesMatch ? servicesMatch[1] : '');
-  const blogs = extractIds(blogPostsMatch ? blogPostsMatch[1] : '');
+  const baseBlogs = extractIds(baseBlogPostsMatch ? baseBlogPostsMatch[1] : '');
   const caseStudies = extractIds(caseStudiesMatch ? caseStudiesMatch[1] : '');
 
   const dynamicRoutes = [
     ...services.map(id => `/services/${id}`),
-    ...blogs.map(id => `/blog/${id}`),
+    ...baseBlogs.map(id => `/blog/${id}`),
+    ...queuedBlogIds.map(id => `/blog/${id}`),
     ...caseStudies.map(id => `/case-studies/${id}`)
   ];
 
@@ -103,7 +104,7 @@ Sitemap: ${BASE_URL}/sitemap.xml`;
   fs.writeFileSync(path.join(publicDir, 'sitemap.xml'), sitemapXml);
   fs.writeFileSync(path.join(publicDir, 'robots.txt'), robotsTxt);
 
-  console.log(`✅ Sitemap generated with ${allRoutes.length} routes.`);
+  console.log(`✅ Sitemap generated with ${allRoutes.length} published routes (including ${queuedBlogIds.length} time-gated blogs active today).`);
   console.log(`✅ Robots.txt generated.`);
 }
 

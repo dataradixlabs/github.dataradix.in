@@ -1,195 +1,276 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://DataRadix.solutions</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/about</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/about</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/services</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/services</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/case-studies</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/case-studies</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/contact</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/contact</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/3d-capabilities</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/3d-capabilities</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/showreel</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/showreel</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/privacy</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/privacy</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/terms</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/terms</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/cookies</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/cookies</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/services/web-development-services</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/services/web-development-services</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/services/mobile-app-development</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/services/mobile-app-development</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/services/cloud-infrastructure-devops</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/services/cloud-infrastructure-devops</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/services/data-engineering-ai-solutions</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/services/data-engineering-ai-solutions</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/services/ui-ux-design-experience</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/services/ui-ux-design-experience</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/services/it-strategy-consulting</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/services/it-strategy-consulting</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/mastering-akka-clustering</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/scala-apache-spark-iceberg-lakehouse</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/scala-apache-spark-iceberg-lakehouse.svg</image:loc>
+      <image:title>scala apache spark iceberg lakehouse</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/high-performance-akka-http</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/mastering-akka-clustering</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/mastering-akka-clustering.svg</image:loc>
+      <image:title>mastering akka clustering</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/akka-persistence-event-sourcing</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/akka-persistence-event-sourcing</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/akka-persistence-event-sourcing.svg</image:loc>
+      <image:title>akka persistence event sourcing</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/future-of-ai-development</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/most-relevant-technologies-for-software-engineers-in-2027</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog-technologies-2027.jpg</image:loc>
+      <image:title>most relevant technologies for software engineers in 2027</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/microservices-best-practices</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/high-performance-akka-http</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/high-performance-akka-http.svg</image:loc>
+      <image:title>high performance akka http</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/react-server-components</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/future-of-ai-development</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/future-of-ai-development.svg</image:loc>
+      <image:title>future of ai development</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/kubernetes-production</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/microservices-best-practices</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/microservices-best-practices.svg</image:loc>
+      <image:title>microservices best practices</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/mobile-app-performance</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/react-server-components</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/react-server-components.svg</image:loc>
+      <image:title>react server components</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/blog/design-systems-guide</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/kubernetes-production</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/kubernetes-production.svg</image:loc>
+      <image:title>kubernetes production</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/case-studies/fintech-payment-platform-transformation</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/mobile-app-performance</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/mobile-app-performance.svg</image:loc>
+      <image:title>mobile app performance</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/case-studies/healthcare-telemedicine-mobile-app</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/blog/design-systems-guide</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/design-systems-guide.svg</image:loc>
+      <image:title>design systems guide</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/case-studies/enterprise-ecommerce-cloud-migration</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/case-studies/fintech-payment-platform-transformation</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/case-studies/fintech-payment-platform-transformation.svg</image:loc>
+      <image:title>fintech payment platform transformation architecture case study</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/case-studies/ai-driven-content-recommendation-engine</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/case-studies/healthcare-telemedicine-mobile-app</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/case-studies/healthcare-telemedicine-mobile-app.svg</image:loc>
+      <image:title>healthcare telemedicine mobile app architecture case study</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/case-studies/saas-platform-ui-ux-redesign</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/case-studies/enterprise-ecommerce-cloud-migration</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/case-studies/enterprise-ecommerce-cloud-migration.svg</image:loc>
+      <image:title>enterprise ecommerce cloud migration architecture case study</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://DataRadix.solutions/case-studies/smart-retail-pos-system-development</loc>
-    <lastmod>2026-11-08</lastmod>
+    <loc>https://dataradix.in/case-studies/ai-driven-content-recommendation-engine</loc>
+    <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/case-studies/ai-driven-content-recommendation-engine.svg</image:loc>
+      <image:title>ai driven content recommendation engine architecture case study</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/case-studies/saas-platform-ui-ux-redesign</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/case-studies/saas-platform-ui-ux-redesign.svg</image:loc>
+      <image:title>saas platform ui ux redesign architecture case study</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/case-studies/smart-retail-pos-system-development</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/case-studies/smart-retail-pos-system-development.svg</image:loc>
+      <image:title>smart retail pos system development architecture case study</image:title>
+    </image:image>
   </url>
 </urlset>

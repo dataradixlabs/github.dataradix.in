@@ -1,0 +1,242 @@
+[
+  {
+    "title": "Akka Typed Actor Supervision and Failure Recovery at Scale",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka", "Typed Actors", "Supervision", "Fault Tolerance"],
+    "coreConcept": "How Akka Typed replaces untyped actor supervision strategies with Behavior.supervise and SupervisorStrategy.restartWithBackoff.",
+    "codeSnippet": "import akka.actor.typed.Behavior;\nimport akka.actor.typed.SupervisorStrategy;\nimport akka.actor.typed.javadsl.Behaviors;\nimport java.time.Duration;\n\npublic class DatabaseWorker {\n    public static Behavior<String> create() {\n        return Behaviors.supervise(workerBehavior())\n            .onFailure(Exception.class, SupervisorStrategy.restartWithBackoff(\n                Duration.ofMillis(200), Duration.ofSeconds(10), 0.2));\n    }\n}"
+  },
+  {
+    "title": "Akka Cluster Sharding: Consistent Hashing and Rebalance Storm Prevention",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Cluster", "Sharding", "Consistent Hashing", "Distributed Systems"],
+    "coreConcept": "How ShardCoordinator distributes entity actors across nodes using consistent hash rings, and tuning rebalance-absolute-limit to avoid cascades.",
+    "codeSnippet": "akka.cluster.sharding {\n  number-of-shards = 1000\n  rebalance-interval = 10s\n  least-shard-allocation-strategy {\n    rebalance-absolute-limit = 20\n    rebalance-relative-limit = 0.1\n  }\n}"
+  },
+  {
+    "title": "Akka Persistence & Event Sourcing: Snapshot Strategies and Replay Latency",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Persistence", "Event Sourcing", "CQRS", "Cassandra"],
+    "coreConcept": "Persisting append-only delta events to Cassandra or PostgreSQL and configuring periodic state snapshots to bound recovery replay time.",
+    "codeSnippet": "import akka.persistence.typed.javadsl.EventSourcedBehavior;\nimport akka.persistence.typed.SnapshotSelectionCriteria;\n\n// Trigger snapshot every 250 journaled events\nRetentionCriteria retention = RetentionCriteria.snapshotEvery(250, 2)\n    .withDeleteEventsOnSnapshot();"
+  },
+  {
+    "title": "Akka Streams Backpressure: Dynamic Buffer Windows and Dropping Strategies",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Streams", "Reactive Streams", "Backpressure", "Streaming"],
+    "coreConcept": "Under the hood of the Reactive Streams specification: how demand signals (request(n)) flow upstream to prevent OutOfMemory errors.",
+    "codeSnippet": "import akka.stream.javadsl.Source;\nimport akka.stream.OverflowStrategy;\n\nSource.range(1, 1000000)\n    .buffer(500, OverflowStrategy.backpressure())\n    .map(x -> heavyCompute(x))\n    .to(Sink.ignore());"
+  },
+  {
+    "title": "Akka Cluster Split-Brain Resolver (SBR): Keep-Referee vs. Keep-Majority",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Cluster", "Split-Brain", "High Availability", "Consensus"],
+    "coreConcept": "Configuring SBR strategies to down unreachable nodes automatically during network partitions without split-brain state divergence.",
+    "codeSnippet": "akka.cluster.split-brain-resolver {\n  active-strategy = keep-majority\n  keep-majority {\n    role = \"backend\"\n  }\n  stable-after = 7s\n}"
+  },
+  {
+    "title": "Apache Pekko: Migrating from Akka 2.6 to Pekko 1.1 Open-Source Runtimes",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Apache Pekko", "Akka", "Open Source", "Migration"],
+    "coreConcept": "Step-by-step namespace refactoring (akka.* to org.apache.pekko.*) and dependency updates to adopt open-source Apache Pekko.",
+    "codeSnippet": "// SBT dependency migration to Apache Pekko\nlibraryDependencies ++= Seq(\n  \"org.apache.pekko\" %% \"pekko-actor-typed\" % \"1.1.0\",\n  \"org.apache.pekko\" %% \"pekko-stream\" % \"1.1.0\",\n  \"org.apache.pekko\" %% \"pekko-cluster-sharding-typed\" % \"1.1.0\"\n)"
+  },
+  {
+    "title": "Akka Distributed Data: Conflict-Free Replicated Data Types (CRDTs) in Action",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Distributed Data", "CRDTs", "Eventual Consistency", "Distributed State"],
+    "coreConcept": "Using PNCounter, ORSet, and LWWRegister to maintain low-latency globally synchronized state across nodes without centralized database locks.",
+    "codeSnippet": "import akka.cluster.ddata.PNCounter;\nimport akka.cluster.ddata.PNCounterKey;\n\nPNCounterKey key = PNCounterKey.create(\"global_visitor_count\");\n// Concurrent increments across nodes merge mathematically without conflict"
+  },
+  {
+    "title": "Designing CQRS Read Projections with Akka Projections and Kafka",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["CQRS", "Akka Projections", "Kafka", "Data Modeling"],
+    "coreConcept": "Streaming persisted journal events continuously into Elasticsearch or PostgreSQL read models using exactly-once offset tracking.",
+    "codeSnippet": "import akka.projection.kafka.javadsl.KafkaProjection;\n// Building read projection tracking event offsets\nProjectionId projectionId = ProjectionId.of(\"order-view\", \"orders-1\");"
+  },
+  {
+    "title": "Akka Management & Kubernetes Lease: Split-Brain Coordination in the Cloud",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Kubernetes", "Akka Management", "Cloud Native", "Consensus"],
+    "coreConcept": "Using Kubernetes API Leases as external split-brain arbiters to coordinate safe cluster member eviction during rolling deployments.",
+    "codeSnippet": "akka.cluster.split-brain-resolver {\n  active-strategy = lease-majority\n  lease-majority {\n    lease-implementation = \"akka.coordination.lease.kubernetes\"\n  }\n}"
+  },
+  {
+    "title": "Akka Actor Dispatchers: Tuning ThreadPoolExecutor vs. ForkJoinPool for Blocking IO",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka", "Dispatchers", "ThreadPool", "Performance"],
+    "coreConcept": "Isolating legacy blocking JDBC calls onto dedicated custom dispatchers to prevent thread pool starvation across actor mailboxes.",
+    "codeSnippet": "blocking-io-dispatcher {\n  type = Dispatcher\n  executor = \"thread-pool-executor\"\n  thread-pool-executor {\n    fixed-pool-size = 32\n  }\n  throughput = 1\n}"
+  },
+  {
+    "title": "Testing Akka Typed Actors: BehaviorTestKit vs. TestProbe Integration",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka", "Testing", "BehaviorTestKit", "QA"],
+    "coreConcept": "Testing actor logic synchronously with BehaviorTestKit for microsecond test runs, and using ActorTestKit with TestProbe for async timing checks.",
+    "codeSnippet": "BehaviorTestKit<Command> testKit = BehaviorTestKit.create(PaymentActor.create());\ntestKit.run(new ProcessPayment(\"tx-1\", 500));\nassertEquals(1, testKit.getAllLogEntries().size());"
+  },
+  {
+    "title": "Akka HTTP Routing Tree Optimization: Rejections, PathMatchers, and Directives",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka HTTP", "REST API", "Directives", "Routing"],
+    "coreConcept": "How Akka HTTP directive evaluation trees work, and structuring prefix paths to minimize route backtracking latency.",
+    "codeSnippet": "Route route = concat(\n    pathPrefix(\"api\", () -> concat(\n        path(\"health\", () -> complete(StatusCodes.OK, \"UP\")),\n        path(\"orders\", () -> post(() -> entity(orderUnmarshaller, this::createOrder)))\n    ))\n);"
+  },
+  {
+    "title": "Akka Persistence Multi-DC Replication: Cross-Region Active-Active Actors",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Multi-Region", "Akka Persistence", "Active-Active", "Disaster Recovery"],
+    "coreConcept": "Replicating event-sourced entity journals across AWS US-East and EU-West regions using replicated event journals.",
+    "codeSnippet": "akka.persistence.multi-data-center {\n  data-centers = [\"us-east\", \"eu-west\"]\n  own-data-center = \"us-east\"\n}"
+  },
+  {
+    "title": "Akka Streams Graph DSL: Custom Fan-In, Fan-Out, and Balance Stages",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Streams", "Graph DSL", "Streaming", "ETL"],
+    "coreConcept": "Constructing non-linear processing topologies with Balance, Merge, and Broadcast junctions for parallel image or telemetry pipelines.",
+    "codeSnippet": "RunnableGraph.fromGraph(GraphDSL.create(b -> {\n    final UniformFanOutShape<Task, Task> balance = b.add(Balance.create(4));\n    final UniformFanInShape<Result, Result> merge = b.add(Merge.create(4));\n    // Wire parallel worker routes\n    return ClosedShape.getInstance();\n}));"
+  },
+  {
+    "title": "Diagnosing Akka Mailbox Leaks and Dead Letter Queues in Production",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka", "Observability", "Dead Letters", "Troubleshooting"],
+    "coreConcept": "Setting mailbox-capacity limits, enabling DropHead/DropTail policies, and instrumenting dead-letter event subscriptions via Kamon.",
+    "codeSnippet": "bounded-mailbox {\n  mailbox-type = \"akka.dispatch.BoundedMailbox\"\n  mailbox-capacity = 1000\n  mailbox-push-timeout-time = 10ms\n}"
+  },
+  {
+    "title": "Akka Cluster Node Lifecycle: Joining, WeaklyUp, Up, Leaving, and Down States",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Cluster", "Gossip Protocol", "Cluster Lifecycle", "High Availability"],
+    "coreConcept": "Tracing the cluster state machine driven by vector clocks and gossip convergence during auto-scaling events.",
+    "codeSnippet": "// Inspect cluster state programmatically\nCluster cluster = Cluster.get(system);\ncluster.subscriptions().tell(Subscribe.create(listener, MemberEvent.class));"
+  },
+  {
+    "title": "Akka gRPC vs. Akka HTTP: Microsecond Serialization Performance",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka gRPC", "Protocol Buffers", "HTTP/2", "Microservices"],
+    "coreConcept": "Generating typed HTTP/2 streaming client and server bindings from Protobuf definitions for low-latency RPC communication.",
+    "codeSnippet": "// protobuf service contract\n// service OrderService {\n//   rpc StreamEvents (OrderRequest) returns (stream OrderResponse);\n// }"
+  },
+  {
+    "title": "Building Reliable At-Least-Once Delivery with Akka Streams and Kafka Offsets",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Alpakka", "Kafka", "At-Least-Once", "Streaming"],
+    "coreConcept": "Using Alpakka Kafka CommittableSource and committing offsets in batches to balance write throughput against duplicate reprocessing.",
+    "codeSnippet": "Consumer.committableSource(consumerSettings, Subscriptions.topics(\"events\"))\n    .mapAsync(4, msg -> process(msg.record().value()).thenApply(done -> msg.committableOffset()))\n    .to(Committer.sink(committerSettings));"
+  },
+  {
+    "title": "Akka Typed Ask Pattern: Timeouts, Response Adapters, and Fiber Safety",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Typed", "Ask Pattern", "Asynchronous", "Concurrency"],
+    "coreConcept": "Using context.ask and AskResponse adapter messages to prevent memory leaks and thread hanging when querying sibling actors.",
+    "codeSnippet": "CompletionStage<OrderResponse> response = AskPattern.ask(\n    targetActor,\n    replyTo -> new CheckStatus(\"ord-99\", replyTo),\n    Duration.ofSeconds(3),\n    system.scheduler());"
+  },
+  {
+    "title": "Akka Distributed Pub-Sub: Topic Hierarchies and Gossip Broadcasting",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Cluster", "Pub-Sub", "Distributed Messaging", "Broadcasting"],
+    "coreConcept": "Broadcasting real-time messages across multi-node clusters using DistributedPubSubMediator with local subscriber routing.",
+    "codeSnippet": "ActorRef mediator = DistributedPubSub.get(system).mediator();\nmediator.tell(new DistributedPubSubMediator.Publish(\"telemetry\", new MetricUpdate(99)), getSelf());"
+  },
+  {
+    "title": "Alpakka Connectors: Integrating S3, DynamoDB, and Elasticsearch in Reactive Streams",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Alpakka", "AWS S3", "Elasticsearch", "Reactive Integration"],
+    "coreConcept": "Streaming petabyte files directly from AWS S3 multipart upload sinks into Elasticsearch indices without intermediate disk staging.",
+    "codeSnippet": "Source<ByteString, NotUsed> data = S3.download(\"data-bucket\", \"large-export.csv\");\ndata.via(CsvParsing.lineScanner()).runWith(Sink.foreach(processLine), system);"
+  },
+  {
+    "title": "Akka Coordinated Shutdown: Graceful Cluster Node Termination in Kubernetes",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Kubernetes", "Graceful Shutdown", "DevOps", "Resilience"],
+    "coreConcept": "Configuring CoordinatedShutdown phases (before-service-unbind, cluster-leaving, cluster-exiting) to drain in-flight requests cleanly.",
+    "codeSnippet": "CoordinatedShutdown.get(system).addTask(\n    CoordinatedShutdown.PhaseBeforeServiceUnbind(),\n    \"drain-http-connections\",\n    () -> httpBinding.unbind().thenApply(done -> Done.done()));"
+  },
+  {
+    "title": "Akka Serialization with Jackson and Protobuf: Eliminating Java Serializer Risks",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Serialization", "Jackson", "Security", "Protobuf"],
+    "coreConcept": "Disabling default Java serialization (-Dakka.actor.allow-java-serialization=off) and configuring Jackson CBOR/JSON bindings for speed and security.",
+    "codeSnippet": "akka.actor {\n  allow-java-serialization = off\n  serializers {\n    jackson-cbor = \"akka.serialization.jackson.JacksonCborSerializer\"\n  }\n  serialization-bindings {\n    \"in.dataradix.model.CborSerializable\" = jackson-cbor\n  }\n}"
+  },
+  {
+    "title": "Reactive System Architecture: The Reactive Manifesto Applied to Fintech Gateways",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Reactive Manifesto", "Fintech", "Architecture", "Resilience"],
+    "coreConcept": "Designing Responsive, Resilient, Elastic, and Message-Driven transaction processing pipelines handling $100M+ daily volumes.",
+    "codeSnippet": "// Architectural blueprint for non-blocking message-driven state isolation"
+  },
+  {
+    "title": "Akka Persistence Query: Building Read Models via CurrentEventsByPersistenceId",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Persistence Query", "Event Sourcing", "CQRS", "Streaming"],
+    "coreConcept": "Consuming live continuous streams of domain events (eventsByTag) to feed real-time analytical dashboards and materialized views.",
+    "codeSnippet": "EventsByTagQuery readJournal = PersistenceQuery.get(system)\n    .getReadJournalFor(EventsByTagQuery.class, \"akka.persistence.query.journal\");\nSource<EventEnvelope, NotUsed> source = readJournal.eventsByTag(\"order-event\", Offset.noOffset());"
+  },
+  {
+    "title": "Akka Cluster Aware Routers: RoundRobin and Adaptive Load Balancing",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Cluster", "Routers", "Load Balancing", "High Availability"],
+    "coreConcept": "Distributing compute-heavy jobs across cluster worker nodes dynamically based on CPU utilization and heap metrics.",
+    "codeSnippet": "akka.actor.deployment {\n  /orderProcessor/router {\n    router = round-robin-group\n    routees.paths = [\"/user/worker\"]\n    cluster.enabled = on\n  }\n}"
+  },
+  {
+    "title": "Akka Typed Receptionist Pattern: Dynamic Service Discovery Across Actors",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Typed", "Receptionist", "Service Discovery", "Architecture"],
+    "coreConcept": "Registering actor references with the typed Receptionist service directory and subscribing to worker pool membership changes.",
+    "codeSnippet": "ServiceKey<WorkerCommand> workerKey = ServiceKey.create(WorkerCommand.class, \"workerService\");\ncontext.getSystem().receptionist().tell(Receptionist.register(workerKey, context.getSelf()));"
+  },
+  {
+    "title": "Akka Streams Sub-Flows: SplitWhen, GroupBy, and Merging Dynamic Partitions",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Akka Streams", "Sub-Flows", "Partitioning", "Streaming"],
+    "coreConcept": "Processing high-volume telemetry streams partitioned by tenant or device ID with dedicated backpressured sub-stream pipelines.",
+    "codeSnippet": "Source.from(telemetryRecords)\n    .groupBy(100, record -> record.getDeviceId())\n    .map(record -> computeRollingAverage(record))\n    .mergeSubstreams();"
+  },
+  {
+    "title": "Akka Kamon APM: Distributed Tracing and Latency Percentiles (p99, p99.9)",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Kamon", "APM", "Prometheus", "Grafana", "Observability"],
+    "coreConcept": "Tracking actor mailbox processing time, routing latency, and exporting Prometheus metrics to pinpoint high-percentile tail latency.",
+    "codeSnippet": "kamon.instrumentation.akka {\n  actors {\n    track-unhandled-messages = yes\n    trace-token-header = \"X-Trace-ID\"\n  }\n}"
+  },
+  {
+    "title": "Future of Reactive Systems: Virtual Threads vs. Actor Mailboxes Comparison",
+    "category": "Akka & Reactive Systems",
+    "accent": "#7C3AED",
+    "tags": ["Loom", "Akka", "Reactive Systems", "Future Architecture"],
+    "coreConcept": "Evaluating when Loom virtual threads suffice for simple request-response vs. when the Actor model remains vital for isolated distributed state.",
+    "codeSnippet": "// Benchmarking Actor Mailbox vs. Virtual Thread Blocking Queue throughput"
+  }
+]

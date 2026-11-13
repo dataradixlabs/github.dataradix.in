@@ -1,0 +1,202 @@
+[
+  {
+    "title": "Distributed Consensus Deep Dive: Raft vs. Paxos Leader Election and Log Replication",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Consensus", "Raft", "Paxos", "Distributed Systems"],
+    "coreConcept": "How Raft decomposes consensus into leader election, log matching property, and safety invariants, compared to Multi-Paxos roles.",
+    "codeSnippet": "// Raft RequestVote RPC parameters\nmessage RequestVoteArgs {\n  int32 term = 1;\n  string candidate_id = 2;\n  int64 last_log_index = 3;\n  int32 last_log_term = 4;\n}"
+  },
+  {
+    "title": "Distributed Clocks: Lamport Timestamps, Vector Clocks, and TrueTime Architecture",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Distributed Clocks", "Vector Clocks", "Google Spanner", "Consensus"],
+    "coreConcept": "Why wall clocks drift (NTP skew) and how Google Spanner uses atomic clocks and GPS receivers with TrueTime uncertainty bounds [earliest, latest].",
+    "codeSnippet": "// TrueTime API representation\nTTinterval tt = TrueTime::now();\n// Wait until tt.latest has passed to guarantee external consistency"
+  },
+  {
+    "title": "Consistent Hashing with Virtual Nodes: Mitigating Hotspots and Dynamic Resharding",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Consistent Hashing", "System Design", "Distributed Systems", "Algorithms"],
+    "coreConcept": "Mapping servers onto a 2^32 integer ring with virtual node replicas to ensure uniform key distribution during node additions and failures.",
+    "codeSnippet": "public class ConsistentHashRing {\n    private final SortedMap<Integer, String> ring = new TreeMap<>();\n    private final int virtualNodes = 150;\n    public void addServer(String server) {\n        for (int i = 0; i < virtualNodes; i++) {\n            int hash = murmur3(server + \"#vn-\" + i);\n            ring.put(hash, server);\n        }\n    }\n}"
+  },
+  {
+    "title": "CAP Theorem vs. PACELC: Practical Distributed System Trade-Offs",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["CAP Theorem", "PACELC", "System Design", "Architecture"],
+    "coreConcept": "Evaluating if there is a Partition (P), choose Availability (A) or Consistency (C); Else (E), choose Latency (L) or Consistency (C).",
+    "codeSnippet": "// PACELC Classification:\n// MongoDB: PC/EC\n// Cassandra: PA/EL\n// DynamoDB: PA/EL (configurable to PC/EC)"
+  },
+  {
+    "title": "Designing Distributed Rate Limiters: Sliding Window with Redis and Cell Rate Limiting (GCRA)",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Rate Limiting", "GCRA", "Redis", "System Design"],
+    "coreConcept": "Implementing Generic Cell Rate Algorithm (GCRA) using theoretical arrival time (TAT) to enforce perfectly smooth rate limiting without bursts.",
+    "codeSnippet": "-- Redis Lua GCRA rate limiter\nlocal key = KEYS[1]\nlocal now = tonumber(ARGV[1])\nlocal emission_interval = tonumber(ARGV[2])\nlocal delay_tolerance = tonumber(ARGV[3])\nlocal tat = tonumber(redis.call('get', key) or now)\nlocal new_tat = math.max(tat, now) + emission_interval\nif new_tat - now <= delay_tolerance then\n  redis.call('set', key, new_tat)\n  return 1\nelse return 0 end"
+  },
+  {
+    "title": "Designing Globally Distributed Unique ID Generators: Snowflake vs. UUIDv7",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Snowflake ID", "UUIDv7", "System Design", "Distributed Systems"],
+    "coreConcept": "Comparing 64-bit Twitter Snowflake bitmasks (timestamp + workerId + sequence) with time-ordered 128-bit UUIDv7 for high-speed database indexing.",
+    "codeSnippet": "public class SnowflakeIdGenerator {\n    // 41 bits timestamp | 10 bits workerId | 12 bits sequence\n    public synchronized long nextId() {\n        long timestamp = System.currentTimeMillis();\n        return ((timestamp - EPOCH) << 22) | (workerId << 12) | sequence++;\n    }\n}"
+  },
+  {
+    "title": "Designing a Distributed Message Queue from Scratch: Storage, Index, and Replication",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Message Queue", "Storage Engine", "System Design", "Internals"],
+    "coreConcept": "Architecting an append-only commit log on disk, sparse binary search offset indexes, and leader-follower replication protocol.",
+    "codeSnippet": "// Binary record format on disk:\n// [4 bytes: magic] [4 bytes: length] [8 bytes: offset] [8 bytes: timestamp] [payload]"
+  },
+  {
+    "title": "Designing Large-Scale URL Shorteners: KGS, Base62 Encoding, and Caching Tiers",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["System Design", "URL Shortener", "Base62", "High Throughput"],
+    "coreConcept": "Pre-generating billions of unique token sequences using an offline Key Generation Service (KGS) and caching hot redirects in Redis.",
+    "codeSnippet": "private static final String BASE62 = \"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\npublic static String encode(long id) {\n    StringBuilder sb = new StringBuilder();\n    while (id > 0) { sb.append(BASE62.charAt((int)(id % 62))); id /= 62; }\n    return sb.reverse().toString();\n}"
+  },
+  {
+    "title": "Designing Distributed Job Schedulers: Quartz vs. Temporal vs. Kubernetes CronJobs",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Job Scheduler", "Distributed Systems", "Temporal", "System Design"],
+    "coreConcept": "Handling distributed locks, worker node heartbeat liveness, missed trigger recovery (misfires), and high-precision execution timing.",
+    "codeSnippet": "-- Distributed scheduler lease locking table\nUPDATE scheduled_jobs \nSET locked_by = 'worker-node-4', lock_expiry = NOW() + INTERVAL '30 SEC'\nWHERE status = 'PENDING' AND trigger_time <= NOW() AND lock_expiry < NOW()\nLIMIT 10 RETURNING job_id;"
+  },
+  {
+    "title": "Designing a Collaborative Real-Time Editor: Operational Transformation (OT) vs. CRDTs",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["CRDTs", "Operational Transformation", "Real-Time", "System Design"],
+    "coreConcept": "Why state-based Conflict-Free Replicated Data Types (Yjs, Automerge) have overtaken centralized OT algorithms in modern collaborative tools.",
+    "codeSnippet": "// Conceptual CRDT Character Insertion with Unique Fractional Position Identifier\n// CharNode(id: ClientId + Sequence, val: 'H', position: [0.125])"
+  },
+  {
+    "title": "Gossip Protocols: SWIM Membership and Failure Detection in Distributed Clusters",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["SWIM Protocol", "Gossip Protocol", "Failure Detection", "Distributed Systems"],
+    "coreConcept": "How Structured Weakly-Consistent Infection-Style (SWIM) protocols achieve O(1) failure detection time with indirect ping probes.",
+    "codeSnippet": "// SWIM indirect ping: Node A asks Node B and C to ping target Node D\n// If both report timeout, Node D is marked as SUSPECT before DOWN"
+  },
+  {
+    "title": "Designing a Notification Engine at Scale: Priority Queues, Deduplication, and Templates",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Notification Engine", "System Design", "Push Notifications", "Scalability"],
+    "coreConcept": "Routing millions of push, email, and SMS notifications with user preference matrices, rate-limit caps, and fallback providers.",
+    "codeSnippet": "// Priority routing configuration\nif (notification.isCriticalOtp()) routeTo(HighPriorityDirectSmsQueue);\nelse routeTo(BulkMarketingDelayedQueue);"
+  },
+  {
+    "title": "Designing a Proximity Service: Geohashing vs. Google S2 vs. Uber H3 Hexagonal Hierarchies",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Proximity Service", "Uber H3", "Geohashing", "System Design"],
+    "coreConcept": "Why Uber H3 hexagonal grid cells eliminate edge-distortion anomalies common in square geohash bounding boxes for ride-sharing dispatch.",
+    "codeSnippet": "import com.uber.h3core.H3Core;\n\nH3Core h3 = H3Core.newInstance();\nlong hexAddress = h3.geoToH3(12.9716, 77.5946, 9); // Resolution 9 (~100m)\nList<Long> neighbors = h3.kRing(hexAddress, 1); // Get adjacent cells"
+  },
+  {
+    "title": "Byzantine Fault Tolerance (BFT): PBFT vs. Tendermint Consensus Internals",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["BFT", "Tendermint", "Distributed Consensus", "Cryptography"],
+    "coreConcept": "Achieving consensus in adversarial environments where up to (n-1)/3 nodes may act maliciously, crash, or send conflicting votes.",
+    "codeSnippet": "// PBFT Three-Phase Commit protocol state machine:\n// Pre-Prepare -> Prepare (2/3 quorum) -> Commit (2/3 quorum)"
+  },
+  {
+    "title": "Designing High-Scale Metrics Aggregators: Top-K Heavy Hitters with Count-Min Sketch",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Probabilistic Data Structures", "Count-Min Sketch", "System Design", "Algorithms"],
+    "coreConcept": "Tracking top-100 API consumers in gigabyte streams using sub-linear O(k log n) RAM with Count-Min Sketches and Min-Heaps.",
+    "codeSnippet": "public class CountMinSketch {\n    private final int[][] table;\n    public void add(String item) {\n        for (int i = 0; i < depth; i++) {\n            int col = hash(item, i) % width;\n            table[i][col]++;\n        }\n    }\n}"
+  },
+  {
+    "title": "Designing an Idempotent Payment Processing Gateway: State Machines and Webhooks",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Fintech", "Payment Gateway", "Idempotency", "System Design"],
+    "coreConcept": "Managing finite state transitions (INITIATED -> AUTHORIZED -> CAPTURED -> SETTLED) with cryptographic signature validation on callbacks.",
+    "codeSnippet": "enum PaymentState {\n    INITIATED, AUTHORIZING, AUTHORIZED, FAILED, SETTLED\n}\n// State transition must be executed within transactional row lock with idempotency key verification"
+  },
+  {
+    "title": "Distributed Caching: Cache Invalidation, Lease Keys, and Cache Stampede Mitigation",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Caching", "Cache Stampede", "System Design", "Distributed Systems"],
+    "coreConcept": "Using Facebook's cache lease token pattern and probabilistic early expiration (XFetch) to protect backends when hot keys expire.",
+    "codeSnippet": "// Memcached lease token: only the thread granted the lease recalculates the query"
+  },
+  {
+    "title": "Designing Real-Time Chat Systems: WhatsApp and Discord Architecture Deep Dive",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Chat Architecture", "System Design", "WebSockets", "Cassandra"],
+    "coreConcept": "Maintaining persistent WebSocket connections, distributed session registries, offline message queuing, and message ordering guarantees.",
+    "codeSnippet": "// Chat message delivery pipeline: WebSocket Gateway -> Message Router -> User Mailbox Queue"
+  },
+  {
+    "title": "Distributed Tracing Architecture: Dapper, Zipkin, and OpenTelemetry Collectors",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Distributed Tracing", "OpenTelemetry", "Observability", "Architecture"],
+    "coreConcept": "How span contexts, baggage items, and tail-based probabilistic sampling collectors preserve critical error traces while discarding healthy noise.",
+    "codeSnippet": "# OpenTelemetry Collector tail-based sampling config\nprocessors:\n  tail_sampling:\n    policies:\n      - name: drop-healthy\n        type: status_code\n        status_code: { status_codes: [ERROR] }"
+  },
+  {
+    "title": "Designing a Distributed Web Crawler: Politeness, URL Frontier, and Bloom Filters",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Web Crawler", "Bloom Filter", "System Design", "Distributed Systems"],
+    "coreConcept": "Managing prioritized URL frontiers with per-domain politeness delay queues and scalable Bloom filters to prevent redundant crawls.",
+    "codeSnippet": "public class BloomFilter {\n    private final BitSet bits;\n    public boolean mightContain(String url) {\n        return hashFunctions.stream().allMatch(h -> bits.get(h.hash(url) % size));\n    }\n}"
+  },
+  {
+    "title": "Load Balancing Algorithms: Weighted Least Connections vs. Consistent Hash vs. Maglev",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Load Balancing", "Maglev", "Google Infrastructure", "Networking"],
+    "coreConcept": "How Google's Maglev load balancer achieves wire-speed packet lookup tables without connection disruption during backend additions.",
+    "codeSnippet": "// Maglev permutation lookup table generation across lookup table of prime size M"
+  },
+  {
+    "title": "Designing Scalable Distributed File Systems: GFS and HDFS Architecture Comparison",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["GFS", "HDFS", "Distributed Storage", "System Design"],
+    "coreConcept": "Separating metadata coordination (NameNode/Master) from streaming chunk data transfers (DataNodes), chunk sizes, and heartbeats.",
+    "codeSnippet": "// 64MB/128MB chunk layout with client reading directly from closest DataNode"
+  },
+  {
+    "title": "Designing a Scalable Video Streaming Platform: YouTube and Netflix CDN Architecture",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Video Streaming", "HLS", "DASH", "CDN", "System Design"],
+    "coreConcept": "Transcoding raw video uploads into multi-bitrate HLS/DASH chunk segments and caching them on edge Open Connect Appliances (OCAs).",
+    "codeSnippet": "# FFmpeg adaptive bitrate segmentation command\nffmpeg -i input.mp4 -map 0:v -b:v:0 2M -s:v:0 1920x1080 -hls_time 6 -hls_playlist_type vod index.m3u8"
+  },
+  {
+    "title": "Designing Distributed Leaderboards at Scale: Redis Sorted Sets vs. Segment Trees",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Leaderboard", "Segment Tree", "Redis", "System Design"],
+    "coreConcept": "Partitioning score ranges using distributed segment trees to support real-time rank lookups for 100M+ active users.",
+    "codeSnippet": "// Segment tree node storing user count in score range [minScore, maxScore]"
+  },
+  {
+    "title": "The Evolution of Distributed Systems: From Monoliths to Microservices to Modular Monoliths",
+    "category": "System Design & Distributed Systems",
+    "accent": "#9333EA",
+    "tags": ["Architecture", "System Design", "Modular Monolith", "Reflections"],
+    "coreConcept": "Evaluating when modular monoliths with strict compiler-enforced domain boundaries outperform distributed microservices.",
+    "codeSnippet": "// ArchUnit test enforcing modular monolith boundary isolation in build step"
+  }
+]

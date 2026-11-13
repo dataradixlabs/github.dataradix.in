@@ -104,6 +104,116 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://dataradix.in/blog/scala-apache-spark-iceberg-lakehouse</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/scala-apache-spark-iceberg-lakehouse.svg</image:loc>
+      <image:title>scala apache spark iceberg lakehouse</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/mastering-akka-clustering</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/mastering-akka-clustering.svg</image:loc>
+      <image:title>mastering akka clustering</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/akka-persistence-event-sourcing</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/akka-persistence-event-sourcing.svg</image:loc>
+      <image:title>akka persistence event sourcing</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/most-relevant-technologies-for-software-engineers-in-2027</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog-technologies-2027.jpg</image:loc>
+      <image:title>most relevant technologies for software engineers in 2027</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/high-performance-akka-http</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/high-performance-akka-http.svg</image:loc>
+      <image:title>high performance akka http</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/future-of-ai-development</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/future-of-ai-development.svg</image:loc>
+      <image:title>future of ai development</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/microservices-best-practices</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/microservices-best-practices.svg</image:loc>
+      <image:title>microservices best practices</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/react-server-components</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/react-server-components.svg</image:loc>
+      <image:title>react server components</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/kubernetes-production</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/kubernetes-production.svg</image:loc>
+      <image:title>kubernetes production</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/mobile-app-performance</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/mobile-app-performance.svg</image:loc>
+      <image:title>mobile app performance</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/design-systems-guide</loc>
+    <lastmod>2026-11-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/design-systems-guide.svg</image:loc>
+      <image:title>design systems guide</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://dataradix.in/case-studies/fintech-payment-platform-transformation</loc>
     <lastmod>2026-11-13</lastmod>
     <changefreq>weekly</changefreq>

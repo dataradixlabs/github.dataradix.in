@@ -1,0 +1,322 @@
+[
+  {
+    "title": "PySpark Vectorized UDFs with Apache Arrow: Eliminating Python Serialization Overhead",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Apache Arrow", "Vectorized UDFs", "Performance"],
+    "coreConcept": "How PySpark Pandas UDFs use Arrow memory buffers to bypass pickle row-by-row JVM-to-Python IPC serialization penalties.",
+    "codeSnippet": "import pandas as pd\nfrom pyspark.sql.functions import pandas_udf\nfrom pyspark.sql.types import DoubleType\n\n@pandas_udf(DoubleType())\ndef calculate_haversine(lat1: pd.Series, lon1: pd.Series, lat2: pd.Series, lon2: pd.Series) -> pd.Series:\n    # Vectorized computation running in C/NumPy with zero row-by-row JVM serialization\n    return pd.Series(np.sqrt((lat2 - lat1)**2 + (lon2 - lon1)**2))"
+  },
+  {
+    "title": "PySpark Memory Tuning: Driver vs. Executor Overhead and Py4J Communication",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Memory Tuning", "Py4J", "Troubleshooting"],
+    "coreConcept": "Configuring spark.executor.memoryOverhead to prevent Yarn/K8s OOM kills caused by off-heap Python worker processes.",
+    "codeSnippet": "# PySpark executor memory configuration for memory-heavy Pandas UDFs\nconf.set(\"spark.executor.memory\", \"8g\")\nconf.set(\"spark.executor.memoryOverhead\", \"4g\") # Off-heap memory for Python workers\nconf.set(\"spark.python.worker.reuse\", \"true\")"
+  },
+  {
+    "title": "Apache Arrow and Polars: The Next Generation of High-Performance Python Dataframes",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Polars", "Apache Arrow", "Rust", "Data Engineering"],
+    "coreConcept": "Why Polars' multithreaded Rust query engine and lazy evaluation outperform single-threaded Pandas by 10x-50x on multi-core workstations.",
+    "codeSnippet": "import polars as pl\n\n# Lazy execution plan with filter and projection pushdown\nq = (\n    pl.scan_parquet(\"data/transactions.parquet\")\n    .filter(pl.col(\"amount\") > 1000)\n    .group_by(\"customer_id\")\n    .agg(pl.col(\"amount\").sum().alias(\"total_spent\"))\n)\ndf = q.collect()"
+  },
+  {
+    "title": "Debugging PySpark Data Skew: Salting Techniques and Adaptive Query Execution",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Data Skew", "Performance", "Salting"],
+    "coreConcept": "Adding randomized salt keys to high-cardinality join columns and leveraging AQE `spark.sql.adaptive.skewJoin.enabled` to split lopsided partitions.",
+    "codeSnippet": "from pyspark.sql.functions import concat, col, lit, floor, rand\n\n# Salt the skewed join key with numbers 0 to 19\ndf_skewed = df_orders.withColumn(\"salt\", floor(rand() * 20))\n                     .withColumn(\"salted_key\", concat(col(\"seller_id\"), lit(\"_\"), col(\"salt\")))"
+  },
+  {
+    "title": "PySpark Structured Streaming with RocksDB State Store for Multi-GB Keys",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Structured Streaming", "RocksDB", "State Management"],
+    "coreConcept": "Switching from default HDFS-backed JVM heap state store to off-heap RocksDB to maintain millions of state keys without GC pauses.",
+    "codeSnippet": "spark.conf.set(\n    \"spark.sql.streaming.stateStore.providerClass\",\n    \"org.apache.spark.sql.execution.streaming.state.RocksDBStateStoreProvider\"\n)"
+  },
+  {
+    "title": "Optimizing PySpark Joins: Broadcast Hash Joins, Shuffle Hash, and Sort Merge",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Joins", "Optimization", "Catalyst"],
+    "coreConcept": "Tuning spark.sql.autoBroadcastJoinThreshold and identifying when broadcast hints prevent expensive cluster-wide shuffles.",
+    "codeSnippet": "from pyspark.sql.functions import broadcast\n\n# Force Broadcast Hash Join for dimension table under 100MB\njoined_df = large_fact_df.join(broadcast(small_dim_df), \"category_id\")"
+  },
+  {
+    "title": "DuckDB with Python: Ultra-Fast In-Process Analytics on Parquet Files",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["DuckDB", "Python", "Parquet", "OLAP"],
+    "coreConcept": "Running vectorized SQL queries directly on local or S3 Parquet files without spinning up heavy JVM or distributed cluster overhead.",
+    "codeSnippet": "import duckdb\n\n# Query remote S3 parquet dataset directly in Python\ncon = duckdb.connect()\ncon.execute(\"\"\"\n    SELECT region, SUM(revenue) \n    FROM read_parquet('s3://prod-lakehouse/sales/*.parquet')\n    GROUP BY region\n\"\"\").df()"
+  },
+  {
+    "title": "PySpark Custom Partitioners: Partitioning by High-Cardinality Business Keys",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Partitioning", "Performance", "RDD"],
+    "coreConcept": "Writing custom RDD partitioners in Python to ensure records with matching domain keys map to the exact same partition before windowing.",
+    "codeSnippet": "def tenant_partitioner(key):\n    return hash(key) % 128\n\nrdd_partitioned = rdd.partitionBy(128, tenant_partitioner)"
+  },
+  {
+    "title": "Python AsyncIO for Data Engineers: Concurrent API Ingestion Pipelines",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Python", "AsyncIO", "API Ingestion", "Concurrency"],
+    "coreConcept": "Using aiohttp and asyncio.gather with semaphores to ingest 10,000 REST endpoints per minute without multi-threading lock contention.",
+    "codeSnippet": "import asyncio\nimport aiohttp\n\nasync def fetch_page(session, url, sem):\n    async with sem:\n        async with session.get(url) as response:\n            return await response.json()\n\nasync def main(urls):\n    sem = asyncio.Semaphore(50) # Concurrency limiter\n    async with aiohttp.ClientSession() as session:\n        tasks = [fetch_page(session, url, sem) for url in urls]\n        return await asyncio.gather(*tasks)"
+  },
+  {
+    "title": "PySpark Delta Lake Time Travel and Vacuuming at Scale",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Delta Lake", "Time Travel", "Vacuum"],
+    "coreConcept": "Querying historical table versions via timestamp/versionAsOf and managing retention hours with VACUUM to reclaim S3 storage.",
+    "codeSnippet": "# Time travel query via Delta Lake\ndf_historical = spark.read.format(\"delta\") \\\n    .option(\"versionAsOf\", 42) \\\n    .load(\"/mnt/lake/orders\")\n\n# Clean up obsolete parquet files older than 168 hours\nfrom delta.tables import DeltaTable\ndeltaTable = DeltaTable.forPath(spark, \"/mnt/lake/orders\")\ndeltaTable.vacuum(168)"
+  },
+  {
+    "title": "Pydantic V2: Ultra-Fast Data Validation in Modern Python ETL Pipelines",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Pydantic", "Python", "Data Validation", "Rust"],
+    "coreConcept": "Leveraging Pydantic V2 Rust-powered core validation to parse, validate, and serialize millions of messy JSON payloads per second.",
+    "codeSnippet": "from pydantic import BaseModel, Field, field_validator\nfrom datetime import datetime\n\nclass TelemetryRecord(BaseModel):\n    device_id: str\n    metric_value: float = Field(gt=0)\n    timestamp: datetime\n    \n    @field_validator('device_id')\n    def validate_prefix(cls, v):\n        if not v.startswith('DEV-'): raise ValueError('Must have DEV- prefix')\n        return v"
+  },
+  {
+    "title": "PySpark Execution Plans: Reading Spark UI DAGs, Stages, and Exchanges",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Spark UI", "DAG", "Execution Plan"],
+    "coreConcept": "Analyzing physical plans, detecting unintended Exchange operators (shuffles), and optimizing narrow vs. wide transformations.",
+    "codeSnippet": "# Print formatted physical and optimized execution plan\ndf.explain(extended=True)"
+  },
+  {
+    "title": "Scaling Machine Learning Feature Engineering with PySpark and Feast",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Feature Store", "Feast", "Machine Learning"],
+    "coreConcept": "Computing point-in-time correct historical features in PySpark and materializing online features into Redis for sub-10ms inference.",
+    "codeSnippet": "from feast import FeatureStore\nstore = FeatureStore(repo_path=\".\")\ntraining_data = store.get_historical_features(\n    entity_df=entity_df,\n    features=[\"user_features:credit_score\", \"user_features:fraud_risk_score\"]\n).to_spark_df()"
+  },
+  {
+    "title": "Pandas on Ray (Modin) vs. PySpark: When to Use Ray for Python Workloads",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Ray", "Modin", "Distributed Python", "Data Engineering"],
+    "coreConcept": "Comparing distributed actor runtimes in Ray with Spark Catalyst query optimization for non-relational, stateful Python computing.",
+    "codeSnippet": "import modin.pandas as pd\n# Modin uses 100% of CPU cores automatically without changing Pandas API\ndf = pd.read_csv(\"gigantic_dataset.csv\")\nresult = df.groupby(\"zip_code\").mean()"
+  },
+  {
+    "title": "PySpark Window Functions: Optimizing PartitionBy and Frame Specifications",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Window Functions", "Analytics", "SQL"],
+    "coreConcept": "Avoiding massive memory spills during dense_rank, lag, and lead operations by constraining window frames to rowsBetween.",
+    "codeSnippet": "from pyspark.sql.window import Window\nfrom pyspark.sql.functions import avg, col\n\nwindow_spec = Window.partitionBy(\"department_id\") \\\n                    .orderBy(\"hire_date\") \\\n                    .rowsBetween(Window.unboundedPreceding, Window.currentRow)\n\ndf_running_avg = df.withColumn(\"running_avg_salary\", avg(\"salary\").over(window_spec))"
+  },
+  {
+    "title": "Apache Arrow Flight: High-Throughput Remote Dataframe Streaming in Python",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Apache Arrow", "Arrow Flight", "gRPC", "Data Transfer"],
+    "coreConcept": "Streaming large Arrow tabular datasets between microservices and Python analytics clients at network line speed without serialization.",
+    "codeSnippet": "import pyarrow.flight as flight\n\nclient = flight.FlightClient(\"grpc://arrow-server:8815\")\ninfo = client.get_flight_info(flight.FlightDescriptor.for_path(\"trades\"))\nreader = client.do_get(info.endpoints[0].ticket)\ntable = reader.read_all()"
+  },
+  {
+    "title": "Managing PySpark Dependencies: Virtual Environments, PEX, and Conda on YARN/K8s",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "DevOps", "PEX", "Kubernetes"],
+    "coreConcept": "Packaging complex native C/C++ Python dependencies into self-contained PEX or conda-pack archives distributed via spark.archives.",
+    "codeSnippet": "# Submit PySpark application with packaged conda environment\nspark-submit \\\n  --archives environment.tar.gz#environment \\\n  --conf spark.pyspark.python=./environment/bin/python \\\n  pipeline.py"
+  },
+  {
+    "title": "Automated Unit Testing for PySpark Data Pipelines with Chispa and Pytest",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Pytest", "Chispa", "Testing"],
+    "coreConcept": "Testing PySpark dataframe transformations locally with clear schema and data diff assertions without launching full cluster clusters.",
+    "codeSnippet": "import pytest\nfrom chispa.dataframe_comparer import assert_df_equality\n\ndef test_filter_active_users(spark):\n    source_df = spark.createDataFrame([(\"u1\", True), (\"u2\", False)], [\"id\", \"is_active\"])\n    expected_df = spark.createDataFrame([(\"u1\", True)], [\"id\", \"is_active\"])\n    actual_df = filter_active(source_df)\n    assert_df_equality(actual_df, expected_df)"
+  },
+  {
+    "title": "PySpark Dynamic Partition Pruning (DPP): Catalyst Optimization Internals",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "DPP", "Catalyst", "Performance"],
+    "coreConcept": "How DPP intercepts dimension table filters at runtime and injects dynamic broadcast filters into large partitioned fact table scans.",
+    "codeSnippet": "spark.conf.set(\"spark.sql.optimizer.dynamicPartitionPruning.enabled\", \"true\")\n# When joining date_dim (filtered by year=2026) with sales_fact,\n# Catalyst skips reading unneeded date partitions entirely from S3"
+  },
+  {
+    "title": "Building Idempotent PySpark Upsert Pipelines with Delta Lake Merge",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Delta Lake", "Upsert", "Data Quality"],
+    "coreConcept": "Writing safe MERGE INTO statements with matched update and not-matched insert clauses to handle late-arriving updates without duplicates.",
+    "codeSnippet": "delta_table = DeltaTable.forPath(spark, \"/data/lake/customers\")\n(delta_table.alias(\"target\")\n  .merge(updates_df.alias(\"source\"), \"target.customer_id = source.customer_id\")\n  .whenMatchedUpdateAll()\n  .whenNotMatchedInsertAll()\n  .execute())"
+  },
+  {
+    "title": "Optimizing Python Memory: Slots, Generators, and Itertools for Large Datasets",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Python", "Memory Optimization", "Generators", "Performance"],
+    "coreConcept": "Eliminating __dict__ dictionary overhead using __slots__ on millions of Python record objects and processing streams via chunked generators.",
+    "codeSnippet": "class DataPoint:\n    __slots__ = ['timestamp', 'metric', 'value']\n    def __init__(self, t, m, v):\n        self.timestamp = t; self.metric = m; self.value = v"
+  },
+  {
+    "title": "PySpark with Apache Iceberg: Equality Deletes vs. Position Deletes",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Apache Iceberg", "PySpark", "CDC", "Data Lakehouse"],
+    "coreConcept": "Comparing query read amplification between Iceberg equality deletes and position deletes, and scheduling rewrite_position_delete_files.",
+    "codeSnippet": "# Trigger Iceberg table compaction and position delete file merge\nspark.sql(\"\"\"\n  CALL prod.system.rewrite_data_files(\n    table => 'prod.db.telemetry',\n    strategy => 'binpack',\n    options => map('min-input-files','5')\n  )\n\"\"\")"
+  },
+  {
+    "title": "High-Speed Parquet Ingestion in Python: Fastparquet vs. PyArrow Benchmarks",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PyArrow", "Fastparquet", "Parquet", "Benchmarks"],
+    "coreConcept": "Profiling CPU cycles and memory allocations when reading multithreaded partitioned datasets in PyArrow vs. Pure-Python Fastparquet.",
+    "codeSnippet": "import pyarrow.parquet as pq\n\n# Multi-threaded memory-mapped Parquet read\ntable = pq.read_table(\"huge_file.parquet\", use_threads=True, memory_map=True)\ndf = table.to_pandas()"
+  },
+  {
+    "title": "PySpark Structured Streaming: Watermarking and Arbitrary Stateful Operations",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Streaming", "Watermarking", "Stateful"],
+    "coreConcept": "Handling out-of-order events using withWatermark, session windows, and applyInPandasWithState for complex user sessionization.",
+    "codeSnippet": "events_stream = df.withWatermark(\"timestamp\", \"10 minutes\") \\\n                  .groupBy(window(\"timestamp\", \"5 minutes\"), \"user_id\") \\\n                  .count()"
+  },
+  {
+    "title": "Great Expectations in PySpark: Automated Data Contract Verification",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Great Expectations", "PySpark", "Data Quality", "Data Contracts"],
+    "coreConcept": "Validating schema types, null percentages, and value ranges on incoming Spark dataframes before writing to production lakehouse tiers.",
+    "codeSnippet": "import great_expectations as gx\n\ncontext = gx.get_context()\nvalidator = context.sources.pandas_default.read_dataframe(df)\nvalidator.expect_column_values_to_not_be_null(\"order_id\")\nvalidator.expect_column_values_to_be_between(\"amount\", min_value=0, max_value=1000000)\nvalidator.save_expectation_suite()"
+  },
+  {
+    "title": "PySpark Catalyst Optimizer: Analyzing Cost-Based Optimization (CBO) Metrics",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Catalyst", "CBO", "Query Planning"],
+    "coreConcept": "Enabling ANALYZE TABLE compute statistics to allow Catalyst CBO to choose optimal join orders and broadcast decisions automatically.",
+    "codeSnippet": "spark.conf.set(\"spark.sql.cbo.enabled\", \"true\")\nspark.sql(\"ANALYZE TABLE transactions COMPUTE STATISTICS FOR COLUMNS customer_id, amount\")"
+  },
+  {
+    "title": "Python Data Pipelines with Airflow 2.x and TaskFlow API: Best Practices",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Airflow", "Python", "Orchestration", "TaskFlow"],
+    "coreConcept": "Writing clean, testable DAGs using @task decorators, dynamic task mapping, and eliminating heavy XCom data transfers.",
+    "codeSnippet": "from airflow.decorators import dag, task\nfrom datetime import datetime\n\n@dag(start_date=datetime(2026, 1, 1), schedule=\"@daily\", catchup=False)\ndef sales_pipeline():\n    @task\n    def extract(): return [\"orders_1.parquet\", \"orders_2.parquet\"]\n    @task\n    def process_file(filename: str): return f\"processed_{filename}\"\n    # Dynamic task mapping over list\n    files = extract()\n    process_file.expand(filename=files)"
+  },
+  {
+    "title": "PySpark Native Connectors: High-Throughput Reads and Writes with Snowflake and BigQuery",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Snowflake", "BigQuery", "PySpark", "Cloud Data Warehouse"],
+    "coreConcept": "Configuring direct cloud storage staging and Arrow-powered connectors to ingest millions of records from cloud warehouses into Spark.",
+    "codeSnippet": "# High-speed BigQuery Direct Storage API read in PySpark\ndf = spark.read.format(\"bigquery\") \\\n    .option(\"table\", \"project.dataset.financial_events\") \\\n    .load()"
+  },
+  {
+    "title": "Profiling Python CPU Bottlenecks: cProfile, Py-Spy, and Line Profiler",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Python", "Profiling", "Py-Spy", "Performance"],
+    "coreConcept": "Using Py-Spy to sample running production Python workers with zero overhead and generate interactive SVG flame graphs.",
+    "codeSnippet": "# Profile running Python ETL process without stopping execution\npy-spy record -o profile.svg --pid <PID> --duration 30"
+  },
+  {
+    "title": "PySpark Broadcast Variables vs. Accumulators: Internal Architecture",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Broadcast", "Accumulators", "Distributed Systems"],
+    "coreConcept": "How broadcast variables use BitTorrent peer-to-peer distribution to share lookup tables across executors, and accumulator caveats in retries.",
+    "codeSnippet": "# Distribute large configuration dictionary efficiently\nlookup_table = { \"US\": 0.08, \"CA\": 0.12, \"UK\": 0.20 }\nbroadcast_tax = spark.sparkContext.broadcast(lookup_table)\n\ndef apply_tax(country, amount):\n    return amount * (1.0 + broadcast_tax.value.get(country, 0.0))"
+  },
+  {
+    "title": "FastAPI for High-Throughput Machine Learning Model Serving in Python",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["FastAPI", "Uvicorn", "MLOps", "Microservices"],
+    "coreConcept": "Serving ONNX and PyTorch embeddings with asynchronous request batching and UVLoop to handle 10,000 requests per second.",
+    "codeSnippet": "from fastapi import FastAPI\nimport asyncio\n\napp = FastAPI()\n\n@app.post(\"/predict\")\nasync def predict(features: list[float]):\n    # Non-blocking prediction pipeline\n    score = await run_model_async(features)\n    return {\"score\": score}"
+  },
+  {
+    "title": "PySpark Coalesce vs. Repartition: Avoiding Unnecessary Network Shuffles",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Shuffle", "Coalesce", "Performance Tuning"],
+    "coreConcept": "Why coalesce merges partitions on the same node without triggering full network shuffles, and when repartition is required for balance.",
+    "codeSnippet": "# Reduce 1,000 output files to 10 cleanly before writing to S3 without a shuffle\ndf.coalesce(10).write.parquet(\"s3://bucket/data/\")"
+  },
+  {
+    "title": "Distributed Python Workflows with Dask: Dataframes, Arrays, and Futures",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Dask", "Python", "Distributed Computing", "NumPy"],
+    "coreConcept": "Scaling native NumPy array algorithms across multi-node clusters using Dask task graphs and asynchronous distributed schedulers.",
+    "codeSnippet": "import dask.dataframe as dd\n\nddf = dd.read_parquet(\"s3://large-lake/*.parquet\")\nresult = ddf.groupby(\"user_id\").amount.mean().compute()"
+  },
+  {
+    "title": "PySpark Bucketing: Eliminating Sort-Merge Join Shuffles Permanently",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["PySpark", "Bucketing", "Data Architecture", "Performance"],
+    "coreConcept": "Pre-sorting and hashing datasets into fixed buckets upon initial ingestion to make subsequent joins zero-shuffle operations forever.",
+    "codeSnippet": "# Write bucketed table\ndf.write.format(\"parquet\") \\\n  .bucketBy(64, \"customer_id\") \\\n  .sortBy(\"transaction_date\") \\\n  .saveAsTable(\"prod.transactions_bucketed\")"
+  },
+  {
+    "title": "Handling Multimodal Data in Python: Processing Images and Audio with Polars and PyArrow",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Python", "Multimodal", "PyArrow", "AI Data"],
+    "coreConcept": "Storing embedded binary buffers and tensor schemas inside Arrow fixed-size binary columns for high-throughput AI ingestion pipelines.",
+    "codeSnippet": "import pyarrow as pa\n\n# Schema for multi-modal embedding data\nschema = pa.schema([\n    pa.field(\"id\", pa.string()),\n    pa.field(\"embedding\", pa.list_(pa.float32(), 1536))\n])"
+  },
+  {
+    "title": "Building Resilient PySpark ETL Pipelines on AWS EMR Serverless",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["AWS EMR", "Serverless", "PySpark", "Cloud Architecture"],
+    "coreConcept": "Configuring auto-scaling pre-initialized capacity, application limits, and S3 event triggers for cost-effective batch Spark workloads.",
+    "codeSnippet": "# AWS CLI command to submit serverless Spark job\naws emr-serverless start-job-run \\\n  --application-id $APP_ID \\\n  --execution-role-arn $ROLE_ARN \\\n  --job-driver '{\"sparkSubmit\": {\"entryPoint\": \"s3://bucket/scripts/etl.py\"}}'"
+  },
+  {
+    "title": "Python Polars vs. DuckDB vs. PySpark: Choosing the Right Engine in 2027",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Polars", "DuckDB", "PySpark", "Architecture"],
+    "coreConcept": "A comprehensive decision matrix: when single-node vectorized engines (Polars/DuckDB) beat distributed clusters in speed and cost.",
+    "codeSnippet": "// Decision rubric comparing dataset size, RAM capacity, and infrastructure overhead"
+  },
+  {
+    "title": "PySpark Delta Lake Change Data Feed (CDF): Consuming Row-Level Mutations",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Delta Lake", "CDF", "PySpark", "Streaming"],
+    "coreConcept": "Enabling table feature `delta.enableChangeDataFeed = true` to consume insert, update-preimage, update-postimage, and delete events.",
+    "codeSnippet": "spark.sql(\"ALTER TABLE orders SET TBLPROPERTIES (delta.enableChangeDataFeed = true)\")\n# Read incremental stream of row modifications\nchanges_df = spark.readStream.format(\"delta\") \\\n    .option(\"readChangeFeed\", \"true\") \\\n    .option(\"startingVersion\", 10) \\\n    .table(\"orders\")"
+  },
+  {
+    "title": "Optimizing Python Regex Processing at Big Data Scale with Hyperscan and RE2",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Python", "Regex", "Hyperscan", "High Performance"],
+    "coreConcept": "Replacing backtracking Python `re` module with Google RE2 and Intel Hyperscan SIMD automata for gigabyte-per-second log parsing.",
+    "codeSnippet": "import re2\n\n# Guaranteed linear time regex execution without catastrophic backtracking\npattern = re2.compile(r\"(\\d{1,3}\\.){3}\\d{1,3}\")\nmatches = pattern.findall(large_log_text)"
+  },
+  {
+    "title": "PySpark with Apache Spark 4.0: Modern ANSI SQL and Native Python Worker Upgrades",
+    "category": "Python & PySpark",
+    "accent": "#0284C7",
+    "tags": ["Spark 4.0", "PySpark", "Future Tech", "ANSI SQL"],
+    "coreConcept": "Deep dive into upcoming Spark 4.0 innovations: strict ANSI SQL compliance, improved Python error diagnostics, and native Arrow integration.",
+    "codeSnippet": "// Preview of Spark 4.0 Python error messages showing exact line and variable traces"
+  }
+]

@@ -1,0 +1,202 @@
+[
+  {
+    "title": "PostgreSQL MVCC Internals: Dead Tuples, Table Bloat, and VACUUM Tuning",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "MVCC", "VACUUM", "Database Tuning"],
+    "coreConcept": "How Multi-Version Concurrency Control stores xmin/xmax transaction IDs per row, and tuning autovacuum_vacuum_cost_limit to prevent disk bloat.",
+    "codeSnippet": "-- Checking table bloat and dead tuple counts in PostgreSQL\nSELECT relname, n_live_tup, n_dead_tup, \n       round(100.0 * n_dead_tup / nullif(n_dead_tup + n_live_tup, 0),2) as dead_pct\nFROM pg_stat_user_tables ORDER BY n_dead_tup DESC;"
+  },
+  {
+    "title": "B-Tree vs. LSM-Tree: Storage Engine Architecture Trade-Offs",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["B-Tree", "LSM-Tree", "Storage Engines", "Database Internals"],
+    "coreConcept": "Comparing read amplification in B-Trees (in-place page updates) against write amplification in LSM-Trees (MemTable, WAL, SSTable compaction).",
+    "codeSnippet": "// Structural comparison: B-Tree 4KB random page writes vs. LSM-Tree sequential append logs"
+  },
+  {
+    "title": "PostgreSQL Indexing Deep Dive: B-Tree, GIN, GiST, and BRIN When and Why",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "Indexes", "GIN", "BRIN", "Performance"],
+    "coreConcept": "Selecting BRIN for naturally ordered time-series data to save 95% index RAM, and GIN for JSONB and full-text search indexing.",
+    "codeSnippet": "-- BRIN index for massive append-only audit log table\nCREATE INDEX idx_audit_created_at_brin ON audit_logs USING brin(created_at);\n-- GIN index for nested JSONB queries\nCREATE INDEX idx_user_metadata_gin ON users USING gin(metadata);"
+  },
+  {
+    "title": "Solving Database Connection Starvation: PgBouncer Session vs. Transaction Pooling",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PgBouncer", "PostgreSQL", "Connection Pooling", "High Availability"],
+    "coreConcept": "Configuring transaction-level pooling in PgBouncer to multiplex 10,000 backend microservice connections onto 100 dedicated Postgres workers.",
+    "codeSnippet": "[databases]\nprod_db = host=127.0.0.1 port=5432 dbname=prod_db\n[pgbouncer]\npool_mode = transaction\nmax_client_conn = 10000\ndefault_pool_size = 50"
+  },
+  {
+    "title": "Database Transaction Isolation Levels: Dirty Reads, Non-Repeatable Reads, and Phantom Reads",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["ACID", "Isolation Levels", "Databases", "Concurrency"],
+    "coreConcept": "Analyzing ANSI SQL isolation levels (Read Uncommitted, Read Committed, Repeatable Read, Serializable) and Snapshot Isolation anomalies.",
+    "codeSnippet": "SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;\nBEGIN;\n-- Queries see an immutable snapshot of committed data as of transaction start\nSELECT balance FROM accounts WHERE id = 101;\nCOMMIT;"
+  },
+  {
+    "title": "Distributed SQL Architecture: CockroachDB vs. YugabyteDB Consensus Protocols",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Distributed SQL", "CockroachDB", "YugabyteDB", "Raft"],
+    "coreConcept": "How distributed SQL engines use Multi-Raft consensus, hybrid logical clocks (HLC), and distributed 2PC to offer global ACID transactions.",
+    "codeSnippet": "-- CockroachDB multi-region table locality\nALTER TABLE customers ADD COLUMN region crdb_internal_region;\nALTER TABLE customers CONFIGURE ZONE USING num_replicas = 3;"
+  },
+  {
+    "title": "PostgreSQL Query Optimization: Reading EXPLAIN (ANALYZE, BUFFERS) Output",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "EXPLAIN ANALYZE", "Query Optimization", "Performance"],
+    "coreConcept": "Diagnosing query execution plans: identifying Seq Scan vs Index Scan, sorting spills in WorkMem, and measuring Shared Hit buffer cache ratios.",
+    "codeSnippet": "EXPLAIN (ANALYZE, BUFFERS, TIMING)\nSELECT customer_id, sum(total) \nFROM orders \nWHERE created_at > '2026-01-01' \nGROUP BY customer_id;"
+  },
+  {
+    "title": "Designing High-Speed Vector Databases: HNSW vs. IVF-PQ Indexing Internals",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Vector Database", "HNSW", "pgvector", "AI Engineering"],
+    "coreConcept": "How Hierarchical Navigable Small World (HNSW) graphs achieve logarithmic nearest-neighbor search for OpenAI embeddings in pgvector.",
+    "codeSnippet": "-- pgvector HNSW index creation\nCREATE INDEX ON document_embeddings \nUSING hnsw (embedding vector_cosine_ops)\nWITH (m = 16, ef_construction = 64);"
+  },
+  {
+    "title": "MySQL InnoDB Internals: Clustered Indexes, Change Buffer, and Redo Log Flushing",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["MySQL", "InnoDB", "Storage Engines", "Performance"],
+    "coreConcept": "How InnoDB organizes tables as primary-key clustered index B+ trees, and tuning innodb_flush_log_at_trx_commit for durability vs. speed.",
+    "codeSnippet": "# Tuning MySQL InnoDB for high-write workloads\ninnodb_buffer_pool_size = 32G\ninnodb_flush_log_at_trx_commit = 2 # Flush to OS cache on commit, disk every 1s\ninnodb_log_file_size = 4G"
+  },
+  {
+    "title": "Database Sharding Architectures: Range-Based vs. Hash-Based vs. Directory-Based",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Sharding", "Distributed Databases", "System Design", "Scalability"],
+    "coreConcept": "Evaluating shard key selection criteria, hot-shard hotspots, cross-shard scatter-gather queries, and resharding rebalances.",
+    "codeSnippet": "// Hash sharding function\nint shardId = (hash(customerId) & 0x7FFFFFFF) % totalShards;"
+  },
+  {
+    "title": "PostgreSQL Partitioning: Declarative Range, List, and Hash Partitioning at 1B Rows",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "Partitioning", "Big Data", "Data Architecture"],
+    "coreConcept": "Creating partitioned parent tables, automating monthly partition creation via pg_partman, and verifying run-time partition pruning.",
+    "codeSnippet": "CREATE TABLE telemetry (\n    device_id VARCHAR(50),\n    recorded_at TIMESTAMPTZ NOT NULL,\n    payload JSONB\n) PARTITION BY RANGE (recorded_at);\n\nCREATE TABLE telemetry_2026_11 PARTITION OF telemetry\n    FOR VALUES FROM ('2026-11-01') TO ('2026-12-01');"
+  },
+  {
+    "title": "Database Write Amplification: SSD Endurance and WAL Write Batching",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Hardware", "SSD", "WAL", "Database Performance"],
+    "coreConcept": "How page modifications and full-page writes in PostgreSQL WAL cause physical NVMe write amplification, and mitigation via wal_compression.",
+    "codeSnippet": "# Enable lz4 compression on PostgreSQL WAL full page images\nwal_compression = lz4\ncheckpoint_completion_target = 0.9"
+  },
+  {
+    "title": "Redis Memory Optimization: Jemalloc, Memory Fragmentation, and Maxmemory Evictions",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Redis", "Memory Optimization", "Jemalloc", "Caching"],
+    "coreConcept": "Diagnosing mem_fragmentation_ratio, configuring active defragmentation, and selecting eviction policies (volatile-lru vs. allkeys-lfu).",
+    "codeSnippet": "# Redis production configuration\nmaxmemory 16gb\nmaxmemory-policy allkeys-lfu\nactivedefrag yes\nactive-defrag-threshold-lower 10"
+  },
+  {
+    "title": "Zero-Downtime PostgreSQL Major Version Upgrades with pg_upgrade and Hardlinks",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "Upgrades", "DevOps", "Database Administration"],
+    "coreConcept": "Using pg_upgrade --link mode to upgrade multi-terabyte PostgreSQL databases from v15 to v17 in under 2 minutes without copying data files.",
+    "codeSnippet": "# Fast hardlink upgrade\npg_upgrade \\\n  --old-datadir=/var/lib/postgresql/15/data \\\n  --new-datadir=/var/lib/postgresql/17/data \\\n  --old-bindir=/usr/lib/postgresql/15/bin \\\n  --new-bindir=/usr/lib/postgresql/17/bin \\\n  --link --check"
+  },
+  {
+    "title": "Database Deadlocks: Detection, Graph Cycles, and Prevention Strategies",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "Deadlocks", "Concurrency", "Troubleshooting"],
+    "coreConcept": "How database lock managers detect wait-for graph cycles, and preventing deadlocks by enforcing deterministic object acquisition ordering.",
+    "codeSnippet": "-- Enforce consistent resource lock ordering across transactions\n-- Always lock accounts in ascending order of ID\nSELECT * FROM accounts WHERE id IN (10, 20) ORDER BY id FOR UPDATE;"
+  },
+  {
+    "title": "Designing Event Sourced Data Stores with Apache Cassandra and ScyllaDB",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Cassandra", "ScyllaDB", "NoSQL", "Event Sourcing"],
+    "coreConcept": "Data modeling with partition keys and clustering columns for append-only event journals with predictable sub-5ms write latencies.",
+    "codeSnippet": "CREATE TABLE event_journal (\n    aggregate_id text,\n    sequence_nr bigint,\n    event_type text,\n    payload blob,\n    PRIMARY KEY (aggregate_id, sequence_nr)\n) WITH CLUSTERING ORDER BY (sequence_nr ASC);"
+  },
+  {
+    "title": "PostgreSQL Foreign Data Wrappers (postgres_fdw): Querying Remote Clusters",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "FDW", "Distributed Data", "Integration"],
+    "coreConcept": "Querying and joining external PostgreSQL instances transparently with remote predicate and aggregate pushdown optimizations.",
+    "codeSnippet": "CREATE EXTENSION postgres_fdw;\nCREATE SERVER foreign_billing FOREIGN DATA WRAPPER postgres_fdw \n  OPTIONS (host 'billing-db.dataradix.in', dbname 'billing');\nIMPORT FOREIGN SCHEMA public FROM SERVER foreign_billing INTO foreign_billing_schema;"
+  },
+  {
+    "title": "Time-Series Databases: TimescaleDB Hypertables vs. ClickHouse Performance",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["TimescaleDB", "ClickHouse", "Time-Series", "Benchmarks"],
+    "coreConcept": "Comparing TimescaleDB automated chunk creation and native columnar compression with ClickHouse MergeTree columnar performance.",
+    "codeSnippet": "-- TimescaleDB Hypertable creation\nSELECT create_hypertable('sensor_readings', 'time');\nALTER TABLE sensor_readings SET (\n  timescaledb.compress,\n  timescaledb.compress_segmentby = 'sensor_id'\n);"
+  },
+  {
+    "title": "Database Replication Topologies: Synchronous vs. Asynchronous Replication Pitfalls",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "Replication", "High Availability", "Failover"],
+    "coreConcept": "Configuring synchronous_commit = on with synchronous_standby_names, and measuring write throughput penalties against zero-RPO data loss guarantees.",
+    "codeSnippet": "# PostgreSQL synchronous replication config\nsynchronous_commit = on\nsynchronous_standby_names = 'FIRST 1 (replica_node_1, replica_node_2)'"
+  },
+  {
+    "title": "PostgreSQL JSONB Performance: GIN Indexes, Path Operators, and Schema-on-Read",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "JSONB", "Indexing", "NoSQL in SQL"],
+    "coreConcept": "Querying semi-structured data using containment (@>) and jsonpath (jsonb_path_query) operators backed by jsonb_path_ops GIN indexes.",
+    "codeSnippet": "CREATE INDEX idx_user_attributes ON users USING gin (attributes jsonb_path_ops);\n-- Fast index-accelerated JSON query\nSELECT * FROM users WHERE attributes @> '{\"plan\": \"enterprise\", \"status\": \"active\"}';"
+  },
+  {
+    "title": "Database Security: Row-Level Security (RLS) and Column-Level Encryption in Postgres",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Security", "RLS", "PostgreSQL", "Encryption"],
+    "coreConcept": "Enforcing data multi-tenancy in the database engine using CREATE POLICY and pgcrypto encrypt functions for sensitive PII data.",
+    "codeSnippet": "CREATE POLICY tenant_isolation ON accounts\n  FOR ALL\n  TO authenticated_users\n  USING (tenant_id = current_setting('app.current_tenant')::uuid);"
+  },
+  {
+    "title": "Elasticsearch Indexing Internals: Inverted Indexes, DocValues, and Segment Merges",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Elasticsearch", "Search", "Inverted Index", "Lucene"],
+    "coreConcept": "How Apache Lucene manages immutable segments, columnar DocValues for aggregations, and tuning index.refresh_interval for high ingestion.",
+    "codeSnippet": "PUT /products/_settings\n{\n  \"index\": {\n    \"refresh_interval\": \"30s\",\n    \"number_of_replicas\": 1\n  }\n}"
+  },
+  {
+    "title": "Database Checkpoints: Fuzzy Checkpointing and Crash Recovery in PostgreSQL",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["PostgreSQL", "Checkpoints", "Crash Recovery", "Architecture"],
+    "coreConcept": "How background writer flushes dirty shared buffers over checkpoint_completion_target to smooth out disk I/O spikes before WAL checkpoints.",
+    "codeSnippet": "# Smooth checkpoint flushing over 90% of the checkpoint interval\ncheckpoint_timeout = 15min\nmax_wal_size = 16GB\ncheckpoint_completion_target = 0.9"
+  },
+  {
+    "title": "Designing Globally Distributed Key-Value Stores with AWS DynamoDB and Global Tables",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["DynamoDB", "AWS", "NoSQL", "Global Tables"],
+    "coreConcept": "Single-table design patterns, partition key hash distribution, sparse secondary indexes, and multi-region active-active replication.",
+    "codeSnippet": "// DynamoDB Single-Table Design Key Structure\n// PK: USER#<id>, SK: METADATA\n// PK: USER#<id>, SK: ORDER#<order_id>"
+  },
+  {
+    "title": "The Future of Database Engines: NVMe-oF and Hardware-Accelerated Storage Engines",
+    "category": "Databases",
+    "accent": "#0D9488",
+    "tags": ["Hardware", "NVMe-oF", "Future Databases", "Architecture"],
+    "coreConcept": "How non-volatile memory over fabrics (NVMe-oF) and CXL (Compute Express Link) will eliminate traditional network storage latency.",
+    "codeSnippet": "// Emerging CXL shared memory address space accessible across distributed database nodes"
+  }
+]

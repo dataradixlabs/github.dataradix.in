@@ -1,0 +1,362 @@
+[
+  {
+    "title": "Cats Effect 3 Fiber Architecture and Structured Concurrency",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats Effect", "Fibers", "Concurrency"],
+    "coreConcept": "How Cats Effect 3 implements green-thread work-stealing fiber runtimes on the JVM to eliminate OS thread context switching overhead.",
+    "codeSnippet": "import cats.effect.{IO, IOApp, Outcome}\nimport scala.concurrent.duration._\n\nobject FiberSupervisor extends IOApp.Simple {\n  val worker: IO[Unit] = IO.sleep(1.second) >> IO.println(\"Worker executed\")\n  val run: IO[Unit] = for {\n    fiber <- worker.start\n    _     <- IO.println(\"Fiber spawned concurrently\")\n    _     <- fiber.join.flatMap {\n      case Outcome.Succeeded(fa) => fa\n      case Outcome.Errored(e)    => IO.println(s\"Failed: ${e.getMessage}\")\n      case Outcome.Canceled()    => IO.println(\"Fiber canceled\")\n    }\n  } yield ()\n}"
+  },
+  {
+    "title": "Cats Resource Safety: Preventing Connection Pool Leaks with Bracket and Resource",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats Effect", "Resource Management", "Memory Leaks"],
+    "coreConcept": "Using cats.effect.Resource to guarantee deterministic closing of sockets, file handles, and JDBC pools even under fiber cancellation.",
+    "codeSnippet": "import cats.effect.{IO, Resource}\nimport java.sql.{Connection, DriverManager}\n\ndef acquireConnection(url: String): Resource[IO, Connection] =\n  Resource.make(\n    IO.blocking(DriverManager.getConnection(url))\n  )(conn => IO.blocking(conn.close()).handleErrorWith(_ => IO.unit))\n\nval queryProgram: IO[Unit] = acquireConnection(\"jdbc:postgresql://localhost:5432/db\").use { conn =>\n  IO.blocking(conn.createStatement().execute(\"SELECT 1\"))\n}"
+  },
+  {
+    "title": "Mastering Typeclasses in Scala 3: Givens, Usings, and Extension Methods",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Typeclasses", "FP", "Givens"],
+    "coreConcept": "Migrating from Scala 2 implicit vals to Scala 3 `given` instances and `using` clauses for compile-time ad-hoc polymorphism.",
+    "codeSnippet": "trait JsonEncoder[A]:\n  def encode(a: A): String\n\ngiven JsonEncoder[String] with\n  def encode(a: String): String = s\"\\\"${a}\\\"\"\n\nextension [A](a: A)(using encoder: JsonEncoder[A])\n  def toJson: String = encoder.encode(a)\n\nval payload = \"dataradix-stream\".toJson"
+  },
+  {
+    "title": "ZIO 2 vs Cats Effect 3: Runtime Benchmarks, ZLayers, and Fiber Interop",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "ZIO 2", "Cats Effect", "Benchmarks"],
+    "coreConcept": "Architectural trade-offs between ZIO 2 typed error channels (ZIO[R, E, A]) and Cats Effect typeclass-based Tagless Final designs.",
+    "codeSnippet": "import zio._\n\ntrait UserRepo { def find(id: String): Task[Option[String]] }\ncase class LiveUserRepo() extends UserRepo {\n  def find(id: String): Task[Option[String]] = ZIO.succeed(Some(s\"user-$id\"))\n}\n\nobject UserRepo {\n  val live: ZLayer[Any, Nothing, UserRepo] = ZLayer.succeed(LiveUserRepo())\n}\n\nval program: ZIO[UserRepo, Throwable, Option[String]] = \n  ZIO.serviceWithZIO[UserRepo](_.find(\"usr-401\"))"
+  },
+  {
+    "title": "Tagless Final Pattern: Architecture, Scalability, and Compile-Time Cost",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Tagless Final", "Higher-Kinded Types", "Clean Architecture"],
+    "coreConcept": "Decoupling business logic from effects using higher-kinded type parameters `F[_]` and MonadThrow constraints for testability.",
+    "codeSnippet": "import cats.MonadThrow\nimport cats.syntax.all._\n\ntrait OrderRepository[F[_]]:\n  def findOrder(id: String): F[Option[String]]\n  def saveOrder(id: String, amount: Double): F[Unit]\n\nclass CheckoutService[F[_]: MonadThrow](repo: OrderRepository[F]):\n  def checkout(id: String, amount: Double): F[Unit] =\n    repo.findOrder(id).flatMap {\n      case Some(_) => MonadThrow[F].raiseError(new IllegalStateException(\"Duplicate order\"))\n      case None    => repo.saveOrder(id, amount)\n    }"
+  },
+  {
+    "title": "Fs2 Streaming: Concurrency, Merging Streams, and Chunk Processing",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Fs2", "Reactive Streams", "Backpressure"],
+    "coreConcept": "How Fs2 (Functional Streams for Scala) implements pull-based backpressure, bracketed resource cleanup, and stream concurrency.",
+    "codeSnippet": "import cats.effect.{IO, IOApp}\nimport fs2.{Stream, Pipe}\nimport scala.concurrent.duration._\n\nobject Fs2Pipeline extends IOApp.Simple {\n  val ticker: Stream[IO, Long] = Stream.awakeEvery[IO](100.millis).map(_.toMillis)\n  val processor: Pipe[IO, Long, String] = _.map(ts => s\"Event emitted at: $ts\")\n  \n  val run: IO[Unit] = ticker.through(processor).take(10).evalMap(IO.println).compile.drain\n}"
+  },
+  {
+    "title": "Scala 3 Enums, Generalized Algebraic Data Types (GADTs), and Pattern Matching",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Enums", "GADTs", "Type Safety"],
+    "coreConcept": "Leveraging Scala 3 first-class enums and GADTs to eliminate illegal domain states at compile time with exhaustiveness checking.",
+    "codeSnippet": "enum Expr[A]:\n  case Const(value: Int) extends Expr[Int]\n  case BoolConst(value: Boolean) extends Expr[Boolean]\n  case Add(lhs: Expr[Int], rhs: Expr[Int]) extends Expr[Int]\n  case IfThen(cond: Expr[Boolean], t: Expr[A], f: Expr[A]) extends Expr[A]\n\ndef eval[A](expr: Expr[A]): A = expr match\n  case Expr.Const(v)        => v\n  case Expr.BoolConst(v)    => v\n  case Expr.Add(l, r)       => eval(l) + eval(r)\n  case Expr.IfThen(c, t, f) => if eval(c) then eval(t) else eval(f)"
+  },
+  {
+    "title": "Http4s and Blaze/Ember: Building High-Throughput Functional Web APIs",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Http4s", "Scala", "Web Services", "Functional API"],
+    "coreConcept": "Purely functional HTTP routing using Kleisli arrows, HttpRoutes[IO], and non-blocking streaming response bodies.",
+    "codeSnippet": "import cats.effect.IO\nimport org.http4s._\nimport org.http4s.dsl.io._\n\nval telemetryRoutes = HttpRoutes.of[IO] {\n  case GET -> Root / \"telemetry\" / deviceId =>\n    Ok(s\"{\\\"device\\\": \\\"${deviceId}\\\", \\\"status\\\": \\\"HEALTHY\\\"}\")\n  case req @ POST -> Root / \"telemetry\" =>\n    req.as[String].flatMap(body => Ok(s\"Processed payload size: ${body.length}\"))\n}"
+  },
+  {
+    "title": "Doobie & Skunk: Functional Database Access with Type-Safe SQL Queries",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Doobie", "Skunk", "PostgreSQL", "Database"],
+    "coreConcept": "Comparing JDBC-wrapped Doobie transactions with native non-blocking Postgres protocol driver Skunk for pure functional SQL.",
+    "codeSnippet": "import doobie._\nimport doobie.implicits._\nimport cats.effect.IO\n\ncase class Account(id: Long, balance: BigDecimal)\n\ndef findAccount(accId: Long): ConnectionIO[Option[Account]] =\n  sql\"SELECT id, balance FROM accounts WHERE id = $accId\"\n    .query[Account]\n    .option"
+  },
+  {
+    "title": "Metaprogramming in Scala 3: Inline, Quotes, and Splices Explained",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Macros", "Metaprogramming", "Compiler"],
+    "coreConcept": "Demystifying Scala 3 macro architecture: inline defs, quoted syntax trees ('{ ... }), and AST evaluation splices (${ ... }).",
+    "codeSnippet": "import scala.quoted._\n\ninline def debugLog(inline msg: Any): Unit = ${ debugLogImpl('msg) }\n\ndef debugLogImpl(expr: Expr[Any])(using Quotes): Expr[Unit] = {\n  import quotes.reflect._\n  val strRep = expr.show\n  '{ println(${Expr(strRep)} + \" = \" + $expr) }\n}"
+  },
+  {
+    "title": "Scala Monocle: Functional Optics, Lenses, and Prisms for Nested State",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Monocle", "Optics", "Immutability"],
+    "coreConcept": "Updating deeply nested immutable domain case classes without verbose copy chains using Monocle Lens and Prism optics.",
+    "codeSnippet": "import monocle.syntax.all._\n\ncase class Address(street: String, zip: String)\ncase class Company(name: String, address: Address)\ncase class Employee(name: String, company: Company)\n\nval emp = Employee(\"Alice\", Company(\"DataRadix\", Address(\"Silicon Ave\", \"94025\")))\nval updated = emp.focus(_.company.address.street).replace(\"Radix Plaza\")"
+  },
+  {
+    "title": "Monad Transformers: Demystifying OptionT and EitherT in Production Pipelines",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Monads", "Cats", "Architecture"],
+    "coreConcept": "Structuring complex business workflows combining async IO and fallible operations via EitherT[IO, ServiceError, A] without deep nesting.",
+    "codeSnippet": "import cats.data.EitherT\nimport cats.effect.IO\n\ncase class AppError(code: String, msg: String)\n\ndef getUser(id: String): EitherT[IO, AppError, String] =\n  EitherT.rightT(s\"User-$id\")\n\ndef validate(user: String): EitherT[IO, AppError, Boolean] =\n  EitherT.cond(user.nonEmpty, true, AppError(\"VAL_FAIL\", \"Empty user\"))\n\nval pipeline = for {\n  u <- getUser(\"101\")\n  v <- validate(u)\n} yield v"
+  },
+  {
+    "title": "Chimney: Zero-Boilerplate Type-Safe Data Transformations in Scala",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Chimney", "Data Transformation", "Clean Architecture"],
+    "coreConcept": "Eliminating manual boilerplate when mapping between domain entities, DTOs, and protocol buffers using compile-time macro transformation.",
+    "codeSnippet": "import io.scalaland.chimney.dsl._\n\ncase class DomainOrder(id: String, customerId: String, totalCents: Long)\ncase class OrderView(id: String, customerId: String, totalDollars: Double)\n\nval domain = DomainOrder(\"ord-99\", \"cust-1\", 4500L)\nval view = domain.into[OrderView]\n  .withFieldComputed(_.totalDollars, d => d.totalCents.toDouble / 100.0)\n  .transform"
+  },
+  {
+    "title": "Refined Types in Scala: Enforcing Domain Invariants at Compile-Time",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Refined", "Type Safety", "Domain Driven Design"],
+    "coreConcept": "Using predicate types (e.g., String Refined MatchesRegex, Int Refined Positive) to validate domain rules at compile time.",
+    "codeSnippet": "import eu.timepit.refined.api.Refined\nimport eu.timepit.refined.auto._\nimport eu.timepit.refined.numeric.Positive\nimport eu.timepit.refined.string.MatchesRegex\n\ntype Port = Int Refined Positive\ntype Email = String Refined MatchesRegex[\"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\\\.[a-zA-Z]{2,}$\"]\n\nval validPort: Port = 8080\n// Compile error if invalid constant: val invalidPort: Port = -80"
+  },
+  {
+    "title": "Circe JSON Parser Architecture: Semi-Automatic vs. Derivation Performance",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Circe", "JSON", "Serialization"],
+    "coreConcept": "Analyzing Circe parser ASTs, macro-generated codecs, and customizing JsonCodec derivation for microsecond-level throughput.",
+    "codeSnippet": "import io.circe._, io.circe.generic.semiauto._, io.circe.parser._\n\ncase class EventPayload(eventId: String, timestamp: Long, payload: Map[String, String])\n\ngiven Codec[EventPayload] = deriveCodec[EventPayload]\n\nval jsonStr = \"\"\"{\"eventId\":\"e1\",\"timestamp\":1700000000,\"payload\":{\"env\":\"prod\"}}\"\"\"\nval decoded = decode[EventPayload](jsonStr)"
+  },
+  {
+    "title": "Functional Error Handling: ValidatedNec vs. Either for Batch Validation",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats", "Validation", "Error Handling"],
+    "coreConcept": "Accumulating multiple field validation errors using ValidatedNec (NonEmptyChain) instead of fail-fast Either in form and ETL pipelines.",
+    "codeSnippet": "import cats.data.ValidatedNec\nimport cats.syntax.all._\n\ntype ValidationResult[A] = ValidatedNec[String, A]\n\ndef validateAge(age: Int): ValidationResult[Int] =\n  if (age >= 18) age.validNec else \"Age must be >= 18\".invalidNec\n\ndef validateName(name: String): ValidationResult[String] =\n  if (name.nonEmpty) name.validNec else \"Name cannot be empty\".invalidNec\n\nval validatedPerson = (validateName(\"\"), validateAge(16)).mapN((n, a) => (n, a))"
+  },
+  {
+    "title": "Benchmarking Scala Parallel Collections vs. Fs2 Concurrency",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Performance", "Parallel Collections", "Fs2"],
+    "coreConcept": "Measuring CPU-bound work on ForkJoin pools versus IO-bound backpressured streams under high concurrency.",
+    "codeSnippet": "import scala.collection.parallel.CollectionConverters._\n\nval rawData = (1 to 1000000).toList\n// ForkJoin parallelism for pure CPU computation\nval parallelSum = rawData.par.map(x => math.sqrt(x.toDouble)).sum"
+  },
+  {
+    "title": "Scala 3 Opaque Types: Zero-Allocation Domain Modeling vs. Value Classes",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Opaque Types", "Performance", "Type Safety"],
+    "coreConcept": "How Scala 3 opaque type aliases enforce strict compile-time types with guaranteed zero runtime object allocation overhead.",
+    "codeSnippet": "object Domain:\n  opaque type AccountId = String\n  object AccountId:\n    def apply(value: String): AccountId = value\n  extension (id: AccountId)\n    def value: String = id\n\nimport Domain._\nval acc = AccountId(\"acc_9921\")\nval rawString: String = acc.value // Type safe, identical to String at runtime"
+  },
+  {
+    "title": "PureConfig: Loading Fail-Fast Type-Safe Configurations in Scala",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "PureConfig", "DevOps", "12-Factor"],
+    "coreConcept": "Validating HOCON and environment variable structures into typed immutable case classes at application startup.",
+    "codeSnippet": "import pureconfig._\nimport pureconfig.generic.auto._\n\ncase class ServerConf(host: String, port: Int, threadPoolSize: Int)\ncase class AppConf(server: ServerConf, databaseUrl: String)\n\nval conf: ConfigReader.Result[AppConf] = ConfigSource.default.load[AppConf]"
+  },
+  {
+    "title": "Weaver-Test and MUnit: High-Performance Concurrent Unit Testing in Scala",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Testing", "MUnit", "Cats Effect"],
+    "coreConcept": "Executing asynchronous, effectful test suites in parallel with native Cats Effect integration and clear diff assertions.",
+    "codeSnippet": "import munit.CatsEffectSuite\nimport cats.effect.IO\n\nclass TelemetrySuite extends CatsEffectSuite {\n  test(\"health check returns HTTP 200 within SLA\") {\n    val action = IO.sleep(scala.concurrent.duration.Duration.Zero) >> IO.pure(200)\n    assertIO(action, 200)\n  }\n}"
+  },
+  {
+    "title": "GraalVM Native Image Compilation with Scala 3: Cold Start Optimization",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "GraalVM", "Native Image", "Serverless"],
+    "coreConcept": "Compiling Scala microservices into self-contained native Linux binaries with sub-10ms startup times and minimal memory footprints.",
+    "codeSnippet": "// native-image-config reflection hints & build arguments\n// native-image --no-fallback -H:+ReportExceptionStackTraces -jar target/scala-cli-app.jar"
+  },
+  {
+    "title": "Cats Semigroup and Monoid: Algebraic Aggregations in Distributed Big Data",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats", "Algebra", "Big Data"],
+    "coreConcept": "Using associative Monoid.combine and empty elements to guarantee deterministic parallel map-reduce aggregations.",
+    "codeSnippet": "import cats.Monoid\nimport cats.implicits._\n\ncase class Metrics(requests: Long, errors: Long, latencySumMs: Double)\ngiven Monoid[Metrics] with\n  def empty: Metrics = Metrics(0L, 0L, 0.0)\n  def combine(x: Metrics, y: Metrics): Metrics =\n    Metrics(x.requests + y.requests, x.errors + y.errors, x.latencySumMs + y.latencySumMs)\n\nval nodeMetrics = List(Metrics(100, 2, 4500.0), Metrics(150, 0, 5200.0))\nval total = nodeMetrics.combineAll"
+  },
+  {
+    "title": "Scala 3 Match Types: Compile-Time Type-Level Computation Explained",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Match Types", "Type System", "Advanced FP"],
+    "coreConcept": "Computing return types conditionally at compile time based on parameter types using Scala 3 dependent match types.",
+    "codeSnippet": "type Elem[X] = X match\n  case String      => Char\n  case Array[t]    => t\n  case Iterable[t] => t\n\ndef getFirst[X](x: X): Elem[X] = x match\n  case s: String      => s.charAt(0)\n  case a: Array[_]    => a(0)\n  case it: Iterable[_]=> it.head"
+  },
+  {
+    "title": "Scalacheck: Property-Based Testing for Critical Financial Workflows",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Property-Based Testing", "Scalacheck", "QA"],
+    "coreConcept": "Generating thousands of randomized edge-case inputs to verify mathematical invariants and idempotency in financial ledger logic.",
+    "codeSnippet": "import org.scalacheck.Prop.forAll\nimport org.scalacheck.Properties\n\nobject AccountProperties extends Properties(\"FinancialLedger\") {\n  property(\"deposit balance is monotonic\") = forAll { (initial: Long, deposit: Long) =>\n    (initial >= 0 && deposit >= 0) ==>\n      ((initial + deposit) >= initial)\n  }\n}"
+  },
+  {
+    "title": "Caliban: Building High-Throughput GraphQL Services in Functional Scala",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Caliban", "GraphQL", "APIs"],
+    "coreConcept": "Deriving type-safe GraphQL schemas directly from Scala case classes and resolving nested fields via ZIO and Cats Effect fibers.",
+    "codeSnippet": "import caliban.GraphQL.graphQL\nimport caliban.RootResolver\nimport zio._\n\ncase class Character(name: String, role: String)\ncase class Queries(character: String => Task[Option[Character]])\n\nval resolver = RootResolver(Queries(name => ZIO.succeed(Some(Character(name, \"Architect\")))))\nval api = graphQL(resolver)"
+  },
+  {
+    "title": "Shapeless vs. Scala 3 Mirror: Generic Programming and Type-Level Derivation",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Metaprogramming", "Generic Derivation", "Mirror"],
+    "coreConcept": "How Scala 3 built-in scala.deriving.Mirror replaces complex Shapeless HLists for compile-time generic type derivation.",
+    "codeSnippet": "import scala.deriving.Mirror\n\ninline def printLabels[T](using m: Mirror.ProductOf[T]): Unit = {\n  val elementLabels = compiletime.constValueTuple[m.MirroredElemLabels]\n  println(s\"Fields: $elementLabels\")\n}\n\ncase class WorkerNode(ip: String, cores: Int)\nprintLabels[WorkerNode]"
+  },
+  {
+    "title": "Functional State Machines with Cats IO and Ref/Deferred Concurrency",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats Effect", "State Machines", "Concurrency"],
+    "coreConcept": "Managing atomic thread-safe state transitions and thread coordination without synchronized locks using Cats Ref and Deferred.",
+    "codeSnippet": "import cats.effect.{IO, Ref, Deferred}\n\nsealed trait State\ncase object Idle extends State\ncase class Busy(task: String) extends State\n\nclass JobRunner(stateRef: Ref[IO, State]) {\n  def assign(task: String): IO[Boolean] =\n    stateRef.modify {\n      case Idle    => (Busy(task), true)\n      case Busy(_) => (Busy(task), false)\n    }\n}"
+  },
+  {
+    "title": "Scala.meta: AST Inspection and Automated Refactoring for Legacy Codebases",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "AST", "Metaprogramming", "Code Generation"],
+    "coreConcept": "Parsing, analyzing, and rewriting Scala source code programmatically using Scala.meta to automate migrations across major versions.",
+    "codeSnippet": "import scala.meta._\n\nval tree = \"\"\"val x = 10 + 20\"\"\".parse[Stat].get\ntree match {\n  case q\"val $pat = $expr\" => println(s\"Variable defined: $pat, Expression: $expr\")\n}"
+  },
+  {
+    "title": "Zero-Overhead Functional Logging: Structured Observability with Log4cats",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Observability", "Logging", "Log4cats"],
+    "coreConcept": "Maintaining W3C correlation IDs and trace context across asynchronous fiber boundaries using Log4cats StructuredLogger.",
+    "codeSnippet": "import org.typelevel.log4cats.StructuredLogger\nimport org.typelevel.log4cats.slf4j.Slf4jLogger\nimport cats.effect.IO\n\ndef logRequest(requestId: String): IO[Unit] = for {\n  logger <- Slf4jLogger.create[IO]\n  _      <- logger.info(Map(\"requestId\" -> requestId, \"service\" -> \"auth\"))(\"Token validated successfully\")\n} yield ()"
+  },
+  {
+    "title": "Scala 3 Context Functions: Dependency Injection without Framework Magic",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Context Functions", "Dependency Injection", "Architecture"],
+    "coreConcept": "Using context functions `?=>` to pass execution environments and database contexts implicitly through call graphs without boilerplate.",
+    "codeSnippet": "case class RequestContext(traceId: String, authUserId: String)\n\ntype Action[T] = RequestContext ?=> T\n\ndef logTrace(msg: String): Action[Unit] = \n  println(s\"[Trace: ${summon[RequestContext].traceId}] $msg\")\n\ngiven RequestContext = RequestContext(\"req-7788\", \"user-42\")\nlogTrace(\"Authenticated transaction initialized\")"
+  },
+  {
+    "title": "Cats Foldable and Traverse: Solving Parallel Bulk I/O Without Memory Blowup",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats", "Traverse", "Concurrency"],
+    "coreConcept": "Using `parTraverse` to process large batches of external API calls concurrently while controlling max parallelism to protect downstreams.",
+    "codeSnippet": "import cats.effect.IO\nimport cats.syntax.all._\n\ndef fetchRemoteData(id: Int): IO[String] = IO.pure(s\"payload-$id\")\n\nval ids = (1 to 100).toList\n// Concurrently fetch with Cats parTraverse\nval fetchedAll: IO[List[String]] = ids.parTraverse(fetchRemoteData)"
+  },
+  {
+    "title": "Tapir: Declarative OpenAPI-First Endpoint Modeling in Functional Scala",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Tapir", "OpenAPI", "REST API"],
+    "coreConcept": "Describing HTTP endpoints as immutable data values that automatically generate OpenAPI 3.0 documentation, server logic, and client SDKs.",
+    "codeSnippet": "import sttp.tapir._\nimport sttp.tapir.json.circe._\nimport io.circe.generic.auto._\n\ncase class StatusResponse(status: String, uptimeMs: Long)\n\nval statusEndpoint = endpoint\n  .get\n  .in(\"api\" / \"v1\" / \"status\")\n  .out(jsonBody[StatusResponse])"
+  },
+  {
+    "title": "Tuning the G1 and ZGC Garbage Collectors for Scala Akka and Cats Runtimes",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["JVM", "Garbage Collection", "ZGC", "Performance Tuning"],
+    "coreConcept": "Configuring generational ZGC (-XX:+UseZGC -XX:+ZGenerational) to achieve sub-millisecond pause times under millions of allocated IO fibers.",
+    "codeSnippet": "# JVM options for low-latency functional microservices\njava -XX:+UseZGC -XX:+ZGenerational -XX:SoftMaxHeapSize=8G -Xmx16G -jar app.jar"
+  },
+  {
+    "title": "Cats Data Chain vs Vector: Algorithmic Memory and Concat Cost in Scala",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats", "Data Structures", "Algorithms"],
+    "coreConcept": "Why cats.data.Chain provides O(1) prepend and append operations, eliminating O(N) reallocation penalties common with Vector and List.",
+    "codeSnippet": "import cats.data.Chain\n\nval c1 = Chain(1, 2, 3)\nval c2 = Chain(4, 5, 6)\n// O(1) concatenation without copying\nval combined = c1 ++ c2"
+  },
+  {
+    "title": "Building Idempotent Kafka Producers in Scala with Functional Streams",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Kafka", "Fs2 Kafka", "Streaming"],
+    "coreConcept": "Integrating fs2-kafka with transactional producer IDs and exactly-once offsets commit loops to prevent duplicate writes.",
+    "codeSnippet": "import fs2.kafka._\nimport cats.effect.IO\n\nval producerSettings = ProducerSettings[IO, String, String]\n  .withBootstrapServers(\"localhost:9092\")\n  .withProperty(\"enable.idempotence\", \"true\")"
+  },
+  {
+    "title": "Cats Effect Semaphore and Rate Limiting: Protecting Upstream Legacy Gateways",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats Effect", "Rate Limiting", "Resilience"],
+    "coreConcept": "Using cats.effect.std.Semaphore and token bucket algorithms to throttle outbound third-party API traffic dynamically.",
+    "codeSnippet": "import cats.effect.std.Semaphore\nimport cats.effect.IO\n\ndef throttledCall(sem: Semaphore[IO], endpoint: IO[String]): IO[String] =\n  sem.permit.use(_ => endpoint)"
+  },
+  {
+    "title": "Tail-Call Optimization (@tailrec) and Stack Safety in Pure FP Systems",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Compiler", "TailRec", "Algorithms"],
+    "coreConcept": "Ensuring deep recursive algorithms compile to JVM iterative loops using @annotation.tailrec to prevent StackOverflowError.",
+    "codeSnippet": "import scala.annotation.tailrec\n\n@tailrec\ndef gcd(a: Long, b: Long): Long =\n  if (b == 0) a else gcd(b, a % b)"
+  },
+  {
+    "title": "Migrating Legacy Akka HTTP to Http4s: Architectural Roadmap and Benchmarks",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Migration", "Http4s", "Akka HTTP"],
+    "coreConcept": "Replacing ActorSystem thread pools and directive trees with purely functional Cats Effect IO HttpRoutes for reduced memory footprints.",
+    "codeSnippet": "// Converting Akka Route directive to Http4s Kleisli\n// route: Route = path(\"ping\") { complete(\"pong\") }\n// to HttpRoutes.of[IO] { case GET -> Root / \"ping\" => Ok(\"pong\") }"
+  },
+  {
+    "title": "Scala 3 Type Unions vs. Either: Pragmatic Error and Result Modeling",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Union Types", "Type System", "Error Handling"],
+    "coreConcept": "Using commutating union types `A | B` instead of nested Either[A, Either[B, C]] for cleaner domain modeling.",
+    "codeSnippet": "case class NetworkError(msg: String)\ncase class AuthError(code: Int)\n\ndef executeRpc(): String | NetworkError | AuthError =\n  if (true) \"Payload response\" else NetworkError(\"Connection timeout\")"
+  },
+  {
+    "title": "Functional Circuit Breakers: Integrating Resilience4j and Cats Effect",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Cats Effect", "Circuit Breaker", "Resilience"],
+    "coreConcept": "Implementing half-open state transitions and sliding-window failure rate tracking inside Cats Effect fiber runtimes.",
+    "codeSnippet": "import cats.effect.IO\nimport scala.concurrent.duration._\n\n// Conceptual Circuit Breaker using atomic Refs\nsealed trait CBState\ncase object Closed extends CBState\ncase object Open extends CBState\ncase object HalfOpen extends CBState"
+  },
+  {
+    "title": "Monad Transformers vs. Tagless Final: Memory Allocation Profiling",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "JMH", "Profiling", "Performance"],
+    "coreConcept": "Using async-profiler and JMH to inspect bytecode object allocations caused by EitherT wrapping versus direct IO error channels.",
+    "codeSnippet": "// Profiling script: sbt 'jmh:run -i 10 -wi 5 -f 1 -t 4 MonadTransformerBenchmark'"
+  },
+  {
+    "title": "Compile-Time Metaprogramming with Scala 3 Macros for Fast Avro Encoding",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Avro", "Serialization", "Macros"],
+    "coreConcept": "Generating Apache Avro binary schema encoders at compile time to avoid runtime reflection overhead.",
+    "codeSnippet": "// Inspecting macro code generation during SBT compile\n// scalacOptions += \"-Xprint:macro\""
+  },
+  {
+    "title": "Functional Actor Patterns: Simulating Actors with Cats Effect Queue and Ref",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala", "Actor Model", "Cats Effect", "Concurrency"],
+    "coreConcept": "Achieving isolated state concurrency and mailbox message passing using Cats Effect std.Queue and infinite consumer fibers.",
+    "codeSnippet": "import cats.effect.std.Queue\nimport cats.effect.IO\n\ncase class ActorMessage(replyTo: IO[Unit], payload: String)\n\ndef actorLoop(inbox: Queue[IO, ActorMessage]): IO[Unit] =\n  inbox.take.flatMap(msg => IO.println(s\"Processing: ${msg.payload}\")) >> actorLoop(inbox)"
+  },
+  {
+    "title": "Scala 3 Export Clauses: Composing Object Interfaces Without Inheritance",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Design Patterns", "Clean Code", "Composition"],
+    "coreConcept": "Using `export` definitions to delegate method calls cleanly to internal collaborators, favoring composition over deep inheritance trees.",
+    "codeSnippet": "class KeyValueStore:\n  def get(k: String): Option[String] = Some(\"v\")\n  def put(k: String, v: String): Unit = ()\n\nclass CachingService(store: KeyValueStore):\n  export store.get // Exposes get without exposing internal store\n  def cachedLookup(k: String): String = get(k).getOrElse(\"default\")"
+  },
+  {
+    "title": "The Road to Scala 3.6: Upcoming Language Improvements for Data Engineers",
+    "category": "Scala & Functional Programming",
+    "accent": "#DC2626",
+    "tags": ["Scala 3", "Roadmap", "Data Engineering", "Future Tech"],
+    "coreConcept": "Exploring SIP proposals including better capture checking, experimental direct-style concurrency, and compiler speedups.",
+    "codeSnippet": "// Preview of direct-style experimental capture checking\n// import language.experimental.captureChecking"
+  }
+]

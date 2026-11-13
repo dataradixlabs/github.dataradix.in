@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://DataRadix.solutions/sitemap.xml
+Sitemap: https://dataradix.in/sitemap.xml
