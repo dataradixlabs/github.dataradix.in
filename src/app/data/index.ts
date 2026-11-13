@@ -554,6 +554,117 @@ export const TESTIMONIALS = [
 
 export const BLOG_POSTS = [
   {
+    id: 'scala-apache-spark-iceberg-lakehouse',
+    image: '/blog/scala-apache-spark-iceberg-lakehouse.svg',
+    title: 'Building Real-Time Lakehouses with Scala, Apache Spark, and Apache Iceberg',
+    excerpt: 'How to design low-latency, ACID-compliant streaming lakehouses using Scala, Spark Structured Streaming, and Apache Iceberg to eliminate brittle multi-hop batch ETLs.',
+    author: { name: 'Utkarsh', avatar: 'U', bio: 'Software Development Engineer' },
+    date: 'November 14, 2026',
+    readTime: '10 min read',
+    category: 'Data Architecture',
+    icon: Database,
+    featured: true,
+    content: `
+      <p>For more than a decade, enterprise data engineering followed an awkward compromise known as the Lambda Architecture: real-time streaming pipelines for fast alerts, paired with fragile nightly batch jobs (Hive, Hadoop, plain Parquet) to rewrite history and clean up data. By 2026, that duality is recognized as technical debt. The modern standard is a unified <strong>Streaming Lakehouse</strong>.</p>
+
+      <p>Combining <strong>Scala</strong> (the native language of high-throughput distributed engines), <strong>Apache Spark Structured Streaming</strong>, and <strong>Apache Iceberg</strong> table formats allows data teams to achieve true transactional guarantees, sub-minute ingestion latencies, and zero-copy queries directly on object storage (AWS S3, Google Cloud Storage, Azure ADLS).</p>
+
+      <h2>Why Legacy Parquet Directories Fail Under Real-Time Streams</h2>
+      <p>When appending thousands of events per second directly to raw cloud storage, traditional partitioned directory formats fall victim to critical distributed bottlenecks:</p>
+      <ul>
+        <li><strong>The Small File Epidemic:</strong> Streaming ingestion writes frequent tiny Parquet files. Downstream query engines (Trino, Snowflake, Spark SQL) spend 90% of execution time listing S3 object prefixes and fetching file headers rather than crunching data.</li>
+        <li><strong>Zero Isolation & Partial Reads:</strong> Plain object stores lack ACID transactions. A query executing mid-write reads corrupt, half-written partitions with no concurrency control.</li>
+        <li><strong>Costly Partition Mutations:</strong> Renaming directories on S3 is an $O(N)$ HTTP copy-and-delete operation that degrades throughput and triggers throttling errors.</li>
+      </ul>
+
+      <h2>Enter Apache Iceberg: Metadata-Driven Table Architecture</h2>
+      <p>Apache Iceberg discards directory-based routing entirely. An Iceberg table is defined by a tree of immutable metadata files (snapshots, manifest lists, and manifests) that point directly to data files. This architecture delivers:</p>
+      <ul>
+        <li><strong>Serializable ACID Transactions:</strong> Writes complete via optimistic concurrency control (OCC). Readers only see committed snapshot pointers.</li>
+        <li><strong>Hidden Partitioning & Partition Evolution:</strong> Change partition granularities (e.g., from day to hour) dynamically without rewriting existing petabytes of historical data.</li>
+        <li><strong>Time Travel & Rollback:</strong> Audit historical states or rollback bad pipeline deploys simply by referencing previous snapshot IDs.</li>
+        <li><strong>In-Place Compaction:</strong> Background worker jobs merge small files and expire older snapshots without taking the table offline.</li>
+      </ul>
+
+      <h2>Architectural Blueprint: Streaming Ingestion Pipeline</h2>
+      <p>A production-ready pipeline ingests Change Data Capture (CDC) events from transactional databases via Apache Kafka, processes transformations with Spark in Scala, and upserts directly into an Iceberg lakehouse table using <code>MERGE INTO</code> semantics.</p>
+
+      <h3>1. Defining the Scala Spark Streaming Ingestion</h3>
+      <p>Scala provides native type safety with compile-time Dataset validation, outperforming dynamic scripting languages during complex schema evolutions:</p>
+
+      <pre><code>import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types._
+
+val spark = SparkSession.builder()
+  .appName("IcebergStreamingLakehouse")
+  .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")
+  .config("spark.sql.catalog.lakehouse", "org.apache.iceberg.spark.SparkCatalog")
+  .config("spark.sql.catalog.lakehouse.type", "rest")
+  .config("spark.sql.catalog.lakehouse.uri", "http://iceberg-catalog:8181")
+  .config("spark.sql.catalog.lakehouse.io-impl", "org.apache.iceberg.aws.s3.S3FileIO")
+  .getOrCreate()
+
+import spark.implicits._
+
+// Stream ingestion from Kafka event backbone
+val rawKafkaStream = spark.readStream
+  .format("kafka")
+  .option("kafka.bootstrap.servers", "kafka-broker:9092")
+  .option("subscribe", "orders.cdc.events")
+  .option("startingOffsets", "latest")
+  .load()
+      </code></pre>
+
+      <h3>2. Type-Safe Stream Transformation & Upserts</h3>
+      <p>Using Spark's <code>foreachBatch</code> mechanism, streaming micro-batches are efficiently merged into the target Iceberg table using atomic SQL merges:</p>
+
+      <pre><code>val streamingQuery = processedOrders.writeStream
+  .format("iceberg")
+  .outputMode("append")
+  .trigger(Trigger.ProcessingTime("30 seconds"))
+  .option("checkpointLocation", "s3://dataradix-checkpoints/orders-lakehouse")
+  .foreachBatch { (batchDF, batchId) =>
+    batchDF.createOrReplaceTempView("batch_updates")
+    
+    spark.sql("""
+      MERGE INTO lakehouse.prod.orders target
+      USING batch_updates source
+      ON target.order_id = source.order_id
+      WHEN MATCHED AND source.operation = 'DELETE' THEN DELETE
+      WHEN MATCHED THEN UPDATE SET *
+      WHEN NOT MATCHED THEN INSERT *
+    """)
+  }
+  .start()
+      </code></pre>
+
+      <h2>Production Optimization: Compaction & Small File Maintenance</h2>
+      <p>Because streaming writes introduce small file commits, automated maintenance is essential to keep read latency sub-second. In Scala, table maintenance can be scheduled as a lightweight companion task:</p>
+      <ul>
+        <li><strong>Bin-Pack Compaction:</strong> Execute Iceberg's <code>rewriteDataFiles</code> action to pack tiny files into optimal 512MB columnar files.</li>
+        <li><strong>Snapshot Expiration:</strong> Automatically purge historical snapshots older than 7 days to recover storage costs while preserving point-in-time recovery for recent runs.</li>
+        <li><strong>Z-Ordering & Sort Orders:</strong> Cluster frequently filtered columns (such as <code>tenant_id</code> and <code>created_timestamp</code>) to maximize file skipping during SQL analytical queries.</li>
+      </ul>
+
+      <h2>The Real-World Business Payoff</h2>
+      <p>Migrating from traditional decoupled batch ETL architectures to a Scala + Spark + Iceberg streaming lakehouse yields dramatic operational returns:</p>
+      <ul>
+        <li><strong>Zero Duplicate Pipelines:</strong> The exact same table serves real-time dashboards and multi-year analytical ML model training.</li>
+        <li><strong>90% Cloud Storage Query Cost Reductions:</strong> Min-max metadata pruning skips irrelevant files entirely, avoiding expensive full table scans.</li>
+        <li><strong>Instant Disaster Recovery:</strong> Bad ETL deploys can be rolled back with a single metadata update: <code>CALL lakehouse.system.rollback_to_snapshot('orders', 123456789)</code>.</li>
+      </ul>
+
+      <h2>Conclusion</h2>
+      <p>The convergence of Scala's functional concurrency, Apache Spark's battle-tested distributed engine, and Apache Iceberg's open table specification marks the definitive end of fractured data lakes. Engineering teams building scalable data platforms in 2026 must adopt transactional open lakehouses to stay competitive.</p>
+    `,
+    relatedPosts: [
+      { id: 'mastering-akka-clustering', title: 'Mastering Akka Clustering' },
+      { id: 'akka-persistence-event-sourcing', title: 'Akka Persistence & Event Sourcing' },
+      { id: 'most-relevant-technologies-for-software-engineers-in-2027', title: 'The Most Relevant Technologies for Software Engineers in 2027' },
+    ],
+  },
+  {
     id: 'most-relevant-technologies-for-software-engineers-in-2027',
     image: '/blog-technologies-2027.jpg',
     title: 'The Most Relevant Technologies for Software Engineers in 2027',
