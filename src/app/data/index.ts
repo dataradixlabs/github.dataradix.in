@@ -5,6 +5,7 @@ import {
   Network, Activity, Target, Eye, Award, Globe, Heart, TrendingUp,
   Terminal, Mail, Phone, MapPin, Clock
 } from 'lucide-react';
+import { QUEUED_BLOG_POSTS } from './catalog/generatedCatalog.ts';
 
 export const SERVICES = [
   {
@@ -552,7 +553,7 @@ export const CASE_STUDY_CATEGORIES = ['All', 'Web Development', 'Mobile Developm
 export const TESTIMONIALS = [
 ];
 
-export const BLOG_POSTS = [
+const BASE_BLOG_POSTS = [
   {
     id: 'scala-apache-spark-iceberg-lakehouse',
     image: '/blog/scala-apache-spark-iceberg-lakehouse.svg',
@@ -1065,6 +1066,20 @@ val rawKafkaStream = spark.readStream
     icon: Palette,
     featured: false,
   },
+];
+
+export const BLOG_POSTS = [
+  ...BASE_BLOG_POSTS,
+  ...QUEUED_BLOG_POSTS
+    .filter(post => {
+      // Automatic day-by-day release: Only release if publishDate <= today's UTC date
+      const todayIso = new Date().toISOString().split('T')[0];
+      return post.publishDate <= todayIso;
+    })
+    .map(post => ({
+      ...post,
+      icon: Database,
+    })),
 ];
 
 export const TIMELINE = [
