@@ -52,7 +52,7 @@
 
     <!-- Subtitle / Concept -->
     <text x="0" y="165" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="400">
-      Autonomous Agent Workflows, RAG & Deterministic Harnesses
+      Autonomous Agent Workflows, RAG &amp; Deterministic Harnesses
     </text>
 
     <!-- Divider Bar -->
