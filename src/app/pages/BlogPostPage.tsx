@@ -95,9 +95,17 @@ export function BlogPostPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="aspect-video border border-border bg-background flex items-center justify-center"
+            className="aspect-video border border-border bg-background flex items-center justify-center overflow-hidden"
           >
-            <post.icon className="w-32 h-32 text-muted-foreground/30 relative z-10" />
+            {post.image ? (
+              <img
+                src={post.image}
+                alt={post.title}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <post.icon className="w-32 h-32 text-muted-foreground/30 relative z-10" />
+            )}
           </motion.div>
         </div>
       </section>

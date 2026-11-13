@@ -576,6 +576,7 @@ export const BLOG_POSTS = [
     date: 'November 13, 2026',
     readTime: '11 min read',
     category: 'Engineering Trends',
+    image: '/blog-technologies-2027.jpg',
     icon: Cpu,
     featured: true,
     content: `

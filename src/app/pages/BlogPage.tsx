@@ -58,10 +58,20 @@ export function BlogPage() {
               >
                 <Link to={`/blog/${post.id}`} className="block group h-full">
                   <div className="bg-background hover:bg-muted transition-colors overflow-hidden h-full flex flex-col">
-                    {/* Image Placeholder */}
+                    {/* Image */}
                     <div className="aspect-[16/9] bg-muted flex items-center justify-center relative overflow-hidden border-b border-border">
-                      <div className="absolute inset-0 grid-pattern opacity-100" />
-                      <post.icon className="w-24 h-24 text-muted-foreground/30 relative z-10" />
+                      {post.image ? (
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <>
+                          <div className="absolute inset-0 grid-pattern opacity-100" />
+                          <post.icon className="w-24 h-24 text-muted-foreground/30 relative z-10" />
+                        </>
+                      )}
                     </div>
 
                     {/* Content */}
@@ -131,10 +141,20 @@ export function BlogPage() {
               >
                 <Link to={`/blog/${post.id}`} className="block group h-full">
                   <div className="bg-background hover:bg-secondary transition-colors overflow-hidden h-full flex flex-col">
-                    {/* Image Placeholder */}
+                    {/* Image */}
                     <div className="aspect-video bg-muted flex items-center justify-center relative overflow-hidden border-b border-border">
-                      <div className="absolute inset-0 grid-pattern opacity-100" />
-                      <post.icon className="w-16 h-16 text-muted-foreground/30 relative z-10" />
+                      {post.image ? (
+                        <img
+                          src={post.image}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <>
+                          <div className="absolute inset-0 grid-pattern opacity-100" />
+                          <post.icon className="w-16 h-16 text-muted-foreground/30 relative z-10" />
+                        </>
+                      )}
                     </div>
 
                     {/* Content */}
