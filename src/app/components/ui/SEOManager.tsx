@@ -10,7 +10,7 @@ export interface SEOProps {
   title?: string;
   description?: string;
   robots?: string;
-  keywords?: string[];
+  keywords?: string | string[];
   canonicalUrl?: string;
   ogImage?: string;
   ogType?: 'website' | 'article' | 'profile';
@@ -67,8 +67,11 @@ export function SEOManager({
     // Standard Meta Tags
     setMeta('name', 'description', finalDescription);
     setMeta('name', 'robots', robots);
-    if (keywords && keywords.length > 0) {
-      setMeta('name', 'keywords', keywords.join(', '));
+    if (keywords) {
+      const keywordsStr = Array.isArray(keywords) ? keywords.join(', ') : keywords;
+      if (keywordsStr.trim().length > 0) {
+        setMeta('name', 'keywords', keywordsStr);
+      }
     }
 
     // OpenGraph
