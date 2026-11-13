@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Logo } from './ui/Logo';
 
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,9 +40,7 @@ export function ChatBot() {
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border bg-foreground">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 border border-background/20 flex items-center justify-center">
-                  <MessageCircle className="w-4 h-4 text-background" />
-                </div>
+                <Logo size={28} />
                 <div>
                   <h3 className="font-display font-semibold text-sm text-background">DataRadix Support</h3>
                   <p className="text-xs text-background/60">We typically reply in minutes</p>

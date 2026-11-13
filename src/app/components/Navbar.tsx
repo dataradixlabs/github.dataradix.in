@@ -3,6 +3,7 @@ import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useTheme } from './ThemeProvider';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Logo } from './ui/Logo';
 
 export function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -49,10 +50,8 @@ export function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 border border-foreground bg-foreground flex items-center justify-center transition-colors group-hover:bg-primary group-hover:border-primary">
-              <span className="text-background font-display font-bold text-sm">N</span>
-            </div>
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <Logo size={32} />
             <span className="font-display font-bold text-base tracking-tight">
               DataRadix
             </span>

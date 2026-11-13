@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { Github, Twitter, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { Logo } from './ui/Logo';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -31,10 +32,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 group mb-6">
-              <div className="w-8 h-8 border border-foreground bg-foreground flex items-center justify-center transition-colors group-hover:bg-primary group-hover:border-primary">
-                <span className="text-background font-display font-bold text-sm">N</span>
-              </div>
+            <Link to="/" className="flex items-center gap-2.5 group mb-6">
+              <Logo size={32} />
               <span className="font-display font-bold text-base tracking-tight">DataRadix</span>
             </Link>
             <p className="text-sm text-muted-foreground mb-6 max-w-sm leading-relaxed">
