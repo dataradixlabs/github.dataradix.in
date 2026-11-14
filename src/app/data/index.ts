@@ -829,7 +829,7 @@ val rawKafkaStream = spark.readStream
   },
   {
     id: 'most-relevant-technologies-for-software-engineers-in-2027',
-    image: '/blog-technologies-2027.jpg',
+    image: '/blog/most-relevant-technologies-for-software-engineers-in-2027.svg',
     title: 'The Most Relevant Technologies for Software Engineers in 2027',
     excerpt: 'A research-driven guide to the languages, architectures, agentic runtimes, and distributed platforms that will define software engineering in 2027.',
     author: { name: 'Utkarsh', avatar: 'U', bio: 'Software Development Engineer' },
