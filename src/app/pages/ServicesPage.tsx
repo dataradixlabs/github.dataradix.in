@@ -44,105 +44,180 @@ export function ServicesPage() {
           className={`py-24 ${index % 2 === 0 ? 'bg-secondary border-y border-border' : ''}`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${
-              index % 2 === 1 ? 'lg:flex-row-reverse' : ''
-            }`}>
-              <motion.div
-                initial={{ opacity: 0, x: index % 2 === 0 ? -24 : 24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className={index % 2 === 1 ? 'lg:order-2' : ''}
-              >
-                <div className="aspect-square border border-border bg-muted flex items-center justify-center relative overflow-hidden group shadow-xl">
-                  {service.image ? (
-                    <img
-                      src={service.image}
-                      alt={`${service.title} Architecture Diagram`}
-                      className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <>
-                      <div className="absolute inset-0 grid-pattern opacity-100" />
-                      <service.icon className="w-32 h-32 text-muted-foreground/40 relative z-10" />
-                    </>
-                  )}
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: index % 2 === 0 ? 24 : -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className={index % 2 === 1 ? 'lg:order-1' : ''}
-              >
-                <div className="inline-flex items-center gap-3 px-4 py-2 border border-border bg-secondary mb-6">
-                  <service.icon className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-xs font-medium tracking-widest uppercase text-muted-foreground">{service.title}</span>
-                </div>
-
-                <h2 className="font-display font-bold text-3xl mb-4 leading-tight">
-                  {service.tagline}
-                </h2>
-
-                <p className="text-muted-foreground leading-relaxed mb-8">
-                  {service.description}
-                </p>
-
-                <div className="space-y-2 mb-8">
-                  {service.benefits.map((benefit) => (
-                    <div key={benefit} className="flex items-center gap-3">
-                      <CheckCircle className="w-4 h-4 text-foreground flex-shrink-0" />
-                      <span className="text-sm">{benefit}</span>
+            {service.image ? (
+              /* High-impact Horizontal Architecture Layout */
+              <div className="space-y-12">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="lg:col-span-8"
+                  >
+                    <div className="inline-flex items-center gap-3 px-4 py-2 border border-border bg-background mb-6">
+                      <service.icon className="w-4 h-4 text-foreground" />
+                      <span className="text-xs font-bold tracking-widest uppercase">{service.title}</span>
                     </div>
-                  ))}
+
+                    <h2 className="font-display font-bold text-3xl sm:text-4xl mb-4 leading-tight">
+                      {service.tagline}
+                    </h2>
+
+                    <p className="text-muted-foreground leading-relaxed text-base max-w-3xl">
+                      {service.description}
+                    </p>
+                  </motion.div>
+
+                  <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 lg:items-end justify-start pt-2">
+                    <Link
+                      to={`/services/${service.id}`}
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background text-xs font-bold uppercase tracking-widest hover:bg-primary transition-colors w-full sm:w-auto"
+                    >
+                      Explore Deep Dive
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-border bg-background text-xs font-bold uppercase tracking-widest hover:bg-secondary transition-colors w-full sm:w-auto"
+                    >
+                      Start Project
+                    </Link>
+                  </div>
                 </div>
 
-                {service.domains && (
-                  <div className="mb-8 p-5 border border-border bg-background/50">
-                    <h4 className="font-display font-semibold text-xs tracking-widest uppercase mb-3 text-muted-foreground">Domain Experience</h4>
-                    <div className="grid grid-cols-1 gap-2.5">
-                      {service.domains.map((dom: any) => (
-                        <div key={dom.name} className="text-xs">
-                          <span className="font-bold text-foreground">{dom.name}:</span>{' '}
-                          <span className="text-muted-foreground">{dom.desc}</span>
-                        </div>
+                {/* Horizontal Architecture Canvas */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="w-full aspect-[16/9] border border-border bg-background overflow-hidden group shadow-2xl relative"
+                >
+                  <img
+                    src={service.image}
+                    alt={`${service.title} Architecture Diagram`}
+                    className="w-full h-full object-contain bg-[#08090E] transition-transform duration-500 group-hover:scale-[1.01]"
+                    loading="lazy"
+                  />
+                </motion.div>
+
+                {/* Benefits, Domains & Tech Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
+                  <div className="space-y-3">
+                    <h4 className="font-display font-semibold text-xs tracking-widest uppercase text-muted-foreground">Architectural Pillars</h4>
+                    {service.benefits.map((benefit) => (
+                      <div key={benefit} className="flex items-start gap-3">
+                        <CheckCircle className="w-4 h-4 text-foreground flex-shrink-0 mt-0.5" />
+                        <span className="text-xs text-muted-foreground leading-relaxed">{benefit}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {service.domains ? (
+                    <div className="p-5 border border-border bg-background/50">
+                      <h4 className="font-display font-semibold text-xs tracking-widest uppercase mb-3 text-muted-foreground">Domain Experience</h4>
+                      <div className="space-y-3">
+                        {service.domains.map((dom: any) => (
+                          <div key={dom.name} className="text-xs">
+                            <span className="font-bold text-foreground">{dom.name}:</span>{' '}
+                            <span className="text-muted-foreground leading-relaxed">{dom.desc}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : <div />}
+
+                  <div>
+                    <h4 className="font-display font-semibold text-xs tracking-widest uppercase mb-3 text-muted-foreground">Technology Stack</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {service.tech.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2.5 py-1 border border-border bg-background text-[11px] font-medium"
+                        >
+                          {tech}
+                        </span>
                       ))}
                     </div>
                   </div>
-                )}
+                </div>
+              </div>
+            ) : (
+              /* Standard 2-column layout for other services */
+              <div className={`grid grid-cols-1 lg:grid-cols-2 gap-16 items-center ${
+                index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+              }`}>
+                <motion.div
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -24 : 24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className={index % 2 === 1 ? 'lg:order-2' : ''}
+                >
+                  <div className="aspect-square border border-border bg-muted flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 grid-pattern opacity-100" />
+                    <service.icon className="w-32 h-32 text-muted-foreground/40 relative z-10" />
+                  </div>
+                </motion.div>
 
-                <div className="mb-8">
-                  <h4 className="font-display font-semibold text-xs tracking-widest uppercase mb-4 text-muted-foreground">Technologies We Use</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {service.tech.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 border border-border bg-background text-xs font-medium"
-                      >
-                        {tech}
-                      </span>
+                <motion.div
+                  initial={{ opacity: 0, x: index % 2 === 0 ? 24 : -24 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className={index % 2 === 1 ? 'lg:order-1' : ''}
+                >
+                  <div className="inline-flex items-center gap-3 px-4 py-2 border border-border bg-secondary mb-6">
+                    <service.icon className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-xs font-medium tracking-widest uppercase text-muted-foreground">{service.title}</span>
+                  </div>
+
+                  <h2 className="font-display font-bold text-3xl mb-4 leading-tight">
+                    {service.tagline}
+                  </h2>
+
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    {service.description}
+                  </p>
+
+                  <div className="space-y-2 mb-8">
+                    {service.benefits.map((benefit) => (
+                      <div key={benefit} className="flex items-center gap-3">
+                        <CheckCircle className="w-4 h-4 text-foreground flex-shrink-0" />
+                        <span className="text-sm">{benefit}</span>
+                      </div>
                     ))}
                   </div>
-                </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                  <Link
-                    to={`/services/${service.id}`}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background text-xs font-bold uppercase tracking-widest hover:bg-primary transition-colors"
-                  >
-                    Service Details
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-border bg-background text-xs font-bold uppercase tracking-widest hover:bg-secondary transition-colors"
-                  >
-                    Start Project
-                  </Link>
-                </div>
-              </motion.div>
-            </div>
+                  <div className="mb-8">
+                    <h4 className="font-display font-semibold text-xs tracking-widest uppercase mb-4 text-muted-foreground">Technologies We Use</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {service.tech.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-3 py-1 border border-border bg-background text-xs font-medium"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                    <Link
+                      to={`/services/${service.id}`}
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background text-xs font-bold uppercase tracking-widest hover:bg-primary transition-colors"
+                    >
+                      Service Details
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-border bg-background text-xs font-bold uppercase tracking-widest hover:bg-secondary transition-colors"
+                    >
+                      Start Project
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
+            )}
           </div>
         </section>
       ))}

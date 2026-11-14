@@ -40,44 +40,44 @@ export function ServiceDetailPage() {
             Back to Services
           </Link>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-            >
-              <div className="inline-flex items-center gap-3 px-3 py-1 border border-border bg-background mb-6">
-                <service.icon className="w-4 h-4" />
-                <span className="text-[10px] font-bold uppercase tracking-widest">{service.title}</span>
-              </div>
-              <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl mb-6 leading-tight">
-                {service.tagline}
-              </h1>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                {service.description}
-              </p>
-            </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-4xl mb-12"
+          >
+            <div className="inline-flex items-center gap-3 px-3 py-1 border border-border bg-background mb-6">
+              <service.icon className="w-4 h-4" />
+              <span className="text-[10px] font-bold uppercase tracking-widest">{service.title}</span>
+            </div>
+            <h1 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl mb-6 leading-tight">
+              {service.tagline}
+            </h1>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              {service.description}
+            </p>
+          </motion.div>
 
+          {/* Architecture Visual Banner */}
+          {service.image ? (
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="aspect-square border border-border bg-muted flex items-center justify-center relative overflow-hidden group shadow-2xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="w-full aspect-[16/9] border border-border bg-background/50 rounded-none overflow-hidden group shadow-2xl relative"
             >
-              {service.image ? (
-                <img
-                  src={service.image}
-                  alt={`${service.title} Architecture Diagram`}
-                  className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-              ) : (
-                <>
-                  <div className="absolute inset-0 grid-pattern opacity-100" />
-                  <service.icon className="w-32 h-32 text-muted-foreground/30 relative z-10" />
-                </>
-              )}
+              <img
+                src={service.image}
+                alt={`${service.title} Architecture Diagram`}
+                className="w-full h-full object-contain bg-[#08090E] transition-transform duration-500 group-hover:scale-[1.01]"
+                loading="eager"
+              />
             </motion.div>
-          </div>
+          ) : (
+            <div className="w-full h-64 border border-border bg-muted flex items-center justify-center relative overflow-hidden">
+              <div className="absolute inset-0 grid-pattern opacity-100" />
+              <service.icon className="w-24 h-24 text-muted-foreground/30 relative z-10" />
+            </div>
+          )}
         </div>
       </section>
 
