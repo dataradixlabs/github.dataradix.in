@@ -68,13 +68,19 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://dataradix.in/services/web-development-services</loc>
+    <loc>https://dataradix.in/services/scala-backend-engineering</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dataradix.in/services/mobile-app-development</loc>
+    <loc>https://dataradix.in/services/scala-data-engineering</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dataradix.in/services/web-development-services</loc>
     <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -271,6 +277,26 @@
     <image:image>
       <image:loc>https://dataradix.in/case-studies/saas-platform-ui-ux-redesign.svg</image:loc>
       <image:title>saas platform ui ux redesign architecture case study</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/case-studies/connected-vehicle-iot-telemetry-platform</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/case-studies/connected-vehicle-iot-telemetry-platform.svg</image:loc>
+      <image:title>connected vehicle iot telemetry platform architecture case study</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/case-studies/enterprise-loyalty-rewards-engine</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/case-studies/enterprise-loyalty-rewards-engine.svg</image:loc>
+      <image:title>enterprise loyalty rewards engine architecture case study</image:title>
     </image:image>
   </url>
   <url>

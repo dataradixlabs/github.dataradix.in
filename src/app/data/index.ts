@@ -3,11 +3,92 @@ import {
   Building2, BarChart3, Rocket, Zap, Layers,
   Hexagon, Triangle, Command, Ghost, Gem, Cpu,
   Network, Activity, Target, Eye, Award, Globe, Heart, TrendingUp,
-  Terminal, Mail, Phone, MapPin, Clock
+  Terminal, Mail, Phone, MapPin, Clock, Server, Workflow,
+  ShieldCheck, Gauge
 } from 'lucide-react';
 import { QUEUED_BLOG_POSTS } from './catalog/generatedCatalog.ts';
 
 export const SERVICES = [
+  {
+    id: 'scala-backend-engineering',
+    icon: Server,
+    image: '/services/scala-backend-architecture.svg',
+    title: 'Scala Backend Engineering',
+    tagline: 'High-Concurrency, Fault-Tolerant Distributed Microservices',
+    description: 'We architect and build rock-solid, zero-allocation backend microservices and distributed systems in Scala 3 and Scala 2. Leveraging the Akka Toolkit, Apache Pekko, Play Framework, Cats Effect, and ZIO, we deliver non-blocking throughput and sub-millisecond latencies for mission-critical workloads.',
+    features: [
+      'Akka Toolkit & Apache Pekko (Actor Systems, Cluster Sharding, Distributed Data)',
+      'Play Framework (High-Velocity Non-Blocking Web APIs & REST)',
+      'Typelevel Functional Ecosystem (Cats Effect 3, FS2, Http4s, Tapir)',
+      'ZIO 2 High-Performance Concurrent Runtimes & STM',
+      'Apache Kafka Streaming & Reactive Alpakka Connectors',
+      'Bidirectional gRPC, Protobuf & Zero-Downtime Microservices'
+    ],
+    metrics: [
+      { label: 'Throughput', value: '10x' },
+      { label: 'Tail Latency (p99)', value: '< 2ms' },
+      { label: 'System Uptime', value: '99.999%' }
+    ],
+    process: [
+      { title: 'Domain Modeling', desc: 'Crafting expressive, type-safe functional domain schemas.' },
+      { title: 'Concurrent Architecture', desc: 'Designing actor clusters and fiber-based, non-blocking pipelines.' },
+      { title: 'Implementation', desc: 'Building high-throughput microservices with Akka, Play, Cats Effect & ZIO.' },
+      { title: 'Hardening & Benchmarking', desc: 'Garbage-collection tuning, JMH benchmarks, and stress testing.' }
+    ],
+    benefits: [
+      'Purely functional, type-safe architecture preventing runtime errors',
+      'Lightweight fiber and actor concurrency delivering 100k+ RPS per node',
+      'High-throughput gRPC and event-driven communication',
+      'Mathematical correctness and deterministic error recovery',
+      'Zero-downtime distributed cluster resilience'
+    ],
+    domains: [
+      { name: 'Fintech & Digital Banking', desc: 'Real-time ledger processing, sub-2ms payment rails, fraud detection pipelines, and PCI-DSS immutable audit trails using Akka and Kafka.' },
+      { name: 'Automobile & Connected Fleets', desc: 'High-frequency vehicle IoT telemetry processing, CAN-bus event streaming, and live predictive maintenance microservices.' },
+      { name: 'Loyalty & Reward Platforms', desc: 'High-concurrency points transaction engines, dynamic reward ledger balancing, and real-time coupon redemptions under peak festival loads.' }
+    ],
+    tech: ['Scala 3', 'Akka Toolkit', 'Apache Pekko', 'Play Framework', 'Cats Effect', 'ZIO', 'Apache Kafka', 'gRPC', 'Http4s', 'PostgreSQL'],
+  },
+  {
+    id: 'scala-data-engineering',
+    icon: Workflow,
+    image: '/services/scala-spark-data-engineering.svg',
+    title: 'Scala Data Engineering',
+    tagline: 'Petabyte-Scale Distributed Data Pipelines & Real-Time Streaming',
+    description: 'Harness the full power of distributed data platforms built on the JVM. We design, optimize, and operate petabyte-scale batch and real-time streaming data pipelines using Apache Spark in Scala, Apache Flink, Kafka, and modern open Lakehouses (Delta Lake & Apache Iceberg).',
+    features: [
+      'Apache Spark Engine & Catalyst Optimizer Internals (Whole-Stage Codegen)',
+      'Apache Flink Stateful Stream Processing & RocksDB Checkpointing',
+      'Lakehouse Architectures (Delta Lake & Apache Iceberg with ACID Guarantees)',
+      'Real-Time Apache Kafka Ingestion & Event Mesh Pipelines',
+      'Custom Spark Memory Partitioners, AQE Tuning & Zero-OOM Optimization',
+      'Strict Schema Evolution (Avro, Protobuf) & Automated Data Quality Contracts'
+    ],
+    metrics: [
+      { label: 'Cloud Cost Savings', value: '45%' },
+      { label: 'Data Processed', value: 'Petabytes' },
+      { label: 'Pipeline Reliability', value: '99.99%' }
+    ],
+    process: [
+      { title: 'Pipeline Discovery', desc: 'Analyzing data sources, volumes, latency requirements, and SLA targets.' },
+      { title: 'Architecture Design', desc: 'Designing Lakehouse schemas, partitioning, and streaming topology.' },
+      { title: 'Engine Engineering', desc: 'Writing strongly-typed Spark/Flink jobs with functional purity.' },
+      { title: 'Cluster Optimization', desc: 'Tuning memory allocation, shuffle partitions, and executor cores.' }
+    ],
+    benefits: [
+      'Deterministic batch and stateful real-time stream processing',
+      'Deep Spark Catalyst optimization eliminating skew and OOM errors',
+      'Modern open table formats (Apache Iceberg, Delta Lake) integration',
+      'Significant reduction in cloud compute and warehouse costs',
+      'Robust end-to-end data lineage and schema governance'
+    ],
+    domains: [
+      { name: 'Automobile Telematics', desc: 'Petabyte-scale sensor stream ingestion, driver behavior analytics, and geospatial route optimization with Spark & Delta Lake.' },
+      { name: 'Fintech Analytics & Risk', desc: 'Real-time financial risk modeling, regulatory report generation, and transactional graph analytics on distributed Lakehouses.' },
+      { name: 'Loyalty & User Personalization', desc: 'Real-time personalization engines, customer segment churn prediction, and omnichannel reward reconciliation pipelines.' }
+    ],
+    tech: ['Scala', 'Apache Spark', 'Apache Flink', 'Delta Lake', 'Apache Iceberg', 'Apache Kafka', 'Trino', 'Airflow', 'Redpanda'],
+  },
   {
     id: 'web-development-services',
     icon: Code,
@@ -35,38 +116,6 @@ export const SERVICES = [
     ],
     benefits: ['Scalable Architecture', 'Performance Optimized', 'SEO Ready', 'Secure by Design'],
     tech: ['React', 'Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'GraphQL'],
-  },
-  {
-    id: 'mobile-app-development',
-    icon: Smartphone,
-    title: 'Mobile Development',
-    tagline: 'Immersive Mobile Experiences',
-    description: 'Create stunning mobile applications that users love. We develop native iOS and Android apps, as well as cross-platform solutions that deliver native performance with faster time to market.',
-    features: [
-      'Native iOS (Swift)',
-      'Native Android (Kotlin)',
-      'Cross-Platform (React Native)',
-      'Flutter Development',
-      'Mobile UI/UX Design',
-      'App Store Optimization'
-    ],
-    metrics: [
-      { label: 'Downloads', value: '1M+' },
-      { label: 'Avg Rating', value: '4.8/5' },
-      { label: 'Crash-free', value: '99.9%' }
-    ],
-    process: [
-      { title: 'UX Design', desc: 'Crafting intuitive mobile interfaces.' },
-      { title: 'Development', desc: 'Building with native performance in mind.' },
-      { title: 'QA Testing', desc: 'Rigorous testing on real devices.' },
-      { title: 'Launch', desc: 'Navigating App Store & Play Store guidelines.' }
-    ],
-    benefits: [
-      'Mobile app design & UX',
-      'App Store optimization',
-      'Ongoing maintenance & updates',
-    ],
-    tech: ['React Native', 'Flutter', 'Swift', 'Kotlin', 'Firebase', 'AWS Amplify'],
   },
   {
     id: 'cloud-infrastructure-devops',
@@ -243,20 +292,20 @@ export const CASE_STUDIES = [
     image: '/case-studies/fintech-payment-platform-transformation.svg',
     title: 'FinTech Platform Transformation',
     client: 'PayFlow Inc.',
-    category: 'Web Development',
+    category: 'Fintech & Scala',
     icon: Layers,
-    tagline: 'Built a secure, scalable payment processing platform',
-    description: 'Developed a comprehensive payment processing platform handling $50M+ in monthly transactions with 99.99% uptime.',
+    tagline: 'High-throughput event-sourced payment platform with Akka & Kafka',
+    description: 'Engineered an immutable, event-sourced financial ledger processing $50M+ in monthly transactions with sub-200ms latency and 99.99% uptime.',
     results: {
       metric1: { value: '+300%', label: 'Transaction Volume' },
       metric2: { value: '99.99%', label: 'Uptime' },
       metric3: { value: '$50M+', label: 'Monthly Processing' },
     },
-    tech: ['React', 'Node.js', 'PostgreSQL', 'AWS', 'Stripe', 'Kubernetes', 'Redis', 'GraphQL'],
+    tech: ['Scala 3', 'Akka Toolkit', 'Apache Kafka', 'PostgreSQL', 'AWS', 'Kubernetes', 'Redis', 'gRPC'],
     date: 'January 2025',
     duration: '6 months',
     team: '8 people',
-    overview: 'PayFlow Inc. needed to modernize their legacy payment system to handle growing transaction volumes while maintaining PCI-DSS compliance. We built a completely new platform using modern cloud-native architecture.',
+    overview: 'PayFlow Inc. needed to modernize their legacy payment system to handle growing transaction volumes while maintaining PCI-DSS compliance. We built a completely new platform using reactive Scala runtimes and distributed Kafka event streams.',
     challenge: {
       description: 'The existing payment system was struggling with increasing load, lacked modern security features, and had frequent downtime. The client needed a solution that could scale to handle millions of transactions while meeting strict financial compliance requirements.',
       points: [
@@ -497,6 +546,114 @@ export const CASE_STUDIES = [
     },
   },
   {
+    id: 'connected-vehicle-iot-telemetry-platform',
+    image: '/services/scala-spark-data-engineering.svg',
+    title: 'Automobile Connected Fleet Telematics',
+    client: 'AutoMetrics Global',
+    category: 'Automotive & IoT',
+    icon: Gauge,
+    tagline: 'Petabyte-scale vehicle IoT stream processing with Scala & Spark',
+    description: 'Designed a real-time connected vehicle telemetry engine processing 1.2M events/sec from 350,000+ active automobiles with Apache Spark & Kafka.',
+    results: {
+      metric1: { value: '1.2M/s', label: 'Telemetry Events' },
+      metric2: { value: '< 500ms', label: 'E2E Stream Latency' },
+      metric3: { value: '350K+', label: 'Connected Vehicles' },
+    },
+    tech: ['Scala', 'Apache Spark', 'Apache Kafka', 'Delta Lake', 'AWS EMR', 'Protobuf', 'TimescaleDB'],
+    date: 'August 2024',
+    duration: '7 months',
+    team: '9 people',
+    overview: 'A leading automobile mobility enterprise required a fault-tolerant streaming architecture to ingest, validate, and compute telemetry from over 350,000 connected vehicles across North America and Europe.',
+    challenge: {
+      description: 'The legacy ingestion pipelines collapsed under peak morning commuting surges, leading to packet drops, out-of-order sensor readings, and severe cloud compute cost overruns.',
+      points: [
+        'Millions of concurrent CAN-bus sensor payloads surging simultaneously',
+        'Severe JVM garbage collection pauses causing executor drops',
+        'Inability to run real-time predictive maintenance alerts',
+        'Unbounded cloud cluster operational costs'
+      ],
+    },
+    solution: {
+      description: 'We engineered a non-blocking streaming topology in Scala using Spark Structured Streaming on Kubernetes, paired with Kafka and Delta Lake.',
+      points: [
+        'Zero-copy Protobuf serialization for sensor telemetry',
+        'Custom Scala partitioners aligned with vehicle VIN geography',
+        'Catalyst optimizer tuning eliminating shuffle disk-spills',
+        'Real-time anomaly detection for vehicle engine diagnostics',
+        'Z-Ordered Delta Lake lakehouse for analytical queries'
+      ],
+    },
+    detailResults: {
+      metrics: [
+        { value: '1.2M/s', label: 'Peak stream throughput' },
+        { value: '350K+', label: 'Connected vehicles supported' },
+        { value: '-52%', label: 'Cloud compute cost reduction' },
+        { value: '99.99%', label: 'Pipeline uptime SLA' },
+        { value: '<500ms', label: 'Alerting latency for critical faults' }
+      ],
+      testimonial: {
+        quote: 'DataRadix’s mastery of Scala and Spark turned an unstable telemetry pipeline into our primary competitive edge. The operational reliability and cost savings exceeded all internal projections.',
+        author: 'Marcus Vance',
+        role: 'VP of Connected Mobility, AutoMetrics Global',
+        avatar: 'M',
+      },
+    },
+  },
+  {
+    id: 'enterprise-loyalty-rewards-engine',
+    image: '/services/scala-backend-architecture.svg',
+    title: 'Enterprise Loyalty & Rewards Platform',
+    client: 'OmniRewards Network',
+    category: 'Loyalty & Retail',
+    icon: ShieldCheck,
+    tagline: 'High-concurrency points ledger & redemption engine with Akka & Play',
+    description: 'Built a multi-tenant loyalty ledger handling 45,000 TPS during retail holiday spikes with instant points redemption and zero double-spend anomalies.',
+    results: {
+      metric1: { value: '45K TPS', label: 'Peak Concurrency' },
+      metric2: { value: '< 15ms', label: 'p99 Redemption SLA' },
+      metric3: { value: '25M+', label: 'Active Members' },
+    },
+    tech: ['Scala 3', 'Akka Cluster', 'Play Framework', 'Redis', 'PostgreSQL', 'Kafka', 'Docker'],
+    date: 'November 2024',
+    duration: '5 months',
+    team: '7 people',
+    overview: 'OmniRewards needed an ultra-responsive, strictly consistent loyalty points engine capable of handling flash-sale surges without balance inconsistencies or transaction timeouts.',
+    challenge: {
+      description: 'During Black Friday events, the client experienced database row-locking contention, leading to redemption timeouts and critical point balance discrepancies.',
+      points: [
+        'Relational database deadlock under concurrent point redemption',
+        'Sub-second response expectations at offline supermarket checkout points',
+        'Complex fraud vectors with simultaneous multi-device redemptions',
+        'Fragmented partner merchant API integrations'
+      ],
+    },
+    solution: {
+      description: 'We built an in-memory, actor-based distributed ledger in Scala using Akka Cluster Sharding and the Play Framework.',
+      points: [
+        'Actor-per-account model eliminating database locks',
+        'Event sourcing with CQRS for an immutable audit trail',
+        'Distributed in-memory caching with Redis cluster',
+        'Real-time fraud scoring via Kafka streaming',
+        'High-velocity Play REST & gRPC merchant gateway'
+      ],
+    },
+    detailResults: {
+      metrics: [
+        { value: '45,000 TPS', label: 'Verified peak throughput' },
+        { value: '<15ms', label: 'p99 redemption latency' },
+        { value: 'Zero', label: 'Balance inconsistency errors' },
+        { value: '25M+', label: 'Active loyalty members powered' },
+        { value: '100%', label: 'Black Friday uptime' }
+      ],
+      testimonial: {
+        quote: 'Switching to DataRadix’s Akka-based loyalty architecture gave us total peace of mind. For the first time, our platform sailed through the holiday shopping rush without a single hitch.',
+        author: 'Sarah Chen',
+        role: 'Chief Product Officer, OmniRewards Network',
+        avatar: 'S',
+      },
+    },
+  },
+  {
     id: 'smart-retail-pos-system-development',
     image: '/case-studies/smart-retail-pos-system-development.svg',
     title: 'Smart Retail POS System',
@@ -548,7 +705,7 @@ export const CASE_STUDIES = [
   },
 ];
 
-export const CASE_STUDY_CATEGORIES = ['All', 'Web Development', 'Mobile Development', 'Cloud & DevOps', 'AI & Data', 'Design'];
+export const CASE_STUDY_CATEGORIES = ['All', 'Fintech & Scala', 'Automotive & IoT', 'Loyalty & Retail', 'Web Development', 'Mobile Development', 'Cloud & DevOps', 'AI & Data'];
 
 export const TESTIMONIALS = [
 ];

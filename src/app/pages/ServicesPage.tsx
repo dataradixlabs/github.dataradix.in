@@ -53,9 +53,20 @@ export function ServicesPage() {
                 viewport={{ once: true }}
                 className={index % 2 === 1 ? 'lg:order-2' : ''}
               >
-                <div className="aspect-square border border-border bg-muted flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 grid-pattern opacity-100" />
-                  <service.icon className="w-32 h-32 text-muted-foreground/40 relative z-10" />
+                <div className="aspect-square border border-border bg-muted flex items-center justify-center relative overflow-hidden group shadow-xl">
+                  {service.image ? (
+                    <img
+                      src={service.image}
+                      alt={`${service.title} Architecture Diagram`}
+                      className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <>
+                      <div className="absolute inset-0 grid-pattern opacity-100" />
+                      <service.icon className="w-32 h-32 text-muted-foreground/40 relative z-10" />
+                    </>
+                  )}
                 </div>
               </motion.div>
 
@@ -86,6 +97,20 @@ export function ServicesPage() {
                     </div>
                   ))}
                 </div>
+
+                {service.domains && (
+                  <div className="mb-8 p-5 border border-border bg-background/50">
+                    <h4 className="font-display font-semibold text-xs tracking-widest uppercase mb-3 text-muted-foreground">Domain Experience</h4>
+                    <div className="grid grid-cols-1 gap-2.5">
+                      {service.domains.map((dom: any) => (
+                        <div key={dom.name} className="text-xs">
+                          <span className="font-bold text-foreground">{dom.name}:</span>{' '}
+                          <span className="text-muted-foreground">{dom.desc}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 <div className="mb-8">
                   <h4 className="font-display font-semibold text-xs tracking-widest uppercase mb-4 text-muted-foreground">Technologies We Use</h4>

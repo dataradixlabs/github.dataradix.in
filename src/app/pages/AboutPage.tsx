@@ -69,9 +69,10 @@ export function AboutPage() {
                   We've delivered over 200 successful projects across web, mobile, cloud, and AI.
                 </p>
                 <p>
-                  Today, our team of 50+ experts continues to push boundaries, staying ahead of
-                  technological trends to deliver solutions that drive real business value. We're
-                  not just developers—we're strategic partners invested in your success.
+                  Today, our team continues to push boundaries with deep, specialized engineering
+                  excellence across high-concurrency <strong>Automobile & Connected Telematics</strong>,
+                  mission-critical <strong>Fintech & Payment Systems</strong>, and high-volume <strong>Loyalty & Retail Platforms</strong>.
+                  We're not just developers—we're strategic technical partners invested in your architectural resilience.
                 </p>
               </div>
             </motion.div>

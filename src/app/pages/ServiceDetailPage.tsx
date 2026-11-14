@@ -61,10 +61,21 @@ export function ServiceDetailPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="aspect-square border border-border bg-muted flex items-center justify-center relative overflow-hidden"
+              className="aspect-square border border-border bg-muted flex items-center justify-center relative overflow-hidden group shadow-2xl"
             >
-              <div className="absolute inset-0 grid-pattern opacity-100" />
-              <service.icon className="w-32 h-32 text-muted-foreground/30 relative z-10" />
+              {service.image ? (
+                <img
+                  src={service.image}
+                  alt={`${service.title} Architecture Diagram`}
+                  className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+              ) : (
+                <>
+                  <div className="absolute inset-0 grid-pattern opacity-100" />
+                  <service.icon className="w-32 h-32 text-muted-foreground/30 relative z-10" />
+                </>
+              )}
             </motion.div>
           </div>
         </div>
@@ -87,6 +98,22 @@ export function ServiceDetailPage() {
       {/* Capabilities & Tech */}
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {service.domains && (
+            <div className="mb-20">
+              <p className="text-xs text-muted-foreground tracking-widest uppercase mb-3">Proven Track Record</p>
+              <h2 className="font-display font-bold text-3xl mb-8">Industry &amp; Domain Expertise</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {service.domains.map((dom: any, idx: number) => (
+                  <div key={idx} className="p-8 border border-border bg-secondary/30 relative">
+                    <div className="text-xs font-mono text-muted-foreground uppercase tracking-widest mb-2">0{idx + 1} / DOMAIN</div>
+                    <h3 className="font-display font-bold text-xl mb-3">{dom.name}</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{dom.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24">
             <div>
               <h2 className="font-display font-bold text-3xl mb-10">Core Capabilities</h2>

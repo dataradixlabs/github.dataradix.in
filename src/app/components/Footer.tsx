@@ -13,8 +13,9 @@ export function Footer() {
       { label: 'Blog', path: '/blog' },
     ],
     services: [
+      { label: 'Scala Backend Engineering', path: '/services/scala-backend-engineering' },
+      { label: 'Scala Data Engineering', path: '/services/scala-data-engineering' },
       { label: 'Web Development', path: '/services/web-development-services' },
-      { label: 'Mobile Apps', path: '/services/mobile-app-development' },
       { label: 'Cloud & DevOps', path: '/services/cloud-infrastructure-devops' },
       { label: 'Data & AI', path: '/services/data-engineering-ai-solutions' },
     ],
