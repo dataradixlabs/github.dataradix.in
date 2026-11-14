@@ -44,9 +44,13 @@ export function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <div className="aspect-square border border-border bg-muted flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 grid-pattern opacity-100" />
-                <Rocket className="w-32 h-32 text-foreground relative z-10" />
+              <div className="aspect-[4/3] border border-border bg-muted flex items-center justify-center relative overflow-hidden group shadow-2xl">
+                <img
+                  src="/about-studio.jpg"
+                  alt="DataRadix Engineering Studio and Collaborative Systems Architecture Review"
+                  className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
               </div>
             </motion.div>
 
@@ -240,13 +244,24 @@ export function AboutPage() {
                 whileHover={{ backgroundColor: 'var(--muted)' }}
                 className="group p-6 bg-background text-center transition-colors"
               >
-                <div className="w-16 h-16 border border-border bg-muted flex items-center justify-center text-sm font-bold mx-auto mb-4 group-hover:border-foreground transition-colors">
-                  {member.avatar}
+                <div className="w-24 h-24 border border-border bg-muted overflow-hidden mx-auto mb-4 group-hover:border-foreground transition-colors relative shadow-md">
+                  {member.image ? (
+                    <img
+                      src={member.image}
+                      alt={`${member.name} - ${member.role}`}
+                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-base font-bold text-muted-foreground">
+                      {member.avatar}
+                    </div>
+                  )}
                 </div>
                 <h3 className="font-display font-semibold text-sm mb-1">
                   {member.name}
                 </h3>
-                <p className="text-xs text-muted-foreground mb-2 tracking-wide">{member.role}</p>
+                <p className="text-xs text-muted-foreground mb-2 tracking-wide font-medium">{member.role}</p>
                 <p className="text-xs text-muted-foreground">{member.bio}</p>
               </motion.div>
             ))}

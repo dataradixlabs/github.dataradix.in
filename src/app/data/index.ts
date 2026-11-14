@@ -92,6 +92,7 @@ export const SERVICES = [
   {
     id: 'web-development-services',
     icon: Code,
+    image: '/services/web-development.jpg',
     title: 'Web Development',
     tagline: 'High-Performance Web Architectures',
     description: 'We build enterprise-grade web applications that set industry standards for speed, security, and scalability. Our approach combines cutting-edge frontend frameworks with robust backend systems to deliver seamless digital experiences.',
@@ -120,6 +121,7 @@ export const SERVICES = [
   {
     id: 'cloud-infrastructure-devops',
     icon: Cloud,
+    image: '/services/cloud-devops.jpg',
     title: 'Cloud & DevOps',
     tagline: 'Scalable infrastructure and automation',
     description: 'Streamline your operations with cloud-native architecture and DevOps best practices. We help you migrate to the cloud, implement CI/CD pipelines, and build resilient, auto-scaling infrastructure.',
@@ -155,6 +157,7 @@ export const SERVICES = [
   {
     id: 'data-engineering-ai-solutions',
     icon: Database,
+    image: '/services/data-ai.jpg',
     title: 'Data Engineering & AI',
     tagline: 'Transform data into actionable insights',
     description: 'Unlock the power of your data with modern data engineering and artificial intelligence solutions. We build data pipelines, analytics platforms, and AI-powered features that drive business value.',
@@ -1249,14 +1252,14 @@ export const TIMELINE = [
 ];
 
 export const TEAM = [
-  { name: 'Alex Rivera', role: 'CEO & Founder', avatar: 'A', bio: '15+ years in tech leadership' },
-  { name: 'Sarah Kim', role: 'CTO', avatar: 'S', bio: 'Former Google engineer, AI specialist' },
-  { name: 'Marcus Johnson', role: 'Head of Design', avatar: 'M', bio: 'Award-winning UX designer' },
-  { name: 'Emily Chen', role: 'VP of Engineering', avatar: 'E', bio: 'Cloud architecture expert' },
-  { name: 'David Park', role: 'Head of DevOps', avatar: 'D', bio: 'Infrastructure automation guru' },
-  { name: 'Lisa Martinez', role: 'Chief Data Officer', avatar: 'L', bio: 'Data science & ML leader' },
-  { name: 'James Wilson', role: 'Director of Mobile', avatar: 'J', bio: 'iOS & Android specialist' },
-  { name: 'Anna Taylor', role: 'Head of Consulting', avatar: 'T', bio: 'Digital transformation expert' },
+  { name: 'Alex Rivera', role: 'CEO & Founder', image: '/team/alex-rivera.jpg', avatar: 'A', bio: '15+ years in tech leadership' },
+  { name: 'Sarah Kim', role: 'CTO', image: '/team/sarah-kim.jpg', avatar: 'S', bio: 'Former Google engineer, AI & distributed systems' },
+  { name: 'Marcus Johnson', role: 'Head of Design', image: '/team/marcus-johnson.jpg', avatar: 'M', bio: 'Award-winning enterprise UX architect' },
+  { name: 'Emily Chen', role: 'VP of Engineering', image: '/team/emily-chen.jpg', avatar: 'E', bio: 'Distributed systems & cloud infrastructure' },
+  { name: 'David Park', role: 'Head of DevOps', image: '/team/david-park.jpg', avatar: 'D', bio: 'Infrastructure automation & SRE leader' },
+  { name: 'Lisa Martinez', role: 'Chief Data Officer', image: '/team/lisa-martinez.jpg', avatar: 'L', bio: 'Petabyte data pipelines & ML platforms' },
+  { name: 'James Wilson', role: 'Director of Mobile', image: '/team/james-wilson.jpg', avatar: 'J', bio: 'High-performance mobile architectures' },
+  { name: 'Anna Taylor', role: 'Head of Consulting', image: '/team/anna-taylor.jpg', avatar: 'T', bio: 'Digital transformation & enterprise strategy' },
 ];
 
 export const VALUES = [
