@@ -30,15 +30,18 @@ async function generateSitemap() {
   const catalogPath = path.resolve(__dirname, '../src/app/data/catalog/generatedCatalog.ts');
   let queuedBlogIds = [];
   if (fs.existsSync(catalogPath)) {
-    const catalogContent = fs.readFileSync(catalogPath, 'utf-8');
-    // Read all queued blogs up to today
-    const todayIso = new Date().toISOString().split('T')[0];
-    
-    // Extract posts with their publishDate
-    const postMatches = [...catalogContent.matchAll(/id:\s*['"]([^'"]+)['"][\s\S]*?publishDate:\s*['"]([^'"]+)['"]/g)];
-    queuedBlogIds = postMatches
-      .filter(m => m[2] <= todayIso)
-      .map(m => m[1]);
+    try {
+      const catalogContent = fs.readFileSync(catalogPath, 'utf-8');
+      const jsonStr = catalogContent.replace(/^[\s\S]*?export const QUEUED_BLOG_POSTS: CatalogPost\[\] =\s*/, '').replace(/;\s*$/, '');
+      const posts = JSON.parse(jsonStr);
+      
+      const todayIso = new Date().toISOString().split('T')[0];
+      queuedBlogIds = posts
+        .filter(p => p.publishDate <= todayIso)
+        .map(p => p.id);
+    } catch (e) {
+      console.error('Error reading generatedCatalog in generate-seo:', e);
+    }
   }
 
   const servicesMatch = dataContent.match(/export const SERVICES = \[([\s\S]*?)\];/);
