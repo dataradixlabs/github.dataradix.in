@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 675" width="1200" height="675" fill="none">
+  <defs>
+    <linearGradient id="ux-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#07080D"/>
+      <stop offset="50%" stop-color="#12101F"/>
+      <stop offset="100%" stop-color="#08080C"/>
+    </linearGradient>
+    <linearGradient id="purple-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A855F7"/>
+      <stop offset="100%" stop-color="#EC4899"/>
+    </linearGradient>
+    <linearGradient id="cyan-accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="100%" stop-color="#3B82F6"/>
+    </linearGradient>
+    <pattern id="ux-grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#251F38" stroke-width="0.8" opacity="0.6"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#ux-bg)"/>
+  <rect width="1200" height="675" fill="url(#ux-grid)"/>
+
+  <!-- Radial Glows -->
+  <circle cx="280" cy="300" r="280" fill="#A855F7" opacity="0.12"/>
+  <circle cx="920" cy="360" r="320" fill="#06B6D4" opacity="0.09"/>
+
+  <!-- Header Category & Brand Badge -->
+  <rect x="70" y="60" width="180" height="30" rx="4" fill="#1C1428" stroke="#37264F" stroke-width="1"/>
+  <circle cx="86" cy="75" r="4" fill="#A855F7"/>
+  <text x="98" y="80" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1.5">EXPERIENCE LAB</text>
+
+  <text x="70" y="130" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="34" font-weight="800" letter-spacing="-0.8">UI/UX Design Systems &amp; Product Architecture</text>
+  <text x="70" y="162" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="400">Atomic Design Systems • Quantitative Usability Testing • Micro-Interactions • WCAG AAA Compliance</text>
+
+  <!-- Left: Design System & Token Architecture -->
+  <g transform="translate(70, 210)">
+    <rect width="320" height="380" rx="10" fill="#0D0E17" stroke="#24223A" stroke-width="1.5"/>
+    <text x="24" y="36" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2">ATOMIC DESIGN TOKENS</text>
+    
+    <!-- Token Swatches -->
+    <g transform="translate(20, 60)">
+      <rect width="280" height="85" rx="6" fill="#141424" stroke="#2D2845" stroke-width="1"/>
+      <text x="16" y="26" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Semantic Color &amp; Typography</text>
+      
+      <circle cx="28" cy="54" r="14" fill="#A855F7"/>
+      <circle cx="68" cy="54" r="14" fill="#06B6D4"/>
+      <circle cx="108" cy="54" r="14" fill="#10B981"/>
+      <circle cx="148" cy="54" r="14" fill="#F59E0B"/>
+      <circle cx="188" cy="54" r="14" fill="#EF4444"/>
+      
+      <text x="220" y="58" fill="#94A3B8" font-family="monospace" font-size="11">tokens.json</text>
+    </g>
+
+    <!-- Component Library Card -->
+    <g transform="translate(20, 160)">
+      <rect width="280" height="95" rx="6" fill="#141424" stroke="#2D2845" stroke-width="1"/>
+      <text x="16" y="26" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Figma &amp; Code Connect</text>
+      <text x="16" y="46" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Bidirectional sync between Figma components and React/Tailwind tokens.</text>
+      <rect x="16" y="62" width="110" height="22" rx="4" fill="#07080E"/>
+      <text x="26" y="77" fill="#A855F7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700">Zero Drift UI</text>
+    </g>
+
+    <!-- Accessibility Badge -->
+    <g transform="translate(20, 270)">
+      <rect width="280" height="85" rx="6" fill="#141424" stroke="#2D2845" stroke-width="1"/>
+      <text x="16" y="26" fill="#10B981" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">✓ WCAG 2.2 AAA Validated</text>
+      <text x="16" y="46" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Strict 7:1 contrast ratios, screen-reader semantic trees, and focus management.</text>
+    </g>
+  </g>
+
+  <!-- Middle: Interactive Prototype Canvas Preview -->
+  <g transform="translate(420, 210)">
+    <rect width="420" height="380" rx="10" fill="#0D0E17" stroke="#24223A" stroke-width="1.5"/>
+    <text x="24" y="36" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2">ENTERPRISE APPLICATION MOCKUP</text>
+    
+    <!-- Browser Mockup Window -->
+    <g transform="translate(20, 56)">
+      <rect width="380" height="295" rx="8" fill="#131422" stroke="#2B2844" stroke-width="1"/>
+      <!-- Window header -->
+      <rect width="380" height="28" rx="8" fill="#1C1B2E"/>
+      <circle cx="16" cy="14" r="4" fill="#EF4444"/>
+      <circle cx="28" cy="14" r="4" fill="#F59E0B"/>
+      <circle cx="40" cy="14" r="4" fill="#10B981"/>
+      <rect x="70" y="7" width="180" height="14" rx="3" fill="#0E0F1A"/>
+      <text x="100" y="18" fill="#64748B" font-family="monospace" font-size="9">app.dataradix.in/analytics</text>
+
+      <!-- App Sidebar & Main Content -->
+      <rect x="0" y="28" width="80" height="267" fill="#161726"/>
+      <rect x="12" y="42" width="56" height="10" rx="2" fill="#2B2845"/>
+      <rect x="12" y="62" width="48" height="8" rx="2" fill="#24223A"/>
+      <rect x="12" y="78" width="52" height="8" rx="2" fill="#24223A"/>
+      <rect x="12" y="94" width="40" height="8" rx="2" fill="#24223A"/>
+
+      <!-- Main Dash Cards -->
+      <g transform="translate(95, 42)">
+        <rect width="130" height="70" rx="6" fill="#0D0E18" stroke="#2B2745" stroke-width="1"/>
+        <text x="12" y="22" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Conversion Rate</text>
+        <text x="12" y="52" fill="#A855F7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800">+45.2%</text>
+      </g>
+      <g transform="translate(235, 42)">
+        <rect width="130" height="70" rx="6" fill="#0D0E18" stroke="#2B2745" stroke-width="1"/>
+        <text x="12" y="22" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">System Usability (SUS)</text>
+        <text x="12" y="52" fill="#06B6D4" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="800">89.4 / 100</text>
+      </g>
+
+      <!-- Chart Simulation -->
+      <g transform="translate(95, 125)">
+        <rect width="270" height="145" rx="6" fill="#0D0E18" stroke="#2B2745" stroke-width="1"/>
+        <text x="14" y="24" fill="#CBD5E1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="600">User Flow Completion Telemetry</text>
+        
+        <path d="M 20 120 C 60 100, 100 110, 140 70 C 180 30, 220 50, 250 20" fill="none" stroke="url(#purple-accent)" stroke-width="3"/>
+        <circle cx="250" cy="20" r="5" fill="#EC4899"/>
+        
+        <line x1="20" y1="130" x2="250" y2="130" stroke="#1E1E2E" stroke-width="1"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Right: User Research & Usability Engineering -->
+  <g transform="translate(870, 210)">
+    <rect width="260" height="380" rx="10" fill="#0D0E17" stroke="#24223A" stroke-width="1.5"/>
+    <text x="24" y="36" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1.2">USER RESEARCH ENGINE</text>
+    
+    <g transform="translate(18, 60)">
+      <rect width="224" height="90" rx="6" fill="#141424" stroke="#2D2845" stroke-width="1"/>
+      <text x="14" y="26" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">Eye-Tracking &amp; Heatmaps</text>
+      <text x="14" y="46" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Validating cognitive load and information hierarchy with empirical attention data.</text>
+    </g>
+
+    <g transform="translate(18, 162)">
+      <rect width="224" height="90" rx="6" fill="#141424" stroke="#2D2845" stroke-width="1"/>
+      <text x="14" y="26" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">Prototype Motion Physics</text>
+      <text x="14" y="46" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">60 FPS spring physics in Framer Motion, Principle, and Protopie for native feel.</text>
+    </g>
+
+    <g transform="translate(18, 264)">
+      <rect width="224" height="90" rx="6" fill="#141424" stroke="#2D2845" stroke-width="1"/>
+      <text x="14" y="26" fill="#E2E8F0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">Continuous Usability Testing</text>
+      <text x="14" y="46" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Unmoderated user task sessions with quantitative time-to-task benchmarking.</text>
+    </g>
+  </g>
+
+  <!-- Bottom Benchmarks Bar -->
+  <g transform="translate(70, 615)">
+    <text x="0" y="22" fill="#64748B" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">DESIGN BENCHMARKS:</text>
+    <text x="180" y="22" fill="#A855F7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">+45%</text>
+    <text x="230" y="22" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">User Retention Gain</text>
+    <text x="400" y="22" fill="#06B6D4" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">89+ SUS</text>
+    <text x="460" y="22" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">System Usability Score</text>
+    <text x="640" y="22" fill="#10B981" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">100%</text>
+    <text x="690" y="22" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">Design System Token Coverage</text>
+    <text x="910" y="22" fill="#EC4899" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">60 FPS</text>
+    <text x="965" y="22" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">Micro-Interaction Fluidity</text>
+  </g>
+</svg>

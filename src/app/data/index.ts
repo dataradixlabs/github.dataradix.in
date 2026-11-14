@@ -193,6 +193,7 @@ export const SERVICES = [
   {
     id: 'ui-ux-design-experience',
     icon: Palette,
+    image: '/services/ui-ux-design-architecture.svg',
     title: 'UI/UX Design',
     tagline: 'Beautiful, intuitive user experiences',
     description: 'Design is at the heart of great products. Our design team creates beautiful, intuitive interfaces that users love. From user research to high-fidelity prototypes, we ensure every pixel serves a purpose.',
@@ -228,6 +229,7 @@ export const SERVICES = [
   {
     id: 'it-strategy-consulting',
     icon: Users,
+    image: '/services/it-strategy-consulting.svg',
     title: 'IT Consulting',
     tagline: 'Strategic technology guidance',
     description: 'Navigate the complex technology landscape with expert guidance. We help you make informed decisions about technology strategy, architecture, and digital transformation to achieve your business goals.',
