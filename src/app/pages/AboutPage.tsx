@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Target, Eye, Rocket } from 'lucide-react';
+import { Target, Eye, ShieldCheck, CheckCircle2, UserCheck, Award, Lock, Sparkles } from 'lucide-react';
 import { TIMELINE, TEAM, VALUES, STATS } from '@/app/data';
 import { SEOManager } from '@/app/components/ui/SEOManager';
 
@@ -168,6 +168,160 @@ export function AboutPage() {
                 </p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Engineering with Integrity Pledge */}
+      <section className="py-24 relative overflow-hidden bg-background">
+        <div className="absolute inset-0 grid-pattern opacity-100" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mb-16"
+          >
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 border border-border bg-secondary mb-6">
+              <ShieldCheck className="w-4 h-4 text-foreground" />
+              <span className="text-[11px] font-bold uppercase tracking-widest text-foreground">The DataRadix Commitment</span>
+            </div>
+            <h2 className="font-display font-bold text-4xl sm:text-5xl mb-6 leading-tight">
+              Engineering with Integrity.
+            </h2>
+            <p className="text-xl sm:text-2xl text-foreground font-medium mb-4 leading-relaxed">
+              We don&apos;t manufacture experience. <span className="text-muted-foreground font-normal">We make genuine talent visible.</span>
+            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              In an era crowded with inflated claims, fabricated histories, and synthetic proxies, we ground our client partnerships in radical transparency and verifiable technical excellence.
+            </p>
+          </motion.div>
+
+          {/* 5 Commitments Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="p-8 border border-border bg-secondary/30 relative flex flex-col justify-between group hover:border-foreground transition-colors"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-10 h-10 border border-border bg-background flex items-center justify-center">
+                    <UserCheck className="w-5 h-5 text-foreground" />
+                  </div>
+                  <span className="text-xs font-mono text-muted-foreground">01 / COMMITMENT</span>
+                </div>
+                <h3 className="font-display font-bold text-lg mb-2">Verified Identity</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Every engineer, architect, and specialist on our roster represents exactly who they actually are. No proxy interviews, no subcontracted disguises, and no identity inflation.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-border flex items-center gap-2 text-[11px] font-medium text-foreground">
+                <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
+                <span>100% Direct, verified resources</span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.08 }}
+              className="p-8 border border-border bg-secondary/30 relative flex flex-col justify-between group hover:border-foreground transition-colors"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-10 h-10 border border-border bg-background flex items-center justify-center">
+                    <CheckCircle2 className="w-5 h-5 text-foreground" />
+                  </div>
+                  <span className="text-xs font-mono text-muted-foreground">02 / COMMITMENT</span>
+                </div>
+                <h3 className="font-display font-bold text-lg mb-2">Authentic Experience</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Every tenure year, project milestone, and architectural skill is truthfully accounted for. We celebrate hard-earned real-world battle scars over padded resumes.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-border flex items-center gap-2 text-[11px] font-medium text-foreground">
+                <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
+                <span>Audited project track records</span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.16 }}
+              className="p-8 border border-border bg-secondary/30 relative flex flex-col justify-between group hover:border-foreground transition-colors"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-10 h-10 border border-border bg-background flex items-center justify-center">
+                    <Award className="w-5 h-5 text-foreground" />
+                  </div>
+                  <span className="text-xs font-mono text-muted-foreground">03 / COMMITMENT</span>
+                </div>
+                <h3 className="font-display font-bold text-lg mb-2">Technical Credibility</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Every technical contributor is evaluated strictly on actual systems engineering capabilities, architectural depth, and codebase fluency—never on AI-generated claims.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-border flex items-center gap-2 text-[11px] font-medium text-foreground">
+                <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
+                <span>Rigorous peer-reviewed evals</span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.24 }}
+              className="p-8 border border-border bg-secondary/30 relative flex flex-col justify-between group hover:border-foreground transition-colors"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-10 h-10 border border-border bg-background flex items-center justify-center">
+                    <Lock className="w-5 h-5 text-foreground" />
+                  </div>
+                  <span className="text-xs font-mono text-muted-foreground">04 / COMMITMENT</span>
+                </div>
+                <h3 className="font-display font-bold text-lg mb-2">Transparent Client Relationships</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Zero fabricated profiles, identities, or employment histories. When you partner with DataRadix, you gain immediate, clear visibility into who is architecting your systems.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-border flex items-center gap-2 text-[11px] font-medium text-foreground">
+                <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
+                <span>Radical delivery transparency</span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.32 }}
+              className="p-8 border border-border bg-secondary/30 relative flex flex-col justify-between group hover:border-foreground transition-colors md:col-span-2 lg:col-span-2"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-10 h-10 border border-border bg-background flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-foreground" />
+                  </div>
+                  <span className="text-xs font-mono text-muted-foreground">05 / COMMITMENT</span>
+                </div>
+                <h3 className="font-display font-bold text-lg mb-2">Responsible AI Standards</h3>
+                <p className="text-xs text-muted-foreground leading-relaxed max-w-2xl">
+                  We leverage AI as an amplifier to optimize developer productivity, accelerate testing cycles, and refine delivery artifacts. We firmly reject the use of AI to manufacture fictitious credentials, fabricated portfolio artifacts, or simulated past performances.
+                </p>
+              </div>
+              <div className="pt-6 mt-6 border-t border-border flex items-center gap-2 text-[11px] font-medium text-foreground">
+                <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
+                <span>AI for productivity, never deception</span>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
