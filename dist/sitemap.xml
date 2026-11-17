@@ -3,115 +3,115 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://dataradix.in</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://dataradix.in/about</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/services</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/case-studies</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/blog</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/contact</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/3d-capabilities</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/showreel</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/privacy</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/terms</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/cookies</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dataradix.in/services/scala-backend-engineering</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dataradix.in/services/scala-data-engineering</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dataradix.in/services/web-development-services</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dataradix.in/services/cloud-infrastructure-devops</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dataradix.in/services/data-engineering-ai-solutions</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dataradix.in/services/ui-ux-design-experience</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dataradix.in/services/it-strategy-consulting</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dataradix.in/blog/scala-apache-spark-iceberg-lakehouse</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -121,7 +121,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/mastering-akka-clustering</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -131,7 +131,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/akka-persistence-event-sourcing</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -141,7 +141,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/most-relevant-technologies-for-software-engineers-in-2027</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -151,7 +151,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/high-performance-akka-http</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -161,7 +161,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/future-of-ai-development</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -171,7 +171,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/microservices-best-practices</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -181,7 +181,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/react-server-components</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -191,7 +191,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/kubernetes-production</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -201,7 +201,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/mobile-app-performance</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -211,7 +211,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/design-systems-guide</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -221,7 +221,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/blog/apache-iceberg-metadata-architecture-manifest-lists-snapshots-and-snapshot-isolation</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -230,8 +230,38 @@
     </image:image>
   </url>
   <url>
+    <loc>https://dataradix.in/blog/cats-effect-3-fiber-architecture-and-structured-concurrency</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/cats-effect-3-fiber-architecture-and-structured-concurrency.svg</image:loc>
+      <image:title>cats effect 3 fiber architecture and structured concurrency</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/java-21-virtual-threads-project-loom-architecture-and-carrier-thread-pinning</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/java-21-virtual-threads-project-loom-architecture-and-carrier-thread-pinning.svg</image:loc>
+      <image:title>java 21 virtual threads project loom architecture and carrier thread pinning</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://dataradix.in/blog/akka-typed-actor-supervision-and-failure-recovery-at-scale</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://dataradix.in/blog/akka-typed-actor-supervision-and-failure-recovery-at-scale.svg</image:loc>
+      <image:title>akka typed actor supervision and failure recovery at scale</image:title>
+    </image:image>
+  </url>
+  <url>
     <loc>https://dataradix.in/case-studies/fintech-payment-platform-transformation</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -241,7 +271,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/case-studies/healthcare-telemedicine-mobile-app</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -251,7 +281,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/case-studies/enterprise-ecommerce-cloud-migration</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -261,7 +291,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/case-studies/ai-driven-content-recommendation-engine</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -271,7 +301,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/case-studies/saas-platform-ui-ux-redesign</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -281,7 +311,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/case-studies/connected-vehicle-iot-telemetry-platform</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -291,7 +321,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/case-studies/enterprise-loyalty-rewards-engine</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
@@ -301,7 +331,7 @@
   </url>
   <url>
     <loc>https://dataradix.in/case-studies/smart-retail-pos-system-development</loc>
-    <lastmod>2026-11-14</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
     <image:image>
