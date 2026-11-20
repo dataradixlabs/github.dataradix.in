@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from 'react';
 import { GrainGradient } from '@paper-design/shaders-react';
 import { Button } from '@/app/components/ui/button';
 import { motion } from 'framer-motion';
@@ -17,14 +18,32 @@ export default function GrainHeroSection({
   ctaLabel,
   onCtaClick,
 }: GrainHeroSectionProps) {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+
+    const handler = (event: MediaQueryListEvent) => {
+      setPrefersReducedMotion(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
   return (
     <section className="relative min-h-[80vh] flex items-center justify-center overflow-hidden border-y border-border bg-black">
-      {/* Monochromatic Grain Gradient */}
-      <GrainGradient
-        colors={["#000000", "#171717", "#0a0a0a", "#262626"]}
-        grainOpacity={0.15}
-        style={{ position: "absolute", inset: 0, zIndex: 0 }}
-      />
+      {/* Monochromatic Grain Gradient - Disable continuous WebGL shader calculation on reduced motion */}
+      {!prefersReducedMotion ? (
+        <GrainGradient
+          colors={["#000000", "#171717", "#0a0a0a", "#262626"]}
+          grainOpacity={0.15}
+          style={{ position: "absolute", inset: 0, zIndex: 0 }}
+        />
+      ) : (
+        <div className="absolute inset-0 bg-neutral-950 grid-pattern-dark opacity-40" />
+      )}
       
       <div className="relative z-10 text-center px-6 sm:px-8 max-w-4xl mx-auto py-24">
         <motion.h2 
