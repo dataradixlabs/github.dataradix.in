@@ -50,6 +50,8 @@ export function AboutPage() {
                   alt="DataRadix Engineering Studio and Collaborative Systems Architecture Review"
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
+                  width={1376}
+                  height={768}
                 />
               </div>
             </motion.div>
@@ -405,6 +407,8 @@ export function AboutPage() {
                       alt={`${member.name} - ${member.role}`}
                       className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
+                      width={96}
+                      height={96}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-base font-bold text-muted-foreground">

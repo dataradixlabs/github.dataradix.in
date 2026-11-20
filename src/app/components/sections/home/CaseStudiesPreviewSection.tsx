@@ -52,8 +52,21 @@ export function CaseStudiesPreviewSection() {
               <Link to={`/case-studies/${study.id}`} className="block group h-full">
                 <div className="bg-background hover:bg-secondary transition-colors overflow-hidden h-full flex flex-col">
                   <div className="aspect-video bg-muted flex items-center justify-center relative overflow-hidden border-b border-border">
-                    <div className="absolute inset-0 grid-pattern opacity-100" />
-                    <study.icon className="w-16 h-16 text-muted-foreground/30 relative z-10" />
+                    {study.image ? (
+                      <img
+                        src={study.image}
+                        alt={`${study.title} - ${study.category} Case Study`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                        width={600}
+                        height={338}
+                      />
+                    ) : (
+                      <>
+                        <div className="absolute inset-0 grid-pattern opacity-100" />
+                        <study.icon className="w-16 h-16 text-muted-foreground/30 relative z-10" />
+                      </>
+                    )}
                   </div>
                   <div className="p-6 flex-1 flex flex-col">
                     <div className="text-xs text-muted-foreground tracking-widest uppercase mb-3">

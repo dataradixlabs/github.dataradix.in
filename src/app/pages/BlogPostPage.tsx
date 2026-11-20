@@ -137,6 +137,9 @@ export function BlogPostPage() {
                 src={post.image}
                 alt={post.title}
                 className="w-full h-full object-cover"
+                loading="eager"
+                width={1200}
+                height={675}
               />
             ) : (
               <post.icon className="w-32 h-32 text-muted-foreground/30 relative z-10" />

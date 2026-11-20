@@ -65,6 +65,9 @@ export function BlogPage() {
                           src={post.image}
                           alt={post.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                          width={1200}
+                          height={675}
                         />
                       ) : (
                         <>
@@ -148,6 +151,9 @@ export function BlogPage() {
                           src={post.image}
                           alt={post.title}
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                          width={600}
+                          height={338}
                         />
                       ) : (
                         <>

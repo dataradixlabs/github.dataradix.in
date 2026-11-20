@@ -97,6 +97,8 @@ export function ServicesPage() {
                     alt={`${service.title} Architecture Diagram`}
                     className="w-full h-full object-contain bg-[#08090E] transition-transform duration-500 group-hover:scale-[1.01]"
                     loading="lazy"
+                    width={1200}
+                    height={675}
                   />
                 </motion.div>
 
