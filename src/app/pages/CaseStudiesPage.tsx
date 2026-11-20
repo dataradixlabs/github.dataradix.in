@@ -18,6 +18,17 @@ export function CaseStudiesPage() {
         title="Our Work - Case Studies & Success Stories" 
         description="Discover how DataRadix has helped businesses transform through innovative technology solutions. Explore our portfolio of web, mobile, and cloud projects."
         keywords="Case Studies, Tech Portfolio, Success Stories, Project Highlights, Web Development Work"
+        canonicalUrl="https://dataradix.in/case-studies"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Case Studies', url: '/case-studies' }
+        ]}
+        schema={{
+          '@type': 'CollectionPage',
+          name: 'DataRadix Engineering Case Studies',
+          description: 'Production outcomes and technical transformations delivered by DataRadix across enterprise clients.',
+          url: 'https://dataradix.in/case-studies'
+        }}
       />
       {/* Hero Section */}
       <section className="relative py-32 overflow-hidden">

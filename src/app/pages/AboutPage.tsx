@@ -10,6 +10,27 @@ export function AboutPage() {
         title="About Us - Our Story and Mission" 
         description="Learn about DataRadix's journey since 2010, our mission to empower businesses with innovative technology, and the talented team behind our success."
         keywords="DataRadix Team, Company Mission, IT Consulting History, Tech Innovation Story"
+        canonicalUrl="https://dataradix.in/about"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'About Us', url: '/about' }
+        ]}
+        schema={{
+          '@type': 'AboutPage',
+          name: 'About DataRadix',
+          description: "DataRadix's engineering ethos, company timeline, leadership team, and corporate integrity pledge.",
+          mainEntity: {
+            '@type': 'Organization',
+            name: 'DataRadix',
+            foundingDate: '2010',
+            url: 'https://dataradix.in',
+            logo: 'https://dataradix.in/logo.svg',
+            numberOfEmployees: {
+              '@type': 'QuantitativeValue',
+              minValue: 50
+            }
+          }
+        }}
       />
       {/* Hero Section */}
       <section className="relative py-32 overflow-hidden">

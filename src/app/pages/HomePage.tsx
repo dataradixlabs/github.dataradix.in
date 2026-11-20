@@ -26,9 +26,38 @@ export function HomePage() {
   return (
     <div className="overflow-x-hidden">
       <SEOManager 
-        title="DataRadix - Cutting-Edge Technology Solutions" 
+        title="Cutting-Edge Technology Solutions" 
         description="Transform your business with DataRadix's cutting-edge technology solutions. Expert in custom software, cloud infrastructure, AI, and digital transformation."
         keywords="DataRadix, IT Solutions, Software Development, Cloud Infrastructure, AI Integration, Digital Transformation"
+        canonicalUrl="https://dataradix.in"
+        schema={[
+          {
+            '@type': 'Organization',
+            name: 'DataRadix',
+            url: 'https://dataradix.in',
+            logo: 'https://dataradix.in/logo.svg',
+            description: 'Enterprise-grade software engineering, distributed systems, and cloud architecture.',
+            sameAs: [
+              'https://linkedin.com/company/dataradix',
+              'https://github.com/dataradixlabs'
+            ],
+            contactPoint: {
+              '@type': 'ContactPoint',
+              contactType: 'customer support',
+              email: 'info@dataradix.in'
+            }
+          },
+          {
+            '@type': 'WebSite',
+            name: 'DataRadix',
+            url: 'https://dataradix.in',
+            potentialAction: {
+              '@type': 'SearchAction',
+              target: 'https://dataradix.in/blog?q={search_term_string}',
+              'query-input': 'required name=search_term_string'
+            }
+          }
+        ]}
       />
       <HeroSection />
       

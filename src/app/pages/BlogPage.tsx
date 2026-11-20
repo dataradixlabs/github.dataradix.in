@@ -14,6 +14,22 @@ export function BlogPage() {
         title="Insights & Tech Trends - Our Blog" 
         description="Expert perspectives on software development, cloud architecture, AI, and digital transformation from the DataRadix team."
         keywords="Tech Blog, Software Engineering, AI Trends, Cloud Computing Insights, Digital Transformation"
+        canonicalUrl="https://dataradix.in/blog"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Blog', url: '/blog' }
+        ]}
+        schema={{
+          '@type': 'Blog',
+          name: 'DataRadix Engineering Insights & Tech Trends',
+          description: 'Technical articles and deep architectural perspectives from DataRadix.',
+          url: 'https://dataradix.in/blog',
+          publisher: {
+            '@type': 'Organization',
+            name: 'DataRadix',
+            url: 'https://dataradix.in'
+          }
+        }}
       />
       {/* Hero Section */}
       <section className="relative py-32 overflow-hidden">

@@ -24,9 +24,43 @@ export function ServiceDetailPage() {
   return (
     <div className="overflow-x-hidden">
       <SEOManager 
-        title={service.title} 
+        title={`${service.title} - Architecture & Engineering`} 
         description={service.description} 
         keywords={`${service.title}, ${service.tech.join(', ')}, IT Services, DataRadix`}
+        canonicalUrl={`https://dataradix.in/services/${service.id}`}
+        ogImage={service.image || '/logo.svg'}
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' },
+          { name: service.title, url: `/services/${service.id}` }
+        ]}
+        schema={{
+          '@type': 'Service',
+          name: service.title,
+          description: service.description,
+          serviceType: service.tagline,
+          image: service.image ? (service.image.startsWith('http') ? service.image : `https://dataradix.in${service.image}`) : 'https://dataradix.in/logo.svg',
+          provider: {
+            '@type': 'Organization',
+            name: 'DataRadix',
+            url: 'https://dataradix.in',
+            logo: {
+              '@type': 'ImageObject',
+              url: 'https://dataradix.in/logo.svg'
+            }
+          },
+          hasOfferCatalog: {
+            '@type': 'OfferCatalog',
+            name: `${service.title} Key Capabilities`,
+            itemListElement: service.features.map((feat: string, idx: number) => ({
+              '@type': 'Offer',
+              itemOffered: {
+                '@type': 'Service',
+                name: feat
+              }
+            }))
+          }
+        }}
       />
       
       {/* Header */}

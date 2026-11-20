@@ -11,6 +11,31 @@ export function ServicesPage() {
         title="Our Services - Comprehensive Tech Solutions" 
         description="Explore our range of technology solutions from custom software development to cloud infrastructure and AI integration."
         keywords="Software Development, Cloud Infrastructure, AI Integration, Web Apps, Mobile Apps, IT Strategy"
+        canonicalUrl="https://dataradix.in/services"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Services', url: '/services' }
+        ]}
+        schema={{
+          '@type': 'ItemList',
+          name: 'DataRadix Engineering & Technology Services',
+          description: 'Specialized enterprise engineering capabilities delivered by DataRadix.',
+          itemListElement: SERVICES.map((service, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            item: {
+              '@type': 'Service',
+              name: service.title,
+              description: service.description,
+              url: `https://dataradix.in/services/${service.id}`,
+              provider: {
+                '@type': 'Organization',
+                name: 'DataRadix',
+                url: 'https://dataradix.in'
+              }
+            }
+          }))
+        }}
       />
       {/* Hero Section */}
       <section className="relative py-32 overflow-hidden">

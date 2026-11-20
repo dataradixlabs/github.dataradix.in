@@ -33,6 +33,22 @@ export function ContactPage() {
         title="Contact Us - Technical Support & Consulting"
         description="Get in touch with DataRadix's expert team for technical support, project consulting, or business inquiries. We're here to help you scale."
         keywords="Contact DataRadix, Technical Support, IT Consulting, Project Inquiry, Business Solutions"
+        canonicalUrl="https://dataradix.in/contact"
+        breadcrumbs={[
+          { name: 'Home', url: '/' },
+          { name: 'Contact', url: '/contact' }
+        ]}
+        schema={{
+          '@type': 'FAQPage',
+          mainEntity: FAQ_DATA.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        }}
       />
       <section className="relative py-12 overflow-hidden">
         <div className="absolute inset-0 grid-pattern opacity-100" />
