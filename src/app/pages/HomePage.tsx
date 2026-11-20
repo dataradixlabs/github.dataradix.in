@@ -1,7 +1,7 @@
+import { lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router';
 import { HeroSection } from '@/app/components/sections/home/HeroSection';
 import { TrustedBySection } from '@/app/components/sections/home/TrustedBySection';
-import { Interactive3DSection } from '@/app/components/sections/home/Interactive3DSection';
 import { DigitalExcellenceSection } from '@/app/components/sections/home/DigitalExcellenceSection';
 import { ServicesSection } from '@/app/components/sections/home/ServicesSection';
 import { CaseStudiesPreviewSection } from '@/app/components/sections/home/CaseStudiesPreviewSection';
@@ -9,8 +9,16 @@ import { TestimonialsSection } from '@/app/components/sections/home/Testimonials
 import { BlogSection } from '@/app/components/sections/home/BlogSection';
 import { ReadyToBuildSection } from '@/app/components/sections/home/ReadyToBuildSection';
 import { ThreeDPoem } from '@/app/components/ui/three-d-poem';
-import GrainHeroSection from '@/app/components/ui/grain-gradient-hero-section';
 import { SEOManager } from '@/app/components/ui/SEOManager';
+
+// Dynamic lazy imports for heavy 3D Spline and WebGL Shader sections
+const Interactive3DSection = lazy(() =>
+  import('@/app/components/sections/home/Interactive3DSection').then(m => ({ default: m.Interactive3DSection }))
+);
+
+const GrainHeroSection = lazy(() =>
+  import('@/app/components/ui/grain-gradient-hero-section')
+);
 
 export function HomePage() {
   const navigate = useNavigate();
@@ -26,7 +34,9 @@ export function HomePage() {
       
       <TrustedBySection />
       
-      <Interactive3DSection />
+      <Suspense fallback={<div className="h-[500px] w-full flex items-center justify-center bg-secondary/10"><div className="w-8 h-8 border-2 border-primary border-t-transparent animate-spin" /></div>}>
+        <Interactive3DSection />
+      </Suspense>
       
       <DigitalExcellenceSection />
 
@@ -47,12 +57,14 @@ export function HomePage() {
 
       <ServicesSection />
 
-      <GrainHeroSection 
-        title="Engineering the Future"
-        subtitle="We blend technical precision with architectural excellence to build digital experiences that redefine industry standards."
-        ctaLabel="Start Your Project"
-        onCtaClick={() => navigate('/contact')}
-      />
+      <Suspense fallback={<div className="min-h-[80vh] w-full flex items-center justify-center bg-black"><div className="w-8 h-8 border-2 border-white border-t-transparent animate-spin" /></div>}>
+        <GrainHeroSection 
+          title="Engineering the Future"
+          subtitle="We blend technical precision with architectural excellence to build digital experiences that redefine industry standards."
+          ctaLabel="Start Your Project"
+          onCtaClick={() => navigate('/contact')}
+        />
+      </Suspense>
 
       <CaseStudiesPreviewSection />
 

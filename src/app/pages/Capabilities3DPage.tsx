@@ -1,7 +1,13 @@
+import { lazy, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { Box, Cpu, Zap, Eye, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router';
 import { SEOManager } from '@/app/components/ui/SEOManager';
+
+// Dynamic import for Spline 3D Scene
+const SplineScene = lazy(() =>
+  import('@/app/components/ui/spline').then(m => ({ default: m.SplineScene }))
+);
 
 export function Capabilities3DPage() {
   return (
@@ -75,8 +81,13 @@ export function Capabilities3DPage() {
         <div className="absolute inset-0 grid-pattern opacity-100" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-            <div className="aspect-square bg-background border border-border flex items-center justify-center">
-               <Box className="w-32 h-32 text-muted-foreground/20 animate-pulse" />
+            <div className="aspect-square bg-background border border-border flex items-center justify-center relative overflow-hidden">
+               <Suspense fallback={<Box className="w-32 h-32 text-muted-foreground/20 animate-pulse" />}>
+                 <SplineScene
+                   scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                   className="w-full h-full"
+                 />
+               </Suspense>
             </div>
             <div>
               <h2 className="font-display font-bold text-4xl mb-8 leading-tight">

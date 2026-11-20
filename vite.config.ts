@@ -31,6 +31,30 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // Isolate 3D physics and runtime libraries
+          if (id.includes('@splinetool')) {
+            return 'vendor-spline';
+          }
+          // Isolate shader packages
+          if (id.includes('@paper-design/shaders')) {
+            return 'vendor-shaders';
+          }
+          // Isolate charts
+          if (id.includes('recharts')) {
+            return 'vendor-recharts';
+          }
+          // Isolate media / HLS streaming
+          if (id.includes('hls.js')) {
+            return 'vendor-hls';
+          }
+        },
+      },
+    },
+  },
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
