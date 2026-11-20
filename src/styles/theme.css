@@ -34,7 +34,7 @@
   --shadow-offset-x: 0px;
   --shadow-offset-y: 1px;
   --sidebar-primary: #171717;
-  --muted-foreground: #717171;
+  --muted-foreground: #666666;
   --accent-foreground: #171717;
   --popover-foreground: #0a0a0a;
   --primary-foreground: #fafafa;
@@ -67,7 +67,7 @@
   --chart-4: #737373;
   --chart-5: #737373;
   --popover: #262626;
-  --primary: #737373;
+  --primary: #858585;
   --sidebar: #171717;
   --secondary: #262626;
   --background: #0a0a0a;
