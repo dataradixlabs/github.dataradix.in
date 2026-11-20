@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { Link } from 'react-router';
@@ -6,6 +6,42 @@ import { SEOManager } from '@/app/components/ui/SEOManager';
 
 export function ShowreelPage() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+
+    // Auto focus close button when modal mounts
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsPlaying(false);
+        return;
+      }
+
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>(
+          'button, video, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isPlaying]);
 
   return (
     <div className="overflow-x-hidden min-h-screen bg-background">
@@ -22,17 +58,23 @@ export function ShowreelPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="showreel-modal-title"
             className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
             onClick={() => setIsPlaying(false)}
           >
             <div 
+              ref={modalRef}
               className="relative w-full max-w-5xl aspect-video bg-black border border-white/20 shadow-2xl rounded-none overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
+              <h2 id="showreel-modal-title" className="sr-only">DataRadix 2026 Video Showreel</h2>
               <button 
+                ref={closeButtonRef}
                 onClick={() => setIsPlaying(false)}
-                className="absolute top-4 right-4 z-20 w-10 h-10 bg-black/80 border border-white/30 text-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-colors"
-                aria-label="Close Showreel"
+                className="absolute top-4 right-4 z-20 w-10 h-10 bg-black/80 border border-white/30 text-white rounded-full flex items-center justify-center hover:bg-white hover:text-black transition-colors focus:ring-2 focus:ring-white"
+                aria-label="Close Showreel Modal"
               >
                 <X className="w-5 h-5" />
               </button>
